@@ -357,7 +357,7 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
        
       vector<int> index_bjet;
       index_bjet.clear();
-      bool Event_sel = false;
+      Event_sel = false;
       for(int i=0;i<nJet;i++){
           if(Jet_btagDeepB[i]>= 0.5 && (Jet_pt[i] > 25)){
               bool eta_cut = (year=="2016" ? (fabs(Jet_eta[i]) < 2.4) : (fabs(Jet_eta[i]) < 2.5)); 
@@ -387,8 +387,8 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
                       float b_score_sum_jk = 0.;
                       b_score_sum_jk = Jet_btagDeepB[j] + Jet_btagDeepB[k];
                       TLorentzVector bjet_1, bjet_2, dibjet;
-                      bjet_1.SetPtEtaPhiM(bjet_pt[j],bjet_eta[j],bjet_phi[j],0);
-                      bjet_2.SetPtEtaPhiM(bjet_pt[k],bjet_eta[k],bjet_phi[k],0);
+                      bjet_1.SetPtEtaPhiM(Jet_pt[j],Jet_eta[j],Jet_phi[j],0);
+                      bjet_2.SetPtEtaPhiM(Jet_pt[k],Jet_eta[k],Jet_phi[k],0);
                       dibjet = bjet_1 + bjet_2;
                       if(b_score_sum_jk > b_score_sum){
                           b_score_sum = b_score_sum_jk;
@@ -426,7 +426,7 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
           }  
       }
       
-      }//trigger if statement
+      //trigger if statement
        
       t_run =run;
       t_luminosityBlock=luminosityBlock;
@@ -478,4 +478,4 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
    for(int i=0; i<nHpTbin; i++){
        cout <<"H pT bin "<<HpT_bounds[i]<<" - "<<HpT_bounds[i+1]<<" eff: "<<pass_events[i]/all_events[i] <<" pass: "<<pass_events[i]<<" all: "<<all_events[i]<<endl;   
     }
-
+}
