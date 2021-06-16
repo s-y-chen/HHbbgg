@@ -38,7 +38,7 @@ class HHbbggAnalyzer : public MainEvent {
    
   Bool_t   FillChain(TChain *chain, const TString &inputFileList);
   Long64_t LoadTree(Long64_t entry);
-  void     EventLoop(const char *, const char *);
+  void     EventLoop(const char *, const char *, const char *);
   //declare any specific function required
   
   void clearTreeVectors();
@@ -67,7 +67,77 @@ class HHbbggAnalyzer : public MainEvent {
   float diphoton_pt;
   float diphoton_eta;
   float diphoton_mass;
+  // added for bjet reconstruction
+  float leading_bjet_pt;
+  float leading_bjet_eta;
+  float leading_bjet_phi;
+  float subleading_bjet_pt;
+  float subleading_bjet_eta;
+  float subleading_bjet_phi;
+  float dibjet_pt;
+  float dibjet_eta;
+  float dibjet_mass;
     
+  //gen information
+  float genHH_pt;
+  float genHH_eta;
+  float genHH_phi;
+  float genHH_mass;
+  float genLeadingH_pt;
+  float genLeadingH_eta;
+  float genLeadingH_phi;
+  float genLeadingH_mass;
+  float gensubLeadingH_pt;
+  float gensubLeadingH_eta;
+  float gensubLeadingH_phi;
+  float gensubLeadingH_mass;
+  float genLeadingPho_pt;
+  float genLeadingPho_eta;
+  float genLeadingPho_phi;
+  float genLeadingPho_mass;
+  float gensubLeadingPho_pt;
+  float gensubLeadingPho_eta;
+  float gensubLeadingPho_phi;
+  float gensubLeadingPho_mass;
+    
+  float gen_matched_LeadingPho_pt;
+  float gen_matched_LeadingPho_eta;
+  float gen_matched_LeadingPho_phi;
+  float gen_matched_subLeadingPho_pt;
+  float gen_matched_subLeadingPho_eta;
+  float gen_matched_subLeadingPho_phi;
+    
+  float genLeadingBjet_pt;
+  float genLeadingBjet_eta;
+  float genLeadingBjet_phi;
+  float genLeadingBjet_mass;
+  float gensubLeadingBjet_pt;
+  float gensubLeadingBjet_eta;
+  float gensubLeadingBjet_phi;
+  float gensubLeadingBjet_mass;
+  float genLeadingGenjet_pt;
+  float genLeadingGenjet_eta;
+  float genLeadingGenjet_phi;
+  float genLeadingGenjet_mass;
+  float gensubLeadingGenjet_pt;
+  float gensubLeadingGenjet_eta;
+  float gensubLeadingGenjet_phi;
+  float gensubLeadingGenjet_mass;
+    
+  // added bjet matching
+  float gen_matched_LeadingBjet_pt;
+  float gen_matched_LeadingBjet_eta;
+  float gen_matched_LeadingBjet_phi;
+  float gen_matched_subLeadingBjet_pt;
+  float gen_matched_subLeadingBjet_eta;
+  float gen_matched_subLeadingBjet_phi;
+    
+  float genPho_deltaR;
+  float genBjet_deltaR;
+  float genBjet_H_pt;
+  float genPho_H_pt;
+  float genweight;   
+  
 };
 
 #endif
@@ -162,18 +232,84 @@ Long64_t HHbbggAnalyzer::LoadTree(Long64_t entry)
 }
 
 void HHbbggAnalyzer::clearTreeVectors(){
-  t_run=0;
-  t_luminosityBlock=0;
-  t_event=0;
-  leading_photon_pt=0;
-  leading_photon_eta=0;
-  leading_photon_phi=0;
-  subleading_photon_pt=0;
-  subleading_photon_eta=0;
-  subleading_photon_phi=0;
-  diphoton_pt=0;
-  diphoton_eta=0;
-  diphoton_mass=0;
+  t_run = 0;
+  t_luminosityBlock = 0;
+  t_event = 0;
+  leading_photon_pt = -999.;
+  leading_photon_eta = -999.;
+  leading_photon_phi = -999.;
+  subleading_photon_pt = -999.;
+  subleading_photon_eta = -999.;
+  subleading_photon_phi = -999.;
+  diphoton_pt = -999.;
+  diphoton_eta = -999.;
+  diphoton_mass = -999.;
+  // added for bjet reconstruction
+  leading_bjet_pt = -999.;
+  leading_bjet_eta = -999.;
+  leading_bjet_phi = -999.;
+  subleading_bjet_pt = -999.;
+  subleading_bjet_eta = -999.;
+  subleading_bjet_phi = -999.;
+  dibjet_pt = -999.;
+  dibjet_eta = -999.;
+  dibjet_mass = -999.;
+    
+  genHH_pt = -999.;
+  genHH_eta = -999.;
+  genHH_phi = -999.;
+  genHH_mass = -999.;
+  genLeadingH_pt = -999.;
+  genLeadingH_eta = -999.;
+  genLeadingH_phi = -999.;
+  genLeadingH_mass = -999.;
+  gensubLeadingH_pt = -999.;
+  gensubLeadingH_eta = -999.;
+  gensubLeadingH_phi = -999.;
+  gensubLeadingH_mass = -999.;
+  genLeadingPho_pt = -999.;
+  genLeadingPho_eta = -999.;
+  genLeadingPho_phi = -999.;
+  genLeadingPho_mass = -999.;
+  gensubLeadingPho_pt = -999.;
+  gensubLeadingPho_eta = -999.;
+  gensubLeadingPho_phi = -999.;
+  gensubLeadingPho_mass = -999.;
+  gen_matched_LeadingPho_pt = -999.;
+  gen_matched_LeadingPho_eta = -999.;
+  gen_matched_LeadingPho_phi = -999.;
+  gen_matched_subLeadingPho_pt = -999.;
+  gen_matched_subLeadingPho_eta = -999.;
+  gen_matched_subLeadingPho_phi = -999.;
+  genLeadingBjet_pt = -999.;
+  genLeadingBjet_eta = -999.;
+  genLeadingBjet_phi = -999.;
+  genLeadingBjet_mass = -999.;
+  gensubLeadingBjet_pt = -999.;
+  gensubLeadingBjet_eta = -999.;
+  gensubLeadingBjet_phi = -999.;
+  gensubLeadingBjet_mass = -999.;
+  genLeadingGenjet_pt = -999.;
+  genLeadingGenjet_eta = -999.;
+  genLeadingGenjet_phi = -999.;
+  genLeadingGenjet_mass = -999.;
+  gensubLeadingGenjet_pt = -999.;
+  gensubLeadingGenjet_eta = -999.;
+  gensubLeadingGenjet_phi = -999.;
+  gensubLeadingGenjet_mass = -999.;
+  // added bjet matching
+  gen_matched_LeadingBjet_pt = -999.;
+  gen_matched_LeadingBjet_eta = -999.;
+  gen_matched_LeadingBjet_phi = -999.;
+  gen_matched_subLeadingBjet_pt = -999.;
+  gen_matched_subLeadingBjet_eta = -999.;
+  gen_matched_subLeadingBjet_phi = -999.;
+  genPho_deltaR = -999.;
+  genBjet_deltaR = -999.;
+  genBjet_H_pt = -999.;
+  genPho_H_pt = -999.;
+  genweight = -999.;
+  
 }
 
 void HHbbggAnalyzer::BookTreeBranches(){
@@ -195,6 +331,77 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("diphoton_mass", &diphoton_mass,"diphoton_mass/f"); 
   tree->Branch("diphoton_eta", &diphoton_eta,"diphoton_eta/f");
     
+    
+  //phone gen matched to reco information
+  tree->Branch("gen_matched_LeadingPho_pt", &gen_matched_LeadingPho_pt, "gen_matched_LeadingPho_pt/f");
+  tree->Branch("gen_matched_LeadingPho_eta", &gen_matched_LeadingPho_eta, "gen_matched_LeadingPho_eta/f");
+  tree->Branch("gen_matched_LeadingPho_phi", &gen_matched_LeadingPho_phi, "gen_matched_LeadingPho_phi/f");
+  tree->Branch("gen_matched_subLeadingPho_pt", &gen_matched_subLeadingPho_pt, "gen_matched_subLeadingPho_pt/f");
+  tree->Branch("gen_matched_subLeadingPho_eta", &gen_matched_subLeadingPho_eta, "gen_matched_subLeadingPho_eta/f");
+  tree->Branch("gen_matched_subLeadingPho_phi", &gen_matched_subLeadingPho_phi, "gen_matched_subLeadingPho_phi/f");
+    
   //jets
+
+  // added bjet
+  tree->Branch("leading_bjet_pt", &leading_bjet_pt,"leading_bjet_pt/f");
+  tree->Branch("leading_bjet_eta", &leading_bjet_eta,"leading_bjet_eta/f");
+  tree->Branch("leading_bjet_phi", &leading_bjet_phi,"leading_bjet_phi/f");  
+  tree->Branch("subleading_bjet_pt", &subleading_bjet_pt,"subleading_bjet_pt/f");
+  tree->Branch("subleading_bjet_eta", &subleading_bjet_eta,"subleading_bjet_eta/f");
+  tree->Branch("subleading_bjet_phi", &subleading_bjet_phi,"subleading_bjet_phi/f"); 
+  tree->Branch("dibjet_pt", &dibjet_pt,"dibjet_pt/f"); 
+  tree->Branch("dibjet_mass", &dibjet_mass,"dibjet_mass/f"); 
+  tree->Branch("dibjet_eta", &dibjet_eta,"dibjet_eta/f");
+    
+  //bjet gen matched to reco information
+  tree->Branch("gen_matched_LeadingBjet_pt", &gen_matched_LeadingBjet_pt, "gen_matched_LeadingBjet_pt/f");
+  tree->Branch("gen_matched_LeadingBjet_eta", &gen_matched_LeadingBjet_eta, "gen_matched_LeadingBjet_eta/f");
+  tree->Branch("gen_matched_LeadingBjet_phi", &gen_matched_LeadingBjet_phi, "gen_matched_LeadingBjet_phi/f");
+  tree->Branch("gen_matched_subLeadingBjet_pt", &gen_matched_subLeadingBjet_pt, "gen_matched_subLeadingBjet_pt/f");
+  tree->Branch("gen_matched_subLeadingBjet_eta", &gen_matched_subLeadingBjet_eta, "gen_matched_subLeadingBjet_eta/f");
+  tree->Branch("gen_matched_subLeadingBjet_phi", &gen_matched_subLeadingBjet_phi, "gen_matched_subLeadingBjet_phi/f");
+    
+  //Gen information
+  tree->Branch("genHH_pt", &genHH_pt,"genHH_pt/f"); 
+  tree->Branch("genHH_mass", &genHH_mass,"genHH_mass/f"); 
+  tree->Branch("genHH_eta", &genHH_eta,"genHH_eta/f");
+  tree->Branch("genHH_phi", &genHH_phi,"genHH_phi/f");
+  tree->Branch("genLeadingH_pt", &genLeadingH_pt,"genLeadingH_pt/f");
+  tree->Branch("genLeadingH_mass", &genLeadingH_mass,"genLeadingH_mass/f");
+  tree->Branch("genLeadingH_eta", &genLeadingH_eta,"genLeadingH_eta/f");
+  tree->Branch("genLeadingH_phi", &genLeadingH_phi,"genLeadingH_phi/f");
+  tree->Branch("gensubLeadingH_pt", &gensubLeadingH_pt,"gensubLeadingH_pt/f");
+  tree->Branch("gensubLeadingH_mass", &gensubLeadingH_mass,"gensubLeadingH_mass/f");
+  tree->Branch("gensubLeadingH_eta", &gensubLeadingH_eta,"gensubLeadingH_eta/f");
+  tree->Branch("gensubLeadingH_phi", &gensubLeadingH_phi,"gensubLeadingH_phi/f");
+  tree->Branch("genLeadingPho_pt", &genLeadingPho_pt,"genLeadingPho_pt/f");
+  tree->Branch("genLeadingPho_mass", &genLeadingPho_mass,"genLeadingPho_mass/f");
+  tree->Branch("genLeadingPho_eta", &genLeadingPho_eta,"genLeadingPho_eta/f");
+  tree->Branch("genLeadingPho_phi", &genLeadingPho_phi,"genLeadingPho_phi/f");
+  tree->Branch("gensubLeadingPho_pt", &gensubLeadingPho_pt,"gensubLeadingPho_pt/f");
+  tree->Branch("gensubLeadingPho_mass", &gensubLeadingPho_mass,"gensubLeadingPho_mass/f");
+  tree->Branch("gensubLeadingPho_eta", &gensubLeadingPho_eta,"gensubLeadingPho_eta/f");
+  tree->Branch("gensubLeadingPho_phi", &gensubLeadingPho_phi,"gensubLeadingPho_phi/f");
+  tree->Branch("genLeadingBjet_pt", &genLeadingBjet_pt,"genLeadingBjet_pt/f");
+  tree->Branch("genLeadingBjet_mass", &genLeadingBjet_mass,"genLeadingBjet_mass/f");
+  tree->Branch("genLeadingBjet_eta", &genLeadingBjet_eta,"genLeadingBjet_eta/f");
+  tree->Branch("genLeadingBjet_phi", &genLeadingBjet_phi,"genLeadingBjet_phi/f");
+  tree->Branch("gensubLeadingBjet_pt", &gensubLeadingBjet_pt,"gensubLeadingBjet_pt/f");
+  tree->Branch("gensubLeadingBjet_mass", &gensubLeadingBjet_mass,"gensubLeadingBjet_mass/f");
+  tree->Branch("gensubLeadingBjet_eta", &gensubLeadingBjet_eta,"gensubLeadingBjet_eta/f");
+  tree->Branch("gensubLeadingBjet_phi", &gensubLeadingBjet_phi,"gensubLeadingBjet_phi/f");
+  tree->Branch("genLeadingGenjet_pt", &genLeadingGenjet_pt,"genLeadingGenjet_pt/f");
+  tree->Branch("genLeadingGenjet_mass", &genLeadingGenjet_mass,"genLeadingGenjet_mass/f");
+  tree->Branch("genLeadingGenjet_eta", &genLeadingGenjet_eta,"genLeadingGenjet_eta/f");
+  tree->Branch("genLeadingGenjet_phi", &genLeadingGenjet_phi,"genLeadingGenjet_phi/f");
+  tree->Branch("gensubLeadingGenjet_pt", &gensubLeadingGenjet_pt,"gensubLeadingGenjet_pt/f");
+  tree->Branch("gensubLeadingGenjet_mass", &gensubLeadingGenjet_mass,"gensubLeadingGenjet_mass/f");
+  tree->Branch("gensubLeadingGenjet_eta", &gensubLeadingGenjet_eta,"gensubLeadingGenjet_eta/f");
+  tree->Branch("gensubLeadingGenjet_phi", &gensubLeadingGenjet_phi,"gensubLeadingGenjet_phi/f");
+  tree->Branch("genPho_deltaR", &genPho_deltaR, "genPho_deltaR/f");
+  tree->Branch("genBjet_deltaR", &genBjet_deltaR, "genBjet_deltaR/f");
+  tree->Branch("genBjet_H_pt", &genBjet_H_pt, "genbBjet_H_pt/f");
+  tree->Branch("genPho_H_pt", &genPho_H_pt, "genPho_H_pt/f");
+  tree->Branch("genweight", &genweight, "genweight/f");
 }
 #endif // #ifdef HHbbggAnalyzer_cxx
