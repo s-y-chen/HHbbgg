@@ -287,42 +287,44 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
       index_photon.clear();
       bool Event_sel = false;
       for(int i=0;i<nPhoton;i++){
-          if(Photon_mvaID_WP90[i]==1 && (Photon_pt[i] > 25){ 
+          if(Photon_mvaID_WP90[i]==1 && Photon_pt[i] > 25){ 
               bool eta_cut = (year=="2016" ? (fabs(Photon_eta[i]) < 2.4) : (fabs(Photon_eta[i]) < 2.5)) && ((fabs(Photon_eta[i])<1.44 || fabs(Photon_eta[i])>1.57)); 
               if(eta_cut) index_photon.push_back(i);
           } 
       }
       //if(index_photon.size()<2) continue;
       if(index_photon.size()>1 && trig_decision){
-      if(index_photon.size()==2){
-          TLorentzVector photon_1, photon_2, diphoton;
-          photon_1.SetPtEtaPhiM(Photon_pt[0],Photon_eta[0],Photon_phi[0],0);
-          photon_2.SetPtEtaPhiM(Photon_pt[1],Photon_eta[1],Photon_phi[1],0);
-          diphoton = photon_1 + photon_2;
-          if(Photon_pt[0]/diphoton.M()>1/3 && Photon_pt[1]/diphoton.M()>1/4 && 100 < diphoton.M() && diphoton.M() < 180){
-              index_ph1 = index_photon.at(0);
-              index_ph2 = index_photon.at(1);
-              diphoton_pt = diphoton.Pt();
-              diphoton_mass = diphoton.M();
-              diphoton_eta = diphoton.Eta();
+          if(index_photon.size()==2){
+              TLorentzVector photon_1, photon_2, diphoton;
+              photon_1.SetPtEtaPhiM(Photon_pt[0],Photon_eta[0],Photon_phi[0],0);
+              photon_2.SetPtEtaPhiM(Photon_pt[1],Photon_eta[1],Photon_phi[1],0);
+              diphoton = photon_1 + photon_2;
+              if(Photon_pt[0]/diphoton.M()>1/3 && Photon_pt[1]/diphoton.M()>1/4 && 100 < diphoton.M() && diphoton.M() < 180){
+                  index_ph1 = index_photon.at(0);
+                  index_ph2 = index_photon.at(1);
+                  diphoton_pt = diphoton.Pt();
+                  diphoton_mass = diphoton.M();
+                  diphoton_eta = diphoton.Eta();
+              }
           }
           //else continue;
-      }
-      else if(index_photon.size()>2){
-          float tmp_diphoton_pt = 0.;
-          for(int j=0; j<index_photon.size(); j++){
-              for(int k=j+1; k<index_photon.size(); k++){
-                  TLorentzVector photon_1, photon_2, diphoton;
-                  photon_1.SetPtEtaPhiM(Photon_pt[j],Photon_eta[j],Photon_phi[j],0);
-                  photon_2.SetPtEtaPhiM(Photon_pt[k],Photon_eta[k],Photon_phi[k],0);
-                  diphoton = photon_1 + photon_2;
-                  if(Photon_pt[j]/diphoton.M()>1/3 && Photon_pt[k]/diphoton.M()>1/4 && tmp_diphoton_pt < diphoton.Pt() && 100 < diphoton.M() && diphoton.M() < 180){
-                      tmp_diphoton_pt = diphoton.Pt();
-                      index_ph1 = j;
-                      index_ph2 = k;
-                      diphoton_pt = tmp_diphoton_pt;
-                      diphoton_mass = diphoton.M();
-                      diphoton_eta = diphoton.Eta();
+      
+          else if(index_photon.size()>2){
+              float tmp_diphoton_pt = 0.;
+              for(int j=0; j<index_photon.size(); j++){
+                  for(int k=j+1; k<index_photon.size(); k++){
+                      TLorentzVector photon_1, photon_2, diphoton;
+                      photon_1.SetPtEtaPhiM(Photon_pt[j],Photon_eta[j],Photon_phi[j],0);
+                      photon_2.SetPtEtaPhiM(Photon_pt[k],Photon_eta[k],Photon_phi[k],0);
+                      diphoton = photon_1 + photon_2;
+                      if(Photon_pt[j]/diphoton.M()>1/3 && Photon_pt[k]/diphoton.M()>1/4 && tmp_diphoton_pt < diphoton.Pt() && 100 < diphoton.M() && diphoton.M() < 180){
+                          tmp_diphoton_pt = diphoton.Pt();
+                          index_ph1 = j;
+                          index_ph2 = k;
+                          diphoton_pt = tmp_diphoton_pt;
+                          diphoton_mass = diphoton.M();
+                          diphoton_eta = diphoton.Eta();
+                      }
                   }
               }
           }
@@ -363,44 +365,43 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
           }
       }
       //if(index_bjet.size()<2) continue;
-      if(index_bjet.size()>1 && trig_decision){,
-      if(index_bjet.size()==2){
-          TLorentzVector bjet_1, bjet_2, dibjet;
-          bjet_1.SetPtEtaPhiM(Jet_pt[0],Jet_eta[0],Jet_phi[0],0);
-          bjet_2.SetPtEtaPhiM(Jet_pt[1],Jet_eta[1],Jet_phi[1],0);
-          dibjet = bjet_1 + bjet_2;
-          if(70 < dibjet.M() && dibjet.M() < 190){
-              index_bj1 = index_bjet.at(0);
-              index_bj2 = index_bjet.at(1);
-              dibjet_pt = dibjet.Pt();
-              dibjet_mass = dibjet.M();
-              dibjet_eta = dibjet.Eta();
+      if(index_bjet.size()>1 && trig_decision){
+          if(index_bjet.size()==2){
+              TLorentzVector bjet_1, bjet_2, dibjet;
+              bjet_1.SetPtEtaPhiM(Jet_pt[0],Jet_eta[0],Jet_phi[0],0);
+              bjet_2.SetPtEtaPhiM(Jet_pt[1],Jet_eta[1],Jet_phi[1],0);
+              dibjet = bjet_1 + bjet_2;
+              if(70 < dibjet.M() && dibjet.M() < 190){
+                  index_bj1 = index_bjet.at(0);
+                  index_bj2 = index_bjet.at(1);
+                  dibjet_pt = dibjet.Pt();
+                  dibjet_mass = dibjet.M();
+                  dibjet_eta = dibjet.Eta();
+              }
           }
-          //else continue;
-      }
-      else if(index_bjet.size()>2){
-          // want highest b tagging scores
-          float b_score_sum = 0.;
-          for(int j=0; j<index_bjet.size(); j++){
-              for(int k=j+1; k<index_bjet.size(); k++){
-                  float b_score_sum_jk = 0.;
-                  b_score_sum_jk = Jet_btagDeepB[j] + Jet_btagDeepB[k];
-                  TLorentzVector bjet_1, bjet_2, dibjet;
-                  bjet_1.SetPtEtaPhiM(bjet_pt[j],bjet_eta[j],bjet_phi[j],0);
-                  bjet_2.SetPtEtaPhiM(bjet_pt[k],bjet_eta[k],bjet_phi[k],0);
-                  dibjet = bjet_1 + bjet_2;
-                  if(b_score_sum_jk > b_score_sum){
-                      b_score_sum = b_score_sum_jk;
-                      index_bj1 = j;
-                      index_bj2 = k;
-                      dibjet_pt = dibjet.Pt();
-                      dibjet_mass = dibjet.M();
-                      dibjet_eta = dibjet.Eta();
+          else if(index_bjet.size()>2){
+              // want highest b tagging scores
+              float b_score_sum = 0.;
+              for(int j=0; j<index_bjet.size(); j++){
+                  for(int k=j+1; k<index_bjet.size(); k++){
+                      float b_score_sum_jk = 0.;
+                      b_score_sum_jk = Jet_btagDeepB[j] + Jet_btagDeepB[k];
+                      TLorentzVector bjet_1, bjet_2, dibjet;
+                      bjet_1.SetPtEtaPhiM(bjet_pt[j],bjet_eta[j],bjet_phi[j],0);
+                      bjet_2.SetPtEtaPhiM(bjet_pt[k],bjet_eta[k],bjet_phi[k],0);
+                      dibjet = bjet_1 + bjet_2;
+                      if(b_score_sum_jk > b_score_sum){
+                          b_score_sum = b_score_sum_jk;
+                          index_bj1 = j;
+                          index_bj2 = k;
+                          dibjet_pt = dibjet.Pt();
+                          dibjet_mass = dibjet.M();
+                          dibjet_eta = dibjet.Eta();
+                      }
                   }
               }
           }
-      }
-          
+      }   
           
       //the first index is gen bjet, second is photon
       float dR11bg = DeltaR(GenPart_eta[bjet1_index_tmp], GenPart_phi[bjet1_index_tmp], Photon_eta[index_ph1], Photon_phi[index_ph1]);
@@ -473,8 +474,8 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
       } 
    //}
    tree->Fill(); 
-   }
+   } // supposed to be here or above this line? 
    for(int i=0; i<nHpTbin; i++){
        cout <<"H pT bin "<<HpT_bounds[i]<<" - "<<HpT_bounds[i+1]<<" eff: "<<pass_events[i]/all_events[i] <<" pass: "<<pass_events[i]<<" all: "<<all_events[i]<<endl;   
     }
-}
+
