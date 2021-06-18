@@ -30,9 +30,9 @@ int main(int argc, char* argv[])
   const char *data          = argv[3];
   const char *isData        = argv[4];
   const char *isRunGen      = argv[5];
-  TString year_num          = argv[6];
-  HHbbggAnalyzer Hmm(inputFileList, outFileName, data, isData, year_num);
-  cout << "dataset " << data << " year " <<year_num<< endl;
+  TString year          = argv[6];
+  HHbbggAnalyzer Hmm(inputFileList, outFileName, data, isData, year);
+  cout << "dataset " << data << " year " <<year<< endl;
   Hmm.EventLoop(data, isData, isRunGen);
 
   return 0;
@@ -277,7 +277,7 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
       if( year=="2017" && (HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 || HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass95==1) ) trig_decision =true;
       if( year=="2018" && (HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 || HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass95==1) ) trig_decision =true;
        
-       
+      //cout <<"trig_decision "<<trig_decision<<endl; 
       //photon selection
       int index_ph1(-999), index_ph2(-999);
       //match reco photon to genPhoton
@@ -292,7 +292,7 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
               if(eta_cut) index_photon.push_back(i);
           } 
       }
-      //if(index_photon.size()<2) continue;
+
       if(index_photon.size()>1 && trig_decision){
           if(index_photon.size()==2){
               TLorentzVector photon_1, photon_2, diphoton;

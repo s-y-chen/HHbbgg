@@ -1,1 +1,1 @@
-./analyzeHHbbgg runList.txt out.root mc F 2018
+./analyzeHHbbgg runList.txt out.root mc F F 2018
