@@ -97,7 +97,10 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
     
       //sum of genWeight
       float value_h_sumOfgw = h_sumOfgw->GetBinContent(1);
-      if(*isData=='F' && fabs(genweight)<5.)   value_h_sumOfgw = value_h_sumOfgw + genWeight;
+      if(*isData=='F'){
+          if(samplename=="GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8" && fabs(genweight)<5.) value_h_sumOfgw = value_h_sumOfgw + genWeight;
+          else value_h_sumOfgw = value_h_sumOfgw + genWeight;
+      } 
       else value_h_sumOfgw = value_h_sumOfgw + 1.0;
       h_sumOfgw->SetBinContent(1,value_h_sumOfgw);
 
