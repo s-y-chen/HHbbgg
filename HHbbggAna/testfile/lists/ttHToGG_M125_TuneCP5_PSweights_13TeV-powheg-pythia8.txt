@@ -1,0 +1,3 @@
+/storage/af/user/nlu/hh/nanoAOD/store/mc/RunIIAutumn18NanoAODv7/ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8/NANOAODSIM/Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/70000/211DD3F9-01EB-E94E-8AB8-5BFD7C3C3010.root
+/storage/af/user/nlu/hh/nanoAOD/store/mc/RunIIAutumn18NanoAODv7/ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8/NANOAODSIM/Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/70000/794B15D6-C920-B74B-B7D0-FD9CFF64A72D.root
+/storage/af/user/nlu/hh/nanoAOD/store/mc/RunIIAutumn18NanoAODv7/ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8/NANOAODSIM/Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/70000/C2ED6A11-51CB-6549-87D3-8A593444E432.root

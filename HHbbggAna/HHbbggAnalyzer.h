@@ -32,13 +32,13 @@
 
 class HHbbggAnalyzer : public MainEvent {
  public :
-   HHbbggAnalyzer(const TString &inputFileList="foo.txt", const char *outFileName="histo.root", TString dataset="data",const char *isData="F", TString year_num="2017");
+   HHbbggAnalyzer(const TString &inputFileList="foo.txt", const char *outFileName="histo.root", TString dataset="data", const char *isData="F", TString year_num="2017");
    virtual ~HHbbggAnalyzer();
    void Analyze(bool isData, int option, string outputFileName, string label);
    
   Bool_t   FillChain(TChain *chain, const TString &inputFileList);
   Long64_t LoadTree(Long64_t entry);
-  void     EventLoop(const char *, const char *, const char *);
+  void     EventLoop(string , const char *, const char *);
   //declare any specific function required
   
   void clearTreeVectors();
@@ -48,6 +48,7 @@ class HHbbggAnalyzer : public MainEvent {
   std::string yearst;
   std::map<std::string,float> muon_pt_cut;
   std::map<std::string,float> btag_cut;
+  std::map<std::string, float> xs;
 
   TH1D *h_sumOfgw = new TH1D("h_sumOfgenWeight","h_sumOfgenWeight",1,0,1);
   TH1D *h_sumOfgpw = new TH1D("h_sumOfgenpuWeight","h_sumOfgenpuWeight",1,0,1);
@@ -159,11 +160,30 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   muon_pt_cut["2016"] = 26.0;
   muon_pt_cut["2017"] = 29.0;
   muon_pt_cut["2018"] = 26.0;   
+    
   //b-tag score selection
   btag_cut["2016"] = 0.6321; 
   btag_cut["2017"] = 0.4941;
   btag_cut["2018"] = 0.4184;
-
+  
+  //xs in unit of fb
+  //e.g. 
+  //float xsHH = 31.05; //fb
+  //float BRHbb = 5.824E-01;
+  //float BRHgg = 2.270E-03;
+    
+  xs["GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"] = 31.05*5.824E-01*2.270E-03*2;
+  xs["VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8"] = 2.257*0.00227*1.06*1000.;
+  xs["ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8"] = 0.5071*0.00227*1.06*1000.;
+  xs["VBFHToGG_M125_13TeV_amcatnlo_pythia8"] = 3.7820*0.00227*1.06*1000.;
+  xs["GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8"] = 48.5800*0.00227*1.06*1000.;
+  xs["TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8"] = 831.76*1000.;
+  xs["GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 232.9*1000.;
+  xs["GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 878.1*1000.;
+  xs["DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa"] = 0.494*1000.;
+  xs["DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa"] = 0.8674276*1000.;
+  xs["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 84.4*1000.;
+      
   TChain *tree = new TChain("Events");
 
   if( ! FillChain(tree, inputFileList) ) {

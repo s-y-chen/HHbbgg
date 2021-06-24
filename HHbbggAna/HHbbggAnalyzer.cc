@@ -27,18 +27,18 @@ int main(int argc, char* argv[])
   }
   const char *inputFileList = argv[1];
   const char *outFileName   = argv[2];
-  const char *data          = argv[3];
+  string samplename         = argv[3];
   const char *isData        = argv[4];
   const char *isRunGen      = argv[5];
   TString year          = argv[6];
-  HHbbggAnalyzer Hmm(inputFileList, outFileName, data, isData, year);
-  cout << "dataset " << data << " year " <<year<< endl;
-  Hmm.EventLoop(data, isData, isRunGen);
+  HHbbggAnalyzer HHbbgg(inputFileList, outFileName, samplename, isData, year);
+  cout << "samplename " << samplename << " year " <<year<< endl;
+  HHbbgg.EventLoop(samplename, isData, isRunGen);
 
   return 0;
 }
 
-void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char *isRunGen)
+void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char *isRunGen)
 { 
   if (fChain == 0) return;
   //clearTreeVectors();
@@ -47,9 +47,6 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
   //cout<<"booked tree branches\n";
   float muon_mass = 0.1056583745;
 
-  float xsHH = 31.05; //fb
-  float BRHbb = 5.824E-01;
-  float BRHgg = 2.270E-03;
   float lumi = 300; //fb-1
       
   bool datafile = true;
@@ -72,6 +69,10 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
 	      BTagEntry::FLAV_B,    // btag flavour
 	      "comb")       ;        // measurement type
   
+   //xs
+   cout <<"samplename: "<<samplename<< " xs: "<<xs[samplename]<<endl;
+   float sample_xs = xs[samplename]*lumi;
+       
    Long64_t nentries = fChain->GetEntriesFast();
    cout <<"total entries: "<<nentries<<endl;
    Long64_t nbytes = 0, nb = 0;
@@ -80,12 +81,16 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       // if (Cut(ientry) < 0) continue;
-      if(jentry%1000==0) cout <<"entry: "<<jentry<<endl;
+      if(jentry%10000==0) cout <<"entry: "<<jentry<<endl;
       clearTreeVectors();
 
       bool skip = false;
-      genweight = genWeight*xsHH*BRHbb*BRHgg*2.*lumi;
-      if(fabs(genweight)>5){
+       
+      if(samplename!="GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8") skip = true;
+       
+      genweight = genWeight*sample_xs;
+       
+      if(fabs(genweight)>5 && samplename=="GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"){
           cout <<"event with abnormal large weight: event run "<<event<<" "<<run<<endl;
           continue;
       } 
@@ -96,17 +101,17 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
       //pdg ID scheme: https://pdg.lbl.gov/2019/reviews/rpp2019-rev-monte-carlo-numbering.pdf
       //https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookNanoAOD
       //0<= Jet_genJetIdx < nGenJet.
-      //if(*isRunGen=='T'){
-          int h1_index_tmp = -999, h2_index_tmp = -999;
-          int photon1_index_tmp = -999, photon2_index_tmp = -999;
-          int bjet1_index_tmp = -999, bjet2_index_tmp = -999, genjet1_index_tmp = -999, genjet2_index_tmp = -999;
+      int h1_index_tmp = -999, h2_index_tmp = -999;
+      int photon1_index_tmp = -999, photon2_index_tmp = -999;
+      int bjet1_index_tmp = -999, bjet2_index_tmp = -999, genjet1_index_tmp = -999, genjet2_index_tmp = -999;
        
-          vector<int> index_higgs, index_diphoton, index_dibjet, index_digenjet;
-          index_higgs.clear();
-          index_diphoton.clear();
-          index_dibjet.clear();
-          index_digenjet.clear();
-       
+      vector<int> index_higgs, index_diphoton, index_dibjet, index_digenjet;
+      index_higgs.clear();
+      index_diphoton.clear();
+      index_dibjet.clear();
+      index_digenjet.clear();
+          
+      if(*isRunGen=='T' && (!skip)){
           for(int igenpart=0; igenpart<nGenPart; igenpart++){    
               if(GenPart_pdgId[igenpart]==22 && GenPart_pdgId[GenPart_genPartIdxMother[igenpart]]==25 && GenPart_status[GenPart_genPartIdxMother[igenpart]]==62){ 
                   genPho_H_pt = GenPart_pt[GenPart_genPartIdxMother[igenpart]];
@@ -161,7 +166,7 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
               }
           }
           else{
-              cout <<"N(GEN-Higgs)!=2: "<<index_higgs.size()<<endl;
+              //cout <<"N(GEN-Higgs)!=2: "<<index_higgs.size()<<endl;
               skip = true;
           }
           if(h1_index_tmp > -999 && h2_index_tmp > -999){
@@ -196,7 +201,7 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
               }
           }
           else{
-              cout <<"N(GEN-Photon)!=2: "<<index_diphoton.size()<<endl;
+              //cout <<"N(GEN-Photon)!=2: "<<index_diphoton.size()<<endl;
               skip = true;
           }
           if(photon1_index_tmp > -999 && photon2_index_tmp > -999){
@@ -226,7 +231,7 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
               }
           }
           else{
-              cout <<"N(GEN-BJet)!=2: "<<index_dibjet.size()<<endl;
+              //cout <<"N(GEN-BJet)!=2: "<<index_dibjet.size()<<endl;
               skip = true;
           }
           if(bjet1_index_tmp > -999 && bjet2_index_tmp > -999){
@@ -254,6 +259,8 @@ void HHbbggAnalyzer::EventLoop(const char *data, const char *isData, const char 
           }  
        
       if(skip) continue;
+       
+      }
        
       //sum of genWeight
       float value_h_sumOfgw = h_sumOfgw->GetBinContent(1);
