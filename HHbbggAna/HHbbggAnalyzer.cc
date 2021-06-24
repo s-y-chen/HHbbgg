@@ -94,6 +94,18 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
           cout <<"event with abnormal large weight: event run "<<event<<" "<<run<<endl;
           continue;
       } 
+    
+      //sum of genWeight
+      float value_h_sumOfgw = h_sumOfgw->GetBinContent(1);
+      if(*isData=='F' && fabs(genweight)<5.)   value_h_sumOfgw = value_h_sumOfgw + genWeight;
+      else value_h_sumOfgw = value_h_sumOfgw + 1.0;
+      h_sumOfgw->SetBinContent(1,value_h_sumOfgw);
+
+      //sum of genWeight and pileupweight
+      //float value_h_sumOfgpw = h_sumOfgpw->GetBinContent(1);
+      //if(*isData=='F' && fabs(genWeight)<10)   value_h_sumOfgpw = value_h_sumOfgpw + genWeight;
+      //else value_h_sumOfgpw = value_h_sumOfgpw + 1.0;
+      //h_sumOfgpw->SetBinContent(1,value_h_sumOfgpw);
       
       if(!(event==20522 && run==1) && debug) continue;
      
@@ -261,21 +273,6 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
       if(skip) continue;
        
       }
-       
-      //sum of genWeight
-      float value_h_sumOfgw = h_sumOfgw->GetBinContent(1);
-      if(*isData=='F' && fabs(genWeight)<1.)   value_h_sumOfgw = value_h_sumOfgw + genWeight;
-      else value_h_sumOfgw = value_h_sumOfgw + 1.0;
-      h_sumOfgw->SetBinContent(1,value_h_sumOfgw);
-
-      //sum of genWeight and pileupweight
-      float value_h_sumOfgpw = h_sumOfgpw->GetBinContent(1);
-      if(*isData=='F' && fabs(genWeight)<10)   value_h_sumOfgpw = value_h_sumOfgpw + genWeight;
-      else value_h_sumOfgpw = value_h_sumOfgpw + 1.0;
-      h_sumOfgpw->SetBinContent(1,value_h_sumOfgpw);
-       
-      //}
-      //else{ 
           
       bool trig_decision = false;
       //• 2016 : HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90_v* 2017 : HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90_v*
@@ -433,8 +430,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
           }  
       }
       
-      //trigger if statement
-       
+      //trigger if statementgen
       t_run =run;
       t_luminosityBlock=luminosityBlock;
       t_event=event;
@@ -480,7 +476,8 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             gen_matched_subLeadingBjet_phi = GenPart_phi[gen_index2_matched_reco_bjet];           
       } 
    //}
-   tree->Fill(); 
+   tree->Fill();
+    
    } // supposed to be here or above this line? 
    for(int i=0; i<nHpTbin; i++){
        cout <<"H pT bin "<<HpT_bounds[i]<<" - "<<HpT_bounds[i+1]<<" eff: "<<pass_events[i]/all_events[i] <<" pass: "<<pass_events[i]<<" all: "<<all_events[i]<<endl;   
