@@ -39,6 +39,7 @@ class HHbbggAnalyzer : public MainEvent {
   Bool_t   FillChain(TChain *chain, const TString &inputFileList);
   Long64_t LoadTree(Long64_t entry);
   void     EventLoop(string , const char *, const char *);
+  void     cal_sumOfgw(string , const char *);
   //declare any specific function required
   
   void clearTreeVectors();
@@ -49,7 +50,8 @@ class HHbbggAnalyzer : public MainEvent {
   std::map<std::string,float> muon_pt_cut;
   std::map<std::string,float> btag_cut;
   std::map<std::string, float> xs;
-
+  std::map<std::string, float> sumOfgenw;
+  
   TH1D *h_sumOfgw = new TH1D("h_sumOfgenWeight","h_sumOfgenWeight",1,0,1);
   TH1D *h_sumOfgpw = new TH1D("h_sumOfgenpuWeight","h_sumOfgenpuWeight",1,0,1);
     
@@ -184,6 +186,18 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   xs["DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa"] = 0.8674276*1000.;
   xs["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 84.4*1000.;
       
+  sumOfgenw["GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"] = 5402.244803;
+  sumOfgenw["VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8"] = 3800454.268154;
+  sumOfgenw["ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8"] = 526575.192991;
+  sumOfgenw["VBFHToGG_M125_13TeV_amcatnlo_pythia8"] = 7681928.781840;
+  sumOfgenw["GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8"] = 213408137.745751;
+  sumOfgenw["TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8"] = 6224016513.896233;
+  sumOfgenw["GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 14366641.000000;
+  sumOfgenw["GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 10205533.000000;
+  sumOfgenw["DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa"] = 161251.902403;
+  sumOfgenw["DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa"] = 169252.801539;
+  sumOfgenw["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 6423331.317918;
+    
   TChain *tree = new TChain("Events");
 
   if( ! FillChain(tree, inputFileList) ) {

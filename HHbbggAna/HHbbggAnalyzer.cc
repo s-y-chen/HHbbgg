@@ -34,10 +34,28 @@ int main(int argc, char* argv[])
   HHbbggAnalyzer HHbbgg(inputFileList, outFileName, samplename, isData, year);
   cout << "samplename " << samplename << " year " <<year<< endl;
   HHbbgg.EventLoop(samplename, isData, isRunGen);
-
+  //HHbbgg.cal_sumOfgw(samplename, isData);
   return 0;
 }
 
+void HHbbggAnalyzer::cal_sumOfgw(string samplename, const char *isData)
+{
+   if (fChain == 0) return;
+
+   Long64_t nentries = fChain->GetEntriesFast();
+   cout <<"total entries: "<<nentries<<endl;
+   Long64_t nbytes = 0, nb = 0;
+   double sum = 0.;
+   for (Long64_t jentry=0; jentry<nentries;jentry++) {
+      Long64_t ientry = LoadTree(jentry);
+      if (ientry < 0) break;
+      nb = fChain->GetEntry(jentry);   nbytes += nb;
+      if(jentry%10000==0) cout <<"entry: "<<jentry<<endl;
+      sum = sum + genWeight;
+   }
+   h_sumOfgw->SetBinContent(1,sum);            
+}
+    
 void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char *isRunGen)
 { 
   if (fChain == 0) return;
@@ -58,7 +76,8 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
   float HpT_bounds[nHpTbin+1] = {0, 100, 200, 300, 400, 500, 600, 700, 1000, 2000, 3000};
   float all_events[nHpTbin] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   float pass_events[nHpTbin] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
- 
+
+  /* 
   //btag SF
   BTagCalibration calib("deepcsv","data/btagSF/DeepCSV_94XSF_V3_B_F.csv");
   BTagCalibrationReader reader(BTagEntry::OP_MEDIUM,  // operating point
@@ -68,11 +87,14 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
   reader.load(calib,                // calibration instance
 	      BTagEntry::FLAV_B,    // btag flavour
 	      "comb")       ;        // measurement type
-  
+  */
    //xs
-   cout <<"samplename: "<<samplename<< " xs: "<<xs[samplename]<<endl;
-   float sample_xs = xs[samplename]*lumi;
+   cout <<"samplename: "<<samplename<< " xs: "<<xs[samplename]<<" sumOfgenweight "<<sumOfgenw[samplename]<<endl;
+   float sample_xs = xs[samplename]*lumi/sumOfgenw[samplename];
        
+   bool skip = false;    
+   if(samplename!="GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8") skip = true;
+    
    Long64_t nentries = fChain->GetEntriesFast();
    cout <<"total entries: "<<nentries<<endl;
    Long64_t nbytes = 0, nb = 0;
@@ -83,34 +105,17 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
       // if (Cut(ientry) < 0) continue;
       if(jentry%10000==0) cout <<"entry: "<<jentry<<endl;
       clearTreeVectors();
-
-      bool skip = false;
-       
-      if(samplename!="GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8") skip = true;
        
       genweight = genWeight*sample_xs;
        
+      /*
       if(fabs(genweight)>5 && samplename=="GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"){
           cout <<"event with abnormal large weight: event run "<<event<<" "<<run<<endl;
           continue;
       } 
-    
-      //sum of genWeight
-      float value_h_sumOfgw = h_sumOfgw->GetBinContent(1);
-      if(*isData=='F'){
-          if(samplename=="GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8" && fabs(genweight)<5.) value_h_sumOfgw = value_h_sumOfgw + genWeight;
-          else value_h_sumOfgw = value_h_sumOfgw + genWeight;
-      } 
-      else value_h_sumOfgw = value_h_sumOfgw + 1.0;
-      h_sumOfgw->SetBinContent(1,value_h_sumOfgw);
-
-      //sum of genWeight and pileupweight
-      //float value_h_sumOfgpw = h_sumOfgpw->GetBinContent(1);
-      //if(*isData=='F' && fabs(genWeight)<10)   value_h_sumOfgpw = value_h_sumOfgpw + genWeight;
-      //else value_h_sumOfgpw = value_h_sumOfgpw + 1.0;
-      //h_sumOfgpw->SetBinContent(1,value_h_sumOfgpw);
+      */
       
-      if(!(event==20522 && run==1) && debug) continue;
+      //if(!(event==20522 && run==1) && debug) continue;
      
       //gen information: 
       //pdg ID scheme: https://pdg.lbl.gov/2019/reviews/rpp2019-rev-monte-carlo-numbering.pdf
@@ -280,7 +285,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
       bool trig_decision = false;
       //2016 : HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90_v* 2017 and 2018: HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90_v*
       //see AN2017_286 Section 3.1 Trigger Selection
-      if( year=="2016" && HLT Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision =true;
+      if( year=="2016" && HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision =true;
       if( year=="2017" && HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision =true;
       if( year=="2018" && (HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 || HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass95==1) ) trig_decision =true;
        

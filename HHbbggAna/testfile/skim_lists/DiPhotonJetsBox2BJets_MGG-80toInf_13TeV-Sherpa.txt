@@ -1,0 +1,3 @@
+/storage/af/user/nlu/hh/skim_merged/bbgg0624/nanoAODv7/2018/DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa_merged_0.root
+/storage/af/user/nlu/hh/skim_merged/bbgg0624/nanoAODv7/2018/DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa_merged_1.root
+/storage/af/user/nlu/hh/skim_merged/bbgg0624/nanoAODv7/2018/DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa_merged_2.root
