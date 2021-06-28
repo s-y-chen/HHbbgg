@@ -1,3 +1,8 @@
+cmsrel CMSSW_9_4_2
+cd CMSSW_9_4_2/src
+cmsenv
+make clean; make
+
 To run the code
 
 ./analyzeHHbbgg runList.txt out.root mc F 2018
