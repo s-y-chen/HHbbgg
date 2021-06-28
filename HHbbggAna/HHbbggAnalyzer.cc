@@ -90,11 +90,14 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
   */
    //xs
    cout <<"samplename: "<<samplename<< " xs: "<<xs[samplename]<<" sumOfgenweight "<<sumOfgenw[samplename]<<endl;
-   float sample_xs = xs[samplename]*lumi/sumOfgenw[samplename];
        
    bool skip = false;    
+   bool checkGenWeight = false;
    if(samplename!="GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8") skip = true;
+   else checkGenWeight = true;
     
+   double sumOfgenweight = sumOfgenw[samplename];
+       
    Long64_t nentries = fChain->GetEntriesFast();
    cout <<"total entries: "<<nentries<<endl;
    Long64_t nbytes = 0, nb = 0;
@@ -106,14 +109,12 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
       if(jentry%10000==0) cout <<"entry: "<<jentry<<endl;
       clearTreeVectors();
        
-      genweight = genWeight*sample_xs;
+      genweight = genWeight;
        
-      /*
-      if(fabs(genweight)>5 && samplename=="GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"){
-          cout <<"event with abnormal large weight: event run "<<event<<" "<<run<<endl;
+      if(checkGenWeight && (event==20522) && (run==1)){
+          sumOfgenweight = sumOfgenweight - genWeight;
           continue;
       } 
-      */
       
       //if(!(event==20522 && run==1) && debug) continue;
      
@@ -484,6 +485,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             gen_matched_subLeadingBjet_phi = GenPart_phi[gen_index2_matched_reco_bjet];           
       } 
    //}
+   genweight = genweight*xs[samplename]*lumi/sumOfgenweight;
    tree->Fill();
     
    } // supposed to be here or above this line? 
