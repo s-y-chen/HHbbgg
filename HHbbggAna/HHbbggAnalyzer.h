@@ -70,6 +70,7 @@ class HHbbggAnalyzer : public MainEvent {
   float diphoton_pt;
   float diphoton_eta;
   float diphoton_mass;
+  float photon_delR;
   // added for bjet reconstruction
   float leading_bjet_pt;
   float leading_bjet_eta;
@@ -80,6 +81,13 @@ class HHbbggAnalyzer : public MainEvent {
   float dibjet_pt;
   float dibjet_eta;
   float dibjet_mass;
+  float bjet_delR;
+  // bjet corrections
+  float leading_bjet_pt_corr;
+  float subleading_bjet_pt_corr;
+  float dibjet_pt_corr;
+  float dibjet_eta_corr;
+  float dibjet_mass_corr;
     
   //gen information
   float genHH_pt;
@@ -278,6 +286,7 @@ void HHbbggAnalyzer::clearTreeVectors(){
   diphoton_pt = -999.;
   diphoton_eta = -999.;
   diphoton_mass = -999.;
+  photon_delR = -999.;  
   // added for bjet reconstruction
   leading_bjet_pt = -999.;
   leading_bjet_eta = -999.;
@@ -288,6 +297,13 @@ void HHbbggAnalyzer::clearTreeVectors(){
   dibjet_pt = -999.;
   dibjet_eta = -999.;
   dibjet_mass = -999.;
+  bjet_delR = -999.;
+  // bjet corrections  
+  leading_bjet_pt_corr = -999.;
+  subleading_bjet_pt_corr = -999.;
+  dibjet_pt_corr = -999.;
+  dibjet_eta_corr = -999.;
+  dibjet_mass_corr = -999.;
     
   genHH_pt = -999.;
   genHH_eta = -999.;
@@ -364,6 +380,7 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("diphoton_pt", &diphoton_pt,"diphoton_pt/f"); 
   tree->Branch("diphoton_mass", &diphoton_mass,"diphoton_mass/f"); 
   tree->Branch("diphoton_eta", &diphoton_eta,"diphoton_eta/f");
+  tree->Branch("photon_delR", &photon_delR,"photon_delR/f");
     
     
   //phone gen matched to reco information
@@ -386,6 +403,13 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("dibjet_pt", &dibjet_pt,"dibjet_pt/f"); 
   tree->Branch("dibjet_mass", &dibjet_mass,"dibjet_mass/f"); 
   tree->Branch("dibjet_eta", &dibjet_eta,"dibjet_eta/f");
+  //bjet corrections
+  tree->Branch("leading_bjet_pt_corr", &leading_bjet_pt_corr,"leading_bjet_pt_corr/f");
+  tree->Branch("subleading_bjet_pt_corr", &subleading_bjet_pt_corr,"subleading_bjet_pt_corr/f");
+  tree->Branch("dibjet_pt_corr", &dibjet_pt_corr,"dibjet_pt_corr/f"); 
+  tree->Branch("dibjet_mass_corr", &dibjet_mass_corr,"dibjet_mass_corr/f"); 
+  tree->Branch("dibjet_eta_corr", &dibjet_eta_corr,"dibjet_eta_corr/f");
+  tree->Branch("bjet_delR", &bjet_delR,"bjet_delR/f");
     
   //bjet gen matched to reco information
   tree->Branch("gen_matched_LeadingBjet_pt", &gen_matched_LeadingBjet_pt, "gen_matched_LeadingBjet_pt/f");
