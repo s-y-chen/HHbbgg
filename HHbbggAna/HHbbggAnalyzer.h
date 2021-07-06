@@ -142,12 +142,19 @@ class HHbbggAnalyzer : public MainEvent {
   float gen_matched_subLeadingBjet_pt;
   float gen_matched_subLeadingBjet_eta;
   float gen_matched_subLeadingBjet_phi;
+  float gen_dibjet_mass;
+  float gen_dibjet_pt;
+  float gen_dibjet_eta;
     
   float genPho_deltaR;
   float genBjet_deltaR;
   float genBjet_H_pt;
   float genPho_H_pt;
   float genweight;   
+    
+  float recon;
+  float bjet_recon;
+  float photon_recon;
   
 };
 
@@ -354,11 +361,19 @@ void HHbbggAnalyzer::clearTreeVectors(){
   gen_matched_subLeadingBjet_pt = -999.;
   gen_matched_subLeadingBjet_eta = -999.;
   gen_matched_subLeadingBjet_phi = -999.;
+  gen_dibjet_mass = -999.;
+  gen_dibjet_pt = -999.;
+  gen_dibjet_eta = -999.;
   genPho_deltaR = -999.;
   genBjet_deltaR = -999.;
   genBjet_H_pt = -999.;
   genPho_H_pt = -999.;
   genweight = -999.;
+    
+  // recon?
+  recon = -999.;
+  bjet_recon = -999.;
+  photon_recon = -999.;
   
 }
 
@@ -418,6 +433,9 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("gen_matched_subLeadingBjet_pt", &gen_matched_subLeadingBjet_pt, "gen_matched_subLeadingBjet_pt/f");
   tree->Branch("gen_matched_subLeadingBjet_eta", &gen_matched_subLeadingBjet_eta, "gen_matched_subLeadingBjet_eta/f");
   tree->Branch("gen_matched_subLeadingBjet_phi", &gen_matched_subLeadingBjet_phi, "gen_matched_subLeadingBjet_phi/f");
+  tree->Branch("gen_dibjet_mass", &gen_dibjet_mass, "gen_dibjet_mass/f");
+  tree->Branch("gen_dibjet_pt", &gen_dibjet_pt, "gen_dibjet_pt/f");
+  tree->Branch("gen_dibjet_eta", &gen_dibjet_eta, "gen_dibjet_eta/f");
     
   //Gen information
   tree->Branch("genHH_pt", &genHH_pt,"genHH_pt/f"); 
@@ -461,5 +479,8 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("genBjet_H_pt", &genBjet_H_pt, "genbBjet_H_pt/f");
   tree->Branch("genPho_H_pt", &genPho_H_pt, "genPho_H_pt/f");
   tree->Branch("genweight", &genweight, "genweight/f");
+  tree->Branch("recon", &recon, "recon/f");
+  tree->Branch("bjet_recon", &bjet_recon, "bjet_recon/f");
+  tree->Branch("photon_recon", &photon_recon, "photon_recon/f");
 }
 #endif // #ifdef HHbbggAnalyzer_cxx

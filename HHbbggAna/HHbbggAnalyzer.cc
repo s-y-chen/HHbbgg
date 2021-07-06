@@ -498,21 +498,41 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             subleading_bjet_eta=Jet_eta[index_bj2];
             subleading_bjet_phi=Jet_phi[index_bj2]; 
         }
-        if(gen_index1_matched_reco_photon>=0){
+        if(gen_index1_matched_reco_bjet>=0){
             gen_matched_LeadingBjet_pt = GenPart_pt[gen_index1_matched_reco_bjet];
             gen_matched_LeadingBjet_eta = GenPart_eta[gen_index1_matched_reco_bjet];
             gen_matched_LeadingBjet_phi = GenPart_phi[gen_index1_matched_reco_bjet];
         }
-        if(gen_index2_matched_reco_photon>=0){
+        if(gen_index2_matched_reco_bjet>=0){
             gen_matched_subLeadingBjet_pt = GenPart_pt[gen_index2_matched_reco_bjet];
             gen_matched_subLeadingBjet_eta = GenPart_eta[gen_index2_matched_reco_bjet];
             gen_matched_subLeadingBjet_phi = GenPart_phi[gen_index2_matched_reco_bjet];           
         } 
+        
+        // matched dibjet variables
+        if (gen_index1_matched_reco_bjet>=0 && gen_index2_matched_reco_bjet>=0){
+            TLorentzVector gen_bjet_1, gen_bjet_2, gen_dibjet;
+            gen_bjet_1.SetPtEtaPhiM(GenPart_pt[gen_index1_matched_reco_bjet],GenPart_eta[gen_index1_matched_reco_bjet],GenPart_phi[gen_index1_matched_reco_bjet],0);
+            gen_bjet_2.SetPtEtaPhiM(GenPart_pt[gen_index2_matched_reco_bjet],GenPart_eta[gen_index2_matched_reco_bjet],GenPart_phi[gen_index2_matched_reco_bjet],0);
+            gen_dibjet = gen_bjet_1 + gen_bjet_2;
+            gen_dibjet_mass = gen_dibjet.M();
+            gen_dibjet_pt = gen_dibjet.Pt();
+            gen_dibjet_eta = gen_dibjet.Eta();
+        }
+        
+        
         genweight = genweight*xs[samplename]*lumi/sumOfgenweight;
-        //tree->Fill();
         if (leading_photon_pt >= 0 && leading_bjet_pt >= 0){
-            tree->Fill(); 
+            //tree->Fill(); 
+            recon = 1;
         } 
+        if (leading_photon_pt >= 0){
+            photon_recon = 1;
+        }
+        if (leading_bjet_pt >= 0){
+            bjet_recon = 1;
+        }
+        tree->Fill();
         for(int i=0; i<nHpTbin; i++){
            cout <<"H pT bin "<<HpT_bounds[i]<<" - "<<HpT_bounds[i+1]<<" eff: "<<pass_events[i]/all_events[i] <<" pass: "<<pass_events[i]<<" all: "<<all_events[i]<<endl;   
         }
