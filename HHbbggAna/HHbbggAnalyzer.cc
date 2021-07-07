@@ -439,10 +439,16 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         }   
           
         //the first index is gen bjet, second is photon
-        float dR11bg = DeltaR(GenPart_eta[bjet1_index_tmp], GenPart_phi[bjet1_index_tmp], Photon_eta[index_ph1], Photon_phi[index_ph1]);
-        float dR12bg = DeltaR(GenPart_eta[bjet1_index_tmp], GenPart_phi[bjet1_index_tmp], Photon_eta[index_ph2], Photon_phi[index_ph2]);
-        float dR21bg = DeltaR(GenPart_eta[bjet2_index_tmp], GenPart_phi[bjet2_index_tmp], Photon_eta[index_ph1], Photon_phi[index_ph1]);
-        float dR22bg = DeltaR(GenPart_eta[bjet2_index_tmp], GenPart_phi[bjet2_index_tmp], Photon_eta[index_ph2], Photon_phi[index_ph2]);
+        //float dR11bg = DeltaR(GenPart_eta[bjet1_index_tmp], GenPart_phi[bjet1_index_tmp], Photon_eta[index_ph1], Photon_phi[index_ph1]);
+        //float dR12bg = DeltaR(GenPart_eta[bjet1_index_tmp], GenPart_phi[bjet1_index_tmp], Photon_eta[index_ph2], Photon_phi[index_ph2]);
+        //float dR21bg = DeltaR(GenPart_eta[bjet2_index_tmp], GenPart_phi[bjet2_index_tmp], Photon_eta[index_ph1], Photon_phi[index_ph1]);
+        //float dR22bg = DeltaR(GenPart_eta[bjet2_index_tmp], GenPart_phi[bjet2_index_tmp], Photon_eta[index_ph2], Photon_phi[index_ph2]);
+        float dR11bg = DeltaR(Jet_eta[index_bj1], Jet_phi[index_bj1], Photon_eta[index_ph1], Photon_phi[index_ph1]);
+        float dR12bg = DeltaR(Jet_eta[index_bj1], Jet_phi[index_bj1], Photon_eta[index_ph2], Photon_phi[index_ph2]);
+        float dR21bg = DeltaR(Jet_eta[index_bj2], Jet_phi[index_bj2], Photon_eta[index_ph1], Photon_phi[index_ph1]);
+        float dR22bg = DeltaR(Jet_eta[index_bj2], Jet_phi[index_bj2], Photon_eta[index_ph2], Photon_phi[index_ph2]);
+        
+        
           
         // first index if gen bjet, second is recon bjet
         float dR11bb = DeltaR(GenPart_eta[bjet1_index_tmp], GenPart_phi[bjet1_index_tmp], Jet_eta[index_bj1], Jet_phi[index_bj1]);
@@ -450,6 +456,24 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         float dR21bb = DeltaR(GenPart_eta[bjet2_index_tmp], GenPart_phi[bjet2_index_tmp], Jet_eta[index_bj1], Jet_phi[index_bj1]);
         float dR22bb = DeltaR(GenPart_eta[bjet2_index_tmp], GenPart_phi[bjet2_index_tmp], Jet_eta[index_bj2], Jet_phi[index_bj2]);
         if(dR11bg > 0.4 && dR12bg > 0.4 && dR21bg > 0.4 && dR22bg > 0.4){
+            if(index_bj1>=0){
+                TLorentzVector bjet_1, bjet_2, dibjet;
+                bjet_1.SetPtEtaPhiM(Jet_pt[index_bj1],Jet_eta[index_bj1],Jet_phi[index_bj1],0);
+                bjet_2.SetPtEtaPhiM(Jet_pt[index_bj2],Jet_eta[index_bj2],Jet_phi[index_bj2],0);
+                dibjet = bjet_1 + bjet_2;
+                dibjet_condition_mass = dibjet.M();
+                dibjet_condition_eta = dibjet.Eta();
+                dibjet_condition_pt = dibjet.Pt();
+            
+                TLorentzVector bjet_1_corr, bjet_2_corr, dibjet_corr;
+                bjet_1_corr.SetPtEtaPhiM(Jet_pt[index_bj1] * Jet_bRegCorr[index_bj1],Jet_eta[index_bj1],Jet_phi[index_bj1],0);
+                bjet_2_corr.SetPtEtaPhiM(Jet_pt[index_bj2] * Jet_bRegCorr[index_bj2] ,Jet_eta[index_bj2],Jet_phi[index_bj2],0);
+                dibjet_corr = bjet_1_corr + bjet_2_corr;
+                dibjet_condition_corr_mass = dibjet_corr.M();
+                dibjet_condition_corr_eta = dibjet_corr.Eta();
+                dibjet_condition_corr_pt = dibjet_corr.Pt();
+            }
+            
             if(dR11bb<dR21bb){
                 gen_index1_matched_reco_bjet = bjet1_index_tmp;
                 gen_index2_matched_reco_bjet = bjet2_index_tmp;
