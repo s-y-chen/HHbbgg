@@ -112,7 +112,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         genweight = genWeight;
        
         if(checkGenWeight && (event==20522) && (run==1)){
-            sumOfgenweight = sumOfgenweight - genWeight;
+            //cout <<"genWeight" <<genWeight<<endl;
             continue;
         } 
       

@@ -208,7 +208,7 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   xs["DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa"] = 0.8674276*1000.;
   xs["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 84.4*1000.;
       
-  sumOfgenw["GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"] = 5402.244803;
+  sumOfgenw["GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"] = 5402.244803-122.629;
   sumOfgenw["VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8"] = 3800454.268154;
   sumOfgenw["ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8"] = 526575.192991;
   sumOfgenw["VBFHToGG_M125_13TeV_amcatnlo_pythia8"] = 7681928.781840;
