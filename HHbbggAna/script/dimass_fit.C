@@ -19,19 +19,18 @@ using namespace RooFit ;
 using namespace std ;
 
 
-void sig_fit()
-{
+void fit_mass(string rt_file_name, string rt_file_path, string obs_var){
     TString path = "plots/sigfit/"; 
-    TString filename =  "ttHToGG"; // change to match sample name
+    TString filename =  rt_file_name; // change to match sample name
  
     //change this to the path of signal sample you want to work with
-    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/job_3_ntuple0625v1/ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8.root";
+    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/"+rt_file_path;
  
     TString min = "110";
     TString max = "140";
     double mind = min.Atof();
     double maxd = max.Atof();
-    TString obs = "diphoton_mass"; //dibjet_condition_corr_mass
+    TString obs = obs_var;
     TString cuttree = obs + " < " + max + " && " + obs + " > " + min;
     
     // Declare observable x
@@ -95,5 +94,16 @@ void sig_fit()
     dtframe->Draw();
     c1->SaveAs(path+filename+obs+".png");
     c1->SaveAs(path+filename+obs+".pdf");
+}
 
+void dimass_fit(){
+
+     string names [10] = {"glu_glu_to_HH_signal", "VH_to_GG", "ttH_to_GG", "VBFH_to_GG", "glu_glu_H_to_GG", "gjet_small_pt", "gjet_big_pt", "diphoton_jets_box", "diphoton_jets_box_1B", "diphoton_jets_box_2B"};
+    
+    string paths [10] = {"job_1_ntuple0625v1/GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8.root", "job_2_ntuple0625v1/VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8.root", "job_3_ntuple0625v1/ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8.root", "job_4_ntuple0625v1/VBFHToGG_M125_13TeV_amcatnlo_pythia8.root", "job_5_ntuple0625v1/GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8.root", "job_6_ntuple0625v1/GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root", "job_7_ntuple0625v1/GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root", "job_8_ntuple0625v1/DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa.root", "job_9_ntuple0625v1/DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa.root", "job_10_ntuple0625v1/DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa.root"};
+   
+    for (int i=0; i< 10; i++){
+        fit_mass(names[i], paths[i], "diphoton_mass");
+        fit_mass(names[i], paths[i], "dibjet_condition_corr_mass");
+    }
 }

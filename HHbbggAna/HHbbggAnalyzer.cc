@@ -350,6 +350,8 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         float dR21 = DeltaR(GenPart_eta[photon2_index_tmp], GenPart_phi[photon2_index_tmp], Photon_eta[index_ph1], Photon_phi[index_ph1]);
         float dR22 = DeltaR(GenPart_eta[photon2_index_tmp], GenPart_phi[photon2_index_tmp], Photon_eta[index_ph2], Photon_phi[index_ph2]);
        
+    
+        // need to ask Nan - compare w/ gen necessary for recon or just for matching? 
         if(dR11<0.4 && dR11<dR21){
             gen_index1_matched_reco_photon = photon1_index_tmp;
             if(dR22<0.4) gen_index2_matched_reco_photon = photon2_index_tmp;
@@ -358,7 +360,9 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         else if(dR21<0.4 && dR11>dR21){
             gen_index1_matched_reco_photon = photon2_index_tmp;
             if(dR12<0.4) gen_index2_matched_reco_photon = photon1_index_tmp;
-        }    
+        }  
+        // if necessary for recon - add else index=-800 option here? 
+        
         //efficiency vs Higgs pT
         for(int i=0; i<nHpTbin; i++){
             if(HpT_bounds[i]<genPho_H_pt &&  HpT_bounds[i+1]>genPho_H_pt) pass_events[i] = pass_events[i]  + genweight;
@@ -438,16 +442,11 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             }
         }   
           
-        //the first index is gen bjet, second is photon
-        //float dR11bg = DeltaR(GenPart_eta[bjet1_index_tmp], GenPart_phi[bjet1_index_tmp], Photon_eta[index_ph1], Photon_phi[index_ph1]);
-        //float dR12bg = DeltaR(GenPart_eta[bjet1_index_tmp], GenPart_phi[bjet1_index_tmp], Photon_eta[index_ph2], Photon_phi[index_ph2]);
-        //float dR21bg = DeltaR(GenPart_eta[bjet2_index_tmp], GenPart_phi[bjet2_index_tmp], Photon_eta[index_ph1], Photon_phi[index_ph1]);
-        //float dR22bg = DeltaR(GenPart_eta[bjet2_index_tmp], GenPart_phi[bjet2_index_tmp], Photon_eta[index_ph2], Photon_phi[index_ph2]);
+        //the first index is bjet, second is photon
         float dR11bg = DeltaR(Jet_eta[index_bj1], Jet_phi[index_bj1], Photon_eta[index_ph1], Photon_phi[index_ph1]);
         float dR12bg = DeltaR(Jet_eta[index_bj1], Jet_phi[index_bj1], Photon_eta[index_ph2], Photon_phi[index_ph2]);
         float dR21bg = DeltaR(Jet_eta[index_bj2], Jet_phi[index_bj2], Photon_eta[index_ph1], Photon_phi[index_ph1]);
         float dR22bg = DeltaR(Jet_eta[index_bj2], Jet_phi[index_bj2], Photon_eta[index_ph2], Photon_phi[index_ph2]);
-        
         
           
         // first index if gen bjet, second is recon bjet
@@ -455,8 +454,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         float dR12bb = DeltaR(GenPart_eta[bjet1_index_tmp], GenPart_phi[bjet1_index_tmp], Jet_eta[index_bj2], Jet_phi[index_bj2]);
         float dR21bb = DeltaR(GenPart_eta[bjet2_index_tmp], GenPart_phi[bjet2_index_tmp], Jet_eta[index_bj1], Jet_phi[index_bj1]);
         float dR22bb = DeltaR(GenPart_eta[bjet2_index_tmp], GenPart_phi[bjet2_index_tmp], Jet_eta[index_bj2], Jet_phi[index_bj2]);
-        if(dR11bg > 0.4 && dR12bg > 0.4 && dR21bg > 0.4 && dR22bg > 0.4){
-            if(index_bj1>=0){
+        if(dR11bg > 0.4 && dR12bg > 0.4 && dR21bg > 0.4 && dR22bg > 0.4 && index_bj1 >= 0){ // added prior selection
                 TLorentzVector bjet_1, bjet_2, dibjet;
                 bjet_1.SetPtEtaPhiM(Jet_pt[index_bj1],Jet_eta[index_bj1],Jet_phi[index_bj1],0);
                 bjet_2.SetPtEtaPhiM(Jet_pt[index_bj2],Jet_eta[index_bj2],Jet_phi[index_bj2],0);
@@ -472,7 +470,6 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                 dibjet_condition_corr_mass = dibjet_corr.M();
                 dibjet_condition_corr_eta = dibjet_corr.Eta();
                 dibjet_condition_corr_pt = dibjet_corr.Pt();
-            }
             
             if(dR11bb<dR21bb){
                 gen_index1_matched_reco_bjet = bjet1_index_tmp;
@@ -483,6 +480,10 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                 gen_index1_matched_reco_bjet = bjet2_index_tmp;
                 gen_index2_matched_reco_bjet = bjet1_index_tmp;
             }  
+        }
+        else{
+            index_bj1 = -800.
+            index_bj2 = -800.
         }
       
         //trigger if statementgen
