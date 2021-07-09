@@ -115,9 +115,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             //cout <<"genWeight" <<genWeight<<endl;
             continue;
         } 
-      
-        //if(!(event==20522 && run==1) && debug) continue;
-     
+           
         //gen information: 
         //pdg ID scheme: https://pdg.lbl.gov/2019/reviews/rpp2019-rev-monte-carlo-numbering.pdf
         //https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookNanoAOD
@@ -286,8 +284,8 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         bool trig_decision = false;
         //2016 : HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90_v* 2017 and 2018: HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90_v*
         //see AN2017_286 Section 3.1 Trigger Selection
-         if( year=="2016" && HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision =true;
-         if( year=="2017" && HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision =true;
+        if( year=="2016" && HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision =true;
+        if( year=="2017" && HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision =true;
         if( year=="2018" && (HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 || HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass95==1) ) trig_decision =true;
        
         //cout <<"trig_decision "<<trig_decision<<endl; 
@@ -301,7 +299,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         bool Event_sel = false;
         for(int i=0;i<nPhoton;i++){
             if(Photon_mvaID_WP90[i]==1 && Photon_pt[i] > 25){ 
-                bool eta_cut = (year=="2016" ? (fabs(Photon_eta[i]) < 2.4) : (fabs(Photon_eta[i]) < 2.5)) && ((fabs(Photon_eta[i])<1.44 || fabs(Photon_eta[i])>1.57)); 
+                bool eta_cut = (fabs(Photon_eta[i]) < 2.5) && ((fabs(Photon_eta[i])<1.44 || fabs(Photon_eta[i])>1.57)); 
                 if(eta_cut) index_photon.push_back(i);
             } 
         }
@@ -342,7 +340,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                     }
                 }
             }
-        }
+        }//this is the end of the condition: if(index_photon.size()>1 && trig_decision)
        
         //the first index is gen, second is reco
         float dR11 = DeltaR(GenPart_eta[photon1_index_tmp], GenPart_phi[photon1_index_tmp], Photon_eta[index_ph1], Photon_phi[index_ph1]);
@@ -350,8 +348,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         float dR21 = DeltaR(GenPart_eta[photon2_index_tmp], GenPart_phi[photon2_index_tmp], Photon_eta[index_ph1], Photon_phi[index_ph1]);
         float dR22 = DeltaR(GenPart_eta[photon2_index_tmp], GenPart_phi[photon2_index_tmp], Photon_eta[index_ph2], Photon_phi[index_ph2]);
        
-    
-        // need to ask Nan - compare w/ gen necessary for recon or just for matching? 
+        //compare w/ gen is just for matching
         if(dR11<0.4 && dR11<dR21){
             gen_index1_matched_reco_photon = photon1_index_tmp;
             if(dR22<0.4) gen_index2_matched_reco_photon = photon2_index_tmp;
@@ -369,7 +366,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         }
       
         //jet selection
-        int index_bj1(-999), index_bj2(-999);
+        int index_bj1(-999), index_bj2(-999);        
         //match reco bjet to genbjet
         int gen_index1_matched_reco_bjet = -999, gen_index2_matched_reco_bjet = -999;
        
@@ -377,7 +374,10 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         index_bjet.clear();
         Event_sel = false;
         for(int i=0;i<nJet;i++){
-            if(Jet_btagDeepB[i]>= 0.5 && (Jet_pt[i] > 25)){
+            //medium working point https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X and https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation medium is 1% misidentify rate for light-flavor (udsg) jet with b-jet efficiency 75%
+            //if(Jet_btagDeepB[i]>= 0.4184 && (Jet_pt[i] > 25)){
+            
+            if(Jet_pt[i] > 25){
                 bool eta_cut = (year=="2016" ? (fabs(Jet_eta[i]) < 2.4) : (fabs(Jet_eta[i]) < 2.5)); 
                 if(eta_cut) index_bjet.push_back(i);
             }
@@ -389,53 +389,56 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                 bjet_1.SetPtEtaPhiM(Jet_pt[0],Jet_eta[0],Jet_phi[0],0);
                 bjet_2.SetPtEtaPhiM(Jet_pt[1],Jet_eta[1],Jet_phi[1],0);
                 dibjet = bjet_1 + bjet_2;
-                if(70 < dibjet.M() && dibjet.M() < 190){
+
+                // bjet energy regression corrections
+                TLorentzVector bjet_1_corr, bjet_2_corr, dibjet_corr;
+                bjet_1_corr.SetPtEtaPhiM(Jet_pt[0] * Jet_bRegCorr[0], Jet_eta[0],Jet_phi[0],0);
+                bjet_2_corr.SetPtEtaPhiM(Jet_pt[1] * Jet_bRegCorr[1], Jet_eta[1],Jet_phi[1],0);
+                dibjet_corr = bjet_1_corr + bjet_2_corr;
+                
+                if(70 < dibjet_corr.M() && dibjet_corr.M() < 190){
                     index_bj1 = index_bjet.at(0);
                     index_bj2 = index_bjet.at(1);
+                    dibjet_pt_corr = dibjet_corr.Pt();
+                    dibjet_mass_corr = dibjet_corr.M();
+                    dibjet_eta_corr = dibjet_corr.Eta();
                     dibjet_pt = dibjet.Pt();
                     dibjet_mass = dibjet.M();
                     dibjet_eta = dibjet.Eta();
                     bjet_delR = DeltaR(bjet_1.Eta(), bjet_1.Phi(), bjet_2.Eta(), bjet_2.Phi());
                 }
-                // corrections
-                TLorentzVector bjet_1_corr, bjet_2_corr, dibjet_corr;
-                bjet_1_corr.SetPtEtaPhiM(Jet_pt[0] * Jet_bRegCorr[0],Jet_eta[0],Jet_phi[0],0);
-                bjet_2_corr.SetPtEtaPhiM(Jet_pt[1] * Jet_bRegCorr[1] ,Jet_eta[1],Jet_phi[1],0);
-                dibjet_corr = bjet_1_corr + bjet_2_corr;
-                if(70 < dibjet_corr.M() && dibjet_corr.M() < 190){
-                    dibjet_pt_corr = dibjet_corr.Pt();
-                    dibjet_mass_corr = dibjet_corr.M();
-                    dibjet_eta_corr = dibjet_corr.Eta();
-                }
             }
             else if(index_bjet.size()>2){
-                // want highest b tagging scores
-                float b_score_sum = 0.;
+                //want highest b tagging scores
+                float b_score_sum = -999.;
                 for(int j=0; j<index_bjet.size(); j++){
                     for(int k=j+1; k<index_bjet.size(); k++){
                         float b_score_sum_jk = 0.;
                         b_score_sum_jk = Jet_btagDeepB[j] + Jet_btagDeepB[k];
-                        TLorentzVector bjet_1, bjet_2, dibjet;
-                        bjet_1.SetPtEtaPhiM(Jet_pt[j],Jet_eta[j],Jet_phi[j],0);
-                        bjet_2.SetPtEtaPhiM(Jet_pt[k],Jet_eta[k],Jet_phi[k],0);
-                        dibjet = bjet_1 + bjet_2;
-                        //corr
-                        TLorentzVector bjet_1_corr, bjet_2_corr, dibjet_corr;
-                        bjet_1_corr.SetPtEtaPhiM(Jet_pt[j] * Jet_bRegCorr[j],Jet_eta[j],Jet_phi[j],0);
-                        bjet_2_corr.SetPtEtaPhiM(Jet_pt[k] * Jet_bRegCorr[k] ,Jet_eta[k],Jet_phi[k],0);
-                        dibjet_corr = bjet_1_corr + bjet_2_corr;
-                        // fill both
-                        if(b_score_sum_jk > b_score_sum && 70 < dibjet_corr.M() && dibjet_corr.M() < 190){
-                            b_score_sum = b_score_sum_jk;
-                            index_bj1 = j;
-                            index_bj2 = k;
-                            dibjet_pt = dibjet.Pt();
-                            dibjet_mass = dibjet.M();
-                            dibjet_eta = dibjet.Eta();
-                            dibjet_pt_corr = dibjet_corr.Pt();
-                            dibjet_mass_corr = dibjet_corr.M();
-                            dibjet_eta_corr = dibjet_corr.Eta();
-                            bjet_delR = DeltaR(bjet_1.Eta(), bjet_1.Phi(), bjet_2.Eta(), bjet_2.Phi());
+                        if(b_score_sum_jk > b_score_sum){
+                            //before corr
+                            TLorentzVector bjet_1, bjet_2, dibjet;
+                            bjet_1.SetPtEtaPhiM(Jet_pt[j],Jet_eta[j],Jet_phi[j],0);
+                            bjet_2.SetPtEtaPhiM(Jet_pt[k],Jet_eta[k],Jet_phi[k],0);
+                            dibjet = bjet_1 + bjet_2;
+                            //corr
+                            TLorentzVector bjet_1_corr, bjet_2_corr, dibjet_corr;
+                            bjet_1_corr.SetPtEtaPhiM(Jet_pt[j] * Jet_bRegCorr[j],Jet_eta[j],Jet_phi[j],0);
+                            bjet_2_corr.SetPtEtaPhiM(Jet_pt[k] * Jet_bRegCorr[k] ,Jet_eta[k],Jet_phi[k],0);
+                            dibjet_corr = bjet_1_corr + bjet_2_corr;
+                            // fill both
+                            if(70 < dibjet_corr.M() && dibjet_corr.M() < 190){
+                                b_score_sum = b_score_sum_jk;
+                                index_bj1 = j;
+                                index_bj2 = k;
+                                dibjet_pt = dibjet.Pt();
+                                dibjet_mass = dibjet.M();
+                                dibjet_eta = dibjet.Eta();
+                                dibjet_pt_corr = dibjet_corr.Pt();
+                                dibjet_mass_corr = dibjet_corr.M();
+                                dibjet_eta_corr = dibjet_corr.Eta();
+                                bjet_delR = DeltaR(bjet_1.Eta(), bjet_1.Phi(), bjet_2.Eta(), bjet_2.Phi());
+                            }             
                         }
                     }
                 }
@@ -446,8 +449,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         float dR11bg = DeltaR(Jet_eta[index_bj1], Jet_phi[index_bj1], Photon_eta[index_ph1], Photon_phi[index_ph1]);
         float dR12bg = DeltaR(Jet_eta[index_bj1], Jet_phi[index_bj1], Photon_eta[index_ph2], Photon_phi[index_ph2]);
         float dR21bg = DeltaR(Jet_eta[index_bj2], Jet_phi[index_bj2], Photon_eta[index_ph1], Photon_phi[index_ph1]);
-        float dR22bg = DeltaR(Jet_eta[index_bj2], Jet_phi[index_bj2], Photon_eta[index_ph2], Photon_phi[index_ph2]);
-        
+        float dR22bg = DeltaR(Jet_eta[index_bj2], Jet_phi[index_bj2], Photon_eta[index_ph2], Photon_phi[index_ph2]);     
           
         // first index if gen bjet, second is recon bjet
         float dR11bb = DeltaR(GenPart_eta[bjet1_index_tmp], GenPart_phi[bjet1_index_tmp], Jet_eta[index_bj1], Jet_phi[index_bj1]);
@@ -482,8 +484,8 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             }  
         }
         else{
-            index_bj1 = -800.
-            index_bj2 = -800.
+            index_bj1 = -800.;
+            index_bj2 = -800.;
         }
       
         //trigger if statementgen
@@ -558,8 +560,8 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             bjet_recon = 1;
         }
         tree->Fill();
-        for(int i=0; i<nHpTbin; i++){
-           cout <<"H pT bin "<<HpT_bounds[i]<<" - "<<HpT_bounds[i+1]<<" eff: "<<pass_events[i]/all_events[i] <<" pass: "<<pass_events[i]<<" all: "<<all_events[i]<<endl;   
-        }
+    }//end of event loop
+    for(int i=0; i<nHpTbin; i++){
+        cout <<"H pT bin "<<HpT_bounds[i]<<" - "<<HpT_bounds[i+1]<<" eff: "<<pass_events[i]/all_events[i] <<" pass: "<<pass_events[i]<<" all: "<<all_events[i]<<endl;   
     }
 }
