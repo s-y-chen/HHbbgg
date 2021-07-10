@@ -15,37 +15,41 @@
 #include "TAxis.h"
 #include "TFile.h"
 #include "TH1.h"
+#include "RooCrystalBall.h"
+
 using namespace RooFit ;
 using namespace std ;
 
 
-void VBFH_to_gg_mjj_fit()
+
+void VH_gg_mjj_fit()
 {
     TString path = "plots/sigfit/"; 
-    TString filename =  "VBFHToGG"; // change to match sample name
+    TString filename =  "VHToGG"; // change to match sample name
  
     //change this to the path of signal sample you want to work with
-    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/job_4_ntuple0625v1/VBFHToGG_M125_13TeV_amcatnlo_pythia8.root";
+    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/job_2_ntuple0625v1/VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8.root";
  
     TString min = "0";
     TString max = "200";
     double mind = min.Atof();
     double maxd = max.Atof();
-    TString obs = "dibjet_condition_corr_mass";
+    TString obs = "dibjet_condition_corr_mass"; 
     TString cuttree = obs + " < " + max + " && " + obs + " > " + min;
-    
+
     // Declare observable x
     RooRealVar* mjj = new RooRealVar(obs,obs,125,mind,maxd) ;
     
-    // Bernstein1 pdf
-    RooRealVar a1("a1","a1", 1,0.1,1000);
-    RooRealVar a2("a2","a2", 2,0.1,1000);
-    RooRealVar a3("a3","a3", 3,0.1,1000);
-    RooRealVar a4("a4","a4", 4,0.1,1000);
-    //RooRealVar a5("a5","a5", 5,0.1,1000);
-    //RooRealVar a6("a6","a6", 6,0.1,1000);
-    RooAbsPdf* bern1 = new RooBernstein("bern1", "bern1", *mjj, RooArgList(a1, a2, a3, a4));
+    // CB
+    RooRealVar m0("m0","m0", 75,0.1,1000);
+    RooRealVar alphaL("alphaL","alphaL", 25,0.1,1000);
+    RooRealVar nL("nL","nL", 4,0.1,1000);
+    RooRealVar sigmaL("sigmaL","sigmaL", 10,0.1,1000);
+    RooRealVar alphaR("alphaR","alphaR", 125,0.1,1000);
+    RooRealVar nR("nR","nR", 4,0.1,1000);
+    RooRealVar sigmaR("sigmaR","sigmaR", 15,0.1,1000);
     
+    RooAbsPdf* cb1 = new RooCrystalBall("cb1", "cb1", *mjj, m0, sigmaL, sigmaR, alphaL, nL, alphaR, nR);
        
     TFile sigFile(signalfile);
     TTree* sigTree = (TTree*)sigFile.Get("tree");
@@ -58,7 +62,7 @@ void VBFH_to_gg_mjj_fit()
     RooDataSet* data = new RooDataSet("ggfmc","ggfmc",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*sigTree),Cut(cuttree)) ;
     data->Print() ;
 
-    RooNLLVar* nll = (RooNLLVar*)bern1->createNLL(*data);
+    RooNLLVar* nll = (RooNLLVar*)cb1->createNLL(*data);
   
     RooMinimizer minim(*nll);
     minim.setStrategy(1);
@@ -75,13 +79,14 @@ void VBFH_to_gg_mjj_fit()
     RooFitResult *result = minim.save("fitResult","Fit Results");
     result->Write();
   
-    RooPlot* dtframe = mjj->frame(Range(mind,maxd,kTRUE),Title("GluGluToHH dijet mass"));
+    RooPlot* dtframe = mjj->frame(Range(mind,maxd,kTRUE),Title("VH To gg dijet mass"));
     data->plotOn(dtframe);
-    bern1->plotOn(dtframe);
-    bern1->paramOn(dtframe,Layout(0.55)) ;
+    cb1->plotOn(dtframe);
+    cb1->paramOn(dtframe,Layout(0.55)) ;
     TCanvas* can1 = new TCanvas();
     dtframe->Draw();
     can1->SaveAs(path+filename+obs+".png");
     can1->SaveAs(path+filename+obs+".pdf");
+
 
 }

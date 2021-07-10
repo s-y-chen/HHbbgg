@@ -378,10 +378,15 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             //if(Jet_btagDeepB[i]>= 0.4184 && (Jet_pt[i] > 25)){
             
             if(Jet_pt[i] > 25){
-                bool eta_cut = (year=="2016" ? (fabs(Jet_eta[i]) < 2.4) : (fabs(Jet_eta[i]) < 2.5)); 
-                if(eta_cut) index_bjet.push_back(i);
+                float dR11bg = DeltaR(Jet_eta[i], Jet_phi[i], Photon_eta[index_ph1], Photon_phi[index_ph1]);
+                float dR12bg = DeltaR(Jet_eta[i], Jet_phi[i], Photon_eta[index_ph2], Photon_phi[index_ph2]);
+                if (dR11bg > 0.4 && dr12bg > 0.4){
+                    bool eta_cut = (year=="2016" ? (fabs(Jet_eta[i]) < 2.4) : (fabs(Jet_eta[i]) < 2.5)); 
+                    if(eta_cut) index_bjet.push_back(i);
+                }
             }
         }
+        
         //if(index_bjet.size()<2) continue;
         if(index_bjet.size()>1 && trig_decision){
             if(index_bjet.size()==2){
@@ -445,48 +450,22 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             }
         }   
           
-        //the first index is bjet, second is photon
-        float dR11bg = DeltaR(Jet_eta[index_bj1], Jet_phi[index_bj1], Photon_eta[index_ph1], Photon_phi[index_ph1]);
-        float dR12bg = DeltaR(Jet_eta[index_bj1], Jet_phi[index_bj1], Photon_eta[index_ph2], Photon_phi[index_ph2]);
-        float dR21bg = DeltaR(Jet_eta[index_bj2], Jet_phi[index_bj2], Photon_eta[index_ph1], Photon_phi[index_ph1]);
-        float dR22bg = DeltaR(Jet_eta[index_bj2], Jet_phi[index_bj2], Photon_eta[index_ph2], Photon_phi[index_ph2]);     
           
         // first index if gen bjet, second is recon bjet
         float dR11bb = DeltaR(GenPart_eta[bjet1_index_tmp], GenPart_phi[bjet1_index_tmp], Jet_eta[index_bj1], Jet_phi[index_bj1]);
         float dR12bb = DeltaR(GenPart_eta[bjet1_index_tmp], GenPart_phi[bjet1_index_tmp], Jet_eta[index_bj2], Jet_phi[index_bj2]);
         float dR21bb = DeltaR(GenPart_eta[bjet2_index_tmp], GenPart_phi[bjet2_index_tmp], Jet_eta[index_bj1], Jet_phi[index_bj1]);
         float dR22bb = DeltaR(GenPart_eta[bjet2_index_tmp], GenPart_phi[bjet2_index_tmp], Jet_eta[index_bj2], Jet_phi[index_bj2]);
-        if(dR11bg > 0.4 && dR12bg > 0.4 && dR21bg > 0.4 && dR22bg > 0.4 && index_bj1 >= 0){ // added prior selection
-                TLorentzVector bjet_1, bjet_2, dibjet;
-                bjet_1.SetPtEtaPhiM(Jet_pt[index_bj1],Jet_eta[index_bj1],Jet_phi[index_bj1],0);
-                bjet_2.SetPtEtaPhiM(Jet_pt[index_bj2],Jet_eta[index_bj2],Jet_phi[index_bj2],0);
-                dibjet = bjet_1 + bjet_2;
-                dibjet_condition_mass = dibjet.M();
-                dibjet_condition_eta = dibjet.Eta();
-                dibjet_condition_pt = dibjet.Pt();
-            
-                TLorentzVector bjet_1_corr, bjet_2_corr, dibjet_corr;
-                bjet_1_corr.SetPtEtaPhiM(Jet_pt[index_bj1] * Jet_bRegCorr[index_bj1],Jet_eta[index_bj1],Jet_phi[index_bj1],0);
-                bjet_2_corr.SetPtEtaPhiM(Jet_pt[index_bj2] * Jet_bRegCorr[index_bj2] ,Jet_eta[index_bj2],Jet_phi[index_bj2],0);
-                dibjet_corr = bjet_1_corr + bjet_2_corr;
-                dibjet_condition_corr_mass = dibjet_corr.M();
-                dibjet_condition_corr_eta = dibjet_corr.Eta();
-                dibjet_condition_corr_pt = dibjet_corr.Pt();
-            
-            if(dR11bb<dR21bb){
-                gen_index1_matched_reco_bjet = bjet1_index_tmp;
-                gen_index2_matched_reco_bjet = bjet2_index_tmp;
-          
-            } 
-            else {
-                gen_index1_matched_reco_bjet = bjet2_index_tmp;
-                gen_index2_matched_reco_bjet = bjet1_index_tmp;
-            }  
-        }
-        else{
-            index_bj1 = -800.;
-            index_bj2 = -800.;
-        }
+       
+        if(dR11bb<dR21bb){
+            gen_index1_matched_reco_bjet = bjet1_index_tmp;
+            gen_index2_matched_reco_bjet = bjet2_index_tmp;
+        } 
+        else {
+            gen_index1_matched_reco_bjet = bjet2_index_tmp;
+             gen_index2_matched_reco_bjet = bjet1_index_tmp;
+        }  
+        
       
         //trigger if statementgen
         t_run =run;

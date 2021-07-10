@@ -15,6 +15,7 @@
 #include "TAxis.h"
 #include "TFile.h"
 #include "TH1.h"
+
 using namespace RooFit ;
 using namespace std ;
 
@@ -41,32 +42,10 @@ void glugluH_to_gg_mjj_fit()
     RooRealVar a1("a1","a1", 1,0.1,1000);
     RooRealVar a2("a2","a2", 2,0.1,1000);
     RooRealVar a3("a3","a3", 3,0.1,1000);
-    //RooRealVar a4("a4","a4", 4,0.1,1000);
-    //RooRealVar a5("a5","a5", 5,0.1,1000);
-    //RooRealVar a6("a6","a6", 6,0.1,1000);
-    RooAbsPdf* bern1 = new RooBernstein("bern1", "bern1", *mjj, RooArgList(a1, a2, a3));
-
-    // Bernstein2 pdf
-    RooRealVar b1("b1","b1", 7,0.1,100);
-    RooRealVar b2("b2","b2", 8,0.1,100);
-    RooRealVar b3("b3","b3", 9,0.1,100);
-    //RooRealVar b4("b4","b4", 10,0.1,100);
-    //RooRealVar b5("b5","b5", 11,0.1,100);
-    //RooRealVar b6("b6","b6", 12,0.1,100);
-    RooAbsPdf* bern2 = new RooBernstein("bern2", "bern2", *mjj, RooArgList(b1, b2, b3));
-    
-    // Bernstein3 pdf
-    RooRealVar c1("c1","c1", 13,0.1,100);
-    RooRealVar c2("c2","c2", 14,0.1,100);
-    RooRealVar c3("c3","c3", 15,0.1,100);
-    //RooRealVar c4("c4","c4", 16,0.1,100);
-    //RooRealVar c5("c5","c5", 17,0.1,100);
-    //RooRealVar c6("c6","c6", 18,0.1,100);
-    RooAbsPdf* bern3 = new RooBernstein("bern3", "bern3", *mjj, RooArgList(c1, c2, c3));
-    
-    RooRealVar* frac1 = new RooRealVar("frac1","fraction of bern1",0.1,0.0,1) ;
-    RooRealVar* frac2 = new RooRealVar("frac2","fraction of bern2",0.1,0.0,1) ;
-    RooAbsPdf* model = new RooAddPdf("model","bn1+bn2",RooArgList(*bern1, *bern2, *bern3),RooArgList(*frac1, *frac2)) ;
+    RooRealVar a4("a4","a4", 4,0.1,1000);
+    RooRealVar a5("a5","a5", 5,0.1,1000);
+    RooRealVar a6("a6","a6", 6,0.1,1000);
+    RooAbsPdf* bern1 = new RooBernstein("bern1", "bern1", *mjj, RooArgList(a1, a2, a3, a4, a5, a6));
        
     TFile sigFile(signalfile);
     TTree* sigTree = (TTree*)sigFile.Get("tree");
@@ -79,7 +58,7 @@ void glugluH_to_gg_mjj_fit()
     RooDataSet* data = new RooDataSet("ggfmc","ggfmc",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*sigTree),Cut(cuttree)) ;
     data->Print() ;
 
-    RooNLLVar* nll = (RooNLLVar*)model->createNLL(*data);
+    RooNLLVar* nll = (RooNLLVar*)bern1->createNLL(*data);
   
     RooMinimizer minim(*nll);
     minim.setStrategy(1);
@@ -98,10 +77,8 @@ void glugluH_to_gg_mjj_fit()
   
     RooPlot* dtframe = mjj->frame(Range(mind,maxd,kTRUE),Title("GluGluToHH dijet mass"));
     data->plotOn(dtframe);
-    model->plotOn(dtframe);
-    model->plotOn(dtframe, Components(*bern1), LineStyle(kDashed), LineColor(kGreen));
-    model->plotOn(dtframe, Components(*bern2), LineStyle(kDashed), LineColor(kRed));
-    model->paramOn(dtframe,Layout(0.55)) ;
+    bern1->plotOn(dtframe);
+    bern1->paramOn(dtframe,Layout(0.55)) ;
     TCanvas* can1 = new TCanvas();
     dtframe->Draw();
     can1->SaveAs(path+filename+obs+".png");
