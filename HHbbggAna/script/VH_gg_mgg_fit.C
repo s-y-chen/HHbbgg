@@ -22,7 +22,7 @@ using namespace std ;
 
 
 
-void VH_gg_mjj_fit()
+void VH_gg_mgg_fit()
 {
     gSystem->Load("RooCrystalBall_cxx.so");
     
@@ -36,14 +36,14 @@ void VH_gg_mjj_fit()
     TString max = "200";
     double mind = min.Atof();
     double maxd = max.Atof();
-    TString obs = "dibjet_condition_corr_mass"; 
+    TString obs = "diphoton_mass"; 
     TString cuttree = obs + " < " + max + " && " + obs + " > " + min;
 
     // Declare observable x
     RooRealVar* mjj = new RooRealVar(obs,obs,125,mind,maxd) ;
     
     // CB
-    RooRealVar m0("m0","m0", 90,0.1,1000);
+    RooRealVar m0("m0","m0", 125,0.1,1000);
     RooRealVar alphaL("alphaL","alphaL", 60,0.1,1000);
     RooRealVar nL("nL","nL", 4,0.1,1000);
     RooRealVar sigmaL("sigmaL","sigmaL", 5,0.1,1000);
