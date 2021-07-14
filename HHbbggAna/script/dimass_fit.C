@@ -19,7 +19,7 @@ using namespace RooFit ;
 using namespace std ;
 
 
-void fit_mass(string rt_file_name, string rt_file_path, string obs_var){
+void gauss_fit(string rt_file_name, string rt_file_path, string obs_var){
     TString path = "plots/sigfit/"; 
     TString filename =  rt_file_name; // change to match sample name
  
@@ -92,8 +92,208 @@ void fit_mass(string rt_file_name, string rt_file_path, string obs_var){
     model->paramOn(dtframe,Layout(0.55)) ;
     TCanvas* c1 = new TCanvas();
     dtframe->Draw();
-    c1->SaveAs(path+filename+obs+".png");
-    c1->SaveAs(path+filename+obs+".pdf");
+    c1->SaveAs(path+filename+obs+"_gauss.png");
+    c1->SaveAs(path+filename+obs+"_gauss.pdf");
+}
+
+
+void CB_fit(string rt_file_name, string rt_file_path, string obs_var)
+{
+    gSystem->Load("RooCrystalBall_cxx.so");
+    
+    TString path = "plots/sigfit/"; 
+    TString filename =  rt_file_name; // change to match sample name
+ 
+    //change this to the path of signal sample you want to work with
+    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/" +rt_file_path;
+ 
+    TString min = "100";
+    TString max = "150";
+    double mind = min.Atof();
+    double maxd = max.Atof();
+    TString obs = obs_var; 
+    TString cuttree = obs + " < " + max + " && " + obs + " > " + min;
+
+    // Declare observable x
+    RooRealVar* mjj = new RooRealVar(obs,obs,125,mind,maxd) ;
+    
+    // CB
+    RooRealVar m0("m0","m0", 125,0.1,200);
+    RooRealVar alphaL("alphaL","alphaL", 120,0.1,200);
+    RooRealVar nL("nL","nL", 4,0.1,100);
+    RooRealVar sigmaL("sigmaL","sigmaL", 5,0.1,100);
+    RooRealVar alphaR("alphaR","alphaR", 130,0.1,200);
+    RooRealVar nR("nR","nR", 4,0.1,100);
+    RooRealVar sigmaR("sigmaR","sigmaR", 5,0.1,100);
+    
+    RooAbsPdf* cb1 = new RooCrystalBall("cb1", "cb1", *mjj, m0, sigmaL, sigmaR, alphaL, nL, alphaR, nR);
+       
+    TFile sigFile(signalfile);
+    TTree* sigTree = (TTree*)sigFile.Get("tree");
+    RooRealVar* evWeight = new RooRealVar("genweight","genweight",1,-1e-10,1e10) ;
+
+    RooArgSet obsAndWeight;
+    obsAndWeight.add(*mjj);
+    obsAndWeight.add(*evWeight);
+
+    RooDataSet* data = new RooDataSet("ggfmc","ggfmc",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*sigTree),Cut(cuttree)) ;
+    data->Print() ;
+
+    RooNLLVar* nll = (RooNLLVar*)cb1->createNLL(*data);
+  
+    RooMinimizer minim(*nll);
+    minim.setStrategy(1);
+    minim.setPrintLevel(1);
+    minim.setEps(1);
+    int status = minim.minimize("Minuit2", "Migrad");
+  
+    /*
+    RooArgSet POIs(*mean1, *sigma1, *mean2, *sigma2, *frac1, *frac2);
+    RooMinuit minim(*nll);
+    minim.migrad() ;
+    minim.minos(POIs) ;
+    */
+    RooFitResult *result = minim.save("fitResult","Fit Results");
+    result->Write();
+  
+    RooPlot* dtframe = mjj->frame(Range(mind,maxd,kTRUE),Title("mass"));
+    data->plotOn(dtframe);
+    cb1->plotOn(dtframe);
+    cb1->paramOn(dtframe,Layout(0.55)) ;
+    TCanvas* can1 = new TCanvas();
+    dtframe->Draw();
+    can1->SaveAs(path+filename+obs+"_cb.png");
+    can1->SaveAs(path+filename+obs+"_cb.pdf");
+}
+
+
+void Bernstein_fit(string rt_file_name, string rt_file_path, string obs_var)
+{
+    TString path = "plots/sigfit/"; 
+    TString filename =  rt_file_name; // change to match sample name
+ 
+    //change this to the path of signal sample you want to work with
+    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/"  +rt_file_path;
+ 
+    TString min = "100";
+    TString max = "150";
+    double mind = min.Atof();
+    double maxd = max.Atof();
+    TString obs = obs_var;
+    TString cuttree = obs + " < " + max + " && " + obs + " > " + min;
+    
+    // Declare observable x
+    RooRealVar* mjj = new RooRealVar(obs,obs,125,mind,maxd) ;
+    
+    // Bernstein1 pdf
+    RooRealVar a1("a1","a1", 1,0.1,1000);
+    RooRealVar a2("a2","a2", 2,0.1,1000);
+    RooRealVar a3("a3","a3", 3,0.1,1000);
+    RooRealVar a4("a4","a4", 4,0.1,1000);
+    //RooRealVar a5("a5","a5", 5,0.1,1000);
+    //RooRealVar a6("a6","a6", 6,0.1,1000);
+    RooAbsPdf* bern1 = new RooBernstein("bern1", "bern1", *mjj, RooArgList(a1, a2, a3, a4));
+    
+       
+    TFile sigFile(signalfile);
+    TTree* sigTree = (TTree*)sigFile.Get("tree");
+    RooRealVar* evWeight = new RooRealVar("genweight","genweight",1,-1e-10,1e10) ;
+
+    RooArgSet obsAndWeight;
+    obsAndWeight.add(*mjj);
+    obsAndWeight.add(*evWeight);
+
+    RooDataSet* data = new RooDataSet("ggfmc","ggfmc",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*sigTree),Cut(cuttree)) ;
+    data->Print() ;
+
+    RooNLLVar* nll = (RooNLLVar*)bern1->createNLL(*data);
+  
+    RooMinimizer minim(*nll);
+    minim.setStrategy(1);
+    minim.setPrintLevel(1);
+    minim.setEps(1);
+    int status = minim.minimize("Minuit2", "Migrad");
+  
+    /*
+    RooArgSet POIs(*mean1, *sigma1, *mean2, *sigma2, *frac1, *frac2);
+    RooMinuit minim(*nll);
+    minim.migrad() ;
+    minim.minos(POIs) ;
+    */
+    RooFitResult *result = minim.save("fitResult","Fit Results");
+    result->Write();
+  
+    RooPlot* dtframe = mjj->frame(Range(mind,maxd,kTRUE),Title("mass"));
+    data->plotOn(dtframe);
+    bern1->plotOn(dtframe);
+    bern1->paramOn(dtframe,Layout(0.55)) ;
+    TCanvas* can1 = new TCanvas();
+    dtframe->Draw();
+    can1->SaveAs(path+filename+obs+"_bern.png");
+    can1->SaveAs(path+filename+obs+"_bern.pdf");
+
+}
+
+
+
+void exponential_fit(string rt_file_name, string rt_file_path, string obs_var){
+    
+    TString path = "plots/sigfit/"; 
+    TString filename =  rt_file_name; // change to match sample name
+ 
+    //change this to the path of signal sample you want to work with
+    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/" + rt_file_path;
+ 
+    TString min = "100";
+    TString max = "150";
+    double mind = min.Atof();
+    double maxd = max.Atof();
+    TString obs = obs_var; 
+    TString cuttree = obs + " < " + max + " && " + obs + " > " + min;
+
+    // Declare observable x
+    RooRealVar* mjj = new RooRealVar(obs,obs,125,mind,maxd) ;
+    
+    // Exponential
+    RooRealVar k("k", "k", -3, -100, 0.1);
+    RooAbsPdf* ex1 = new RooExponential("ex1", "ex1", *mjj, k);
+       
+    TFile sigFile(signalfile);
+    TTree* sigTree = (TTree*)sigFile.Get("tree");
+    RooRealVar* evWeight = new RooRealVar("genweight","genweight",1,-1e-10,1e10) ;
+
+    RooArgSet obsAndWeight;
+    obsAndWeight.add(*mjj);
+    obsAndWeight.add(*evWeight);
+
+    RooDataSet* data = new RooDataSet("ggfmc","ggfmc",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*sigTree),Cut(cuttree)) ;
+    data->Print() ;
+
+    RooNLLVar* nll = (RooNLLVar*)ex1->createNLL(*data);
+  
+    RooMinimizer minim(*nll);
+    minim.setStrategy(1);
+    minim.setPrintLevel(1);
+    minim.setEps(1);
+    int status = minim.minimize("Minuit2", "Migrad");
+  
+    /*
+    RooArgSet POIs(*mean1, *sigma1, *mean2, *sigma2, *frac1, *frac2);
+    RooMinuit minim(*nll);
+    minim.migrad() ;
+    minim.minos(POIs) ;
+    */
+    RooFitResult *result = minim.save("fitResult","Fit Results");
+    result->Write();
+  
+    RooPlot* dtframe = mjj->frame(Range(mind,maxd,kTRUE),Title("VH To gg dijet mass"));
+    data->plotOn(dtframe);
+    ex1->plotOn(dtframe);
+    ex1->paramOn(dtframe,Layout(0.55)) ;
+    TCanvas* can1 = new TCanvas();
+    dtframe->Draw();
+    can1->SaveAs(path+filename+obs+"_expon.png");
+    can1->SaveAs(path+filename+obs+"_expon.pdf");
 }
 
 void dimass_fit(){
@@ -102,8 +302,16 @@ void dimass_fit(){
     
     string paths [10] = {"job_1_ntuple0625v1/GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8.root", "job_2_ntuple0625v1/VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8.root", "job_3_ntuple0625v1/ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8.root", "job_4_ntuple0625v1/VBFHToGG_M125_13TeV_amcatnlo_pythia8.root", "job_5_ntuple0625v1/GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8.root", "job_6_ntuple0625v1/GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root", "job_7_ntuple0625v1/GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root", "job_8_ntuple0625v1/DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa.root", "job_9_ntuple0625v1/DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa.root", "job_10_ntuple0625v1/DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa.root"};
    
-    for (int i=0; i< 10; i++){
-        fit_mass(names[i], paths[i], "diphoton_mass");
-        fit_mass(names[i], paths[i], "dibjet_condition_corr_mass");
+    for (int i=0; i< 5; i++){
+        gauss_fit(names[i], paths[i], "diphoton_mass");
+        CB_fit(names[i], paths[i], "diphoton_mass");
     }
+    
+    gauss_fit(names[0], paths[0], "dibjet_condition_corr_mass"); //ggHH signal
+    CB_fit(names[0], paths[0], "dibjet_condition_corr_mass"); //ggHH signal
+    Bernstein_fit(names[3], paths[3], "dibjet_condition_corr_mass"); //VBFH
+    Bernstein_fit(names[4], paths[4], "dibjet_condition_corr_mass"); // ggH
+    gauss_fit(names[2], paths[2], "dibjet_condition_corr_mass"); // ttH
+    exponential_fit(names[1], paths[1], "dibjet_condition_corr_mass"); // VH
+    
 }

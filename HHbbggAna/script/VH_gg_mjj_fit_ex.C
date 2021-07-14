@@ -22,9 +22,7 @@ using namespace std ;
 
 
 
-void VH_gg_mjj_fit()
-{
-    gSystem->Load("RooCrystalBall_cxx.so");
+void VH_gg_mjj_fit_ex(){
     
     TString path = "plots/sigfit/"; 
     TString filename =  "VHToGG"; // change to match sample name
@@ -42,16 +40,9 @@ void VH_gg_mjj_fit()
     // Declare observable x
     RooRealVar* mjj = new RooRealVar(obs,obs,125,mind,maxd) ;
     
-    // CB
-    RooRealVar m0("m0","m0", 90,0.1,1000);
-    RooRealVar alphaL("alphaL","alphaL", 60,0.1,1000);
-    RooRealVar nL("nL","nL", 4,0.1,1000);
-    RooRealVar sigmaL("sigmaL","sigmaL", 5,0.1,1000);
-    RooRealVar alphaR("alphaR","alphaR", 120,0.1,1000);
-    RooRealVar nR("nR","nR", 4,0.1,1000);
-    RooRealVar sigmaR("sigmaR","sigmaR", 5,0.1,1000);
-    
-    RooAbsPdf* cb1 = new RooCrystalBall("cb1", "cb1", *mjj, m0, sigmaL, sigmaR, alphaL, nL, alphaR, nR);
+    // Exponential
+    RooRealVar k("k", "k", -3, -100, 0.1);
+    RooAbsPdf* ex1 = new RooExponential("ex1", "ex1", *mjj, k);
        
     TFile sigFile(signalfile);
     TTree* sigTree = (TTree*)sigFile.Get("tree");
@@ -64,7 +55,7 @@ void VH_gg_mjj_fit()
     RooDataSet* data = new RooDataSet("ggfmc","ggfmc",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*sigTree),Cut(cuttree)) ;
     data->Print() ;
 
-    RooNLLVar* nll = (RooNLLVar*)cb1->createNLL(*data);
+    RooNLLVar* nll = (RooNLLVar*)ex1->createNLL(*data);
   
     RooMinimizer minim(*nll);
     minim.setStrategy(1);
@@ -83,8 +74,8 @@ void VH_gg_mjj_fit()
   
     RooPlot* dtframe = mjj->frame(Range(mind,maxd,kTRUE),Title("VH To gg dijet mass"));
     data->plotOn(dtframe);
-    cb1->plotOn(dtframe);
-    cb1->paramOn(dtframe,Layout(0.55)) ;
+    ex1->plotOn(dtframe);
+    ex1->paramOn(dtframe,Layout(0.55)) ;
     TCanvas* can1 = new TCanvas();
     dtframe->Draw();
     can1->SaveAs(path+filename+obs+".png");

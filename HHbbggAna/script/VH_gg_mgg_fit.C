@@ -32,8 +32,8 @@ void VH_gg_mgg_fit()
     //change this to the path of signal sample you want to work with
     TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/job_2_ntuple0625v1/VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8.root";
  
-    TString min = "0";
-    TString max = "200";
+    TString min = "110";
+    TString max = "140";
     double mind = min.Atof();
     double maxd = max.Atof();
     TString obs = "diphoton_mass"; 
@@ -44,12 +44,12 @@ void VH_gg_mgg_fit()
     
     // CB
     RooRealVar m0("m0","m0", 125,0.1,1000);
-    RooRealVar alphaL("alphaL","alphaL", 60,0.1,1000);
+    RooRealVar alphaL("alphaL","alphaL", 122,0.1,1000);
     RooRealVar nL("nL","nL", 4,0.1,1000);
-    RooRealVar sigmaL("sigmaL","sigmaL", 5,0.1,1000);
-    RooRealVar alphaR("alphaR","alphaR", 120,0.1,1000);
+    RooRealVar sigmaL("sigmaL","sigmaL", 1,0.1,1000);
+    RooRealVar alphaR("alphaR","alphaR", 128,0.1,1000);
     RooRealVar nR("nR","nR", 4,0.1,1000);
-    RooRealVar sigmaR("sigmaR","sigmaR", 5,0.1,1000);
+    RooRealVar sigmaR("sigmaR","sigmaR", 1,0.1,1000);
     
     RooAbsPdf* cb1 = new RooCrystalBall("cb1", "cb1", *mjj, m0, sigmaL, sigmaR, alphaL, nL, alphaR, nR);
        

@@ -22,13 +22,13 @@ using namespace std ;
 void sig_fit()
 {
     TString path = "plots/sigfit/"; 
-    TString filename =  "ttHToGG"; // change to match sample name
+    TString filename =  "ggHH_gauss"; // change to match sample name
  
     //change this to the path of signal sample you want to work with
-    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/job_3_ntuple0625v1/ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8.root";
+    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/job_1_ntuple0625v1/GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8.root";
  
-    TString min = "110";
-    TString max = "140";
+    TString min = "115";
+    TString max = "135";
     double mind = min.Atof();
     double maxd = max.Atof();
     TString obs = "diphoton_mass"; //dibjet_condition_corr_mass
