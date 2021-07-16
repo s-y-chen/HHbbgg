@@ -378,9 +378,9 @@ void HHbbggAnalyzer::clearTreeVectors(){
   genweight = -999.;
     
   // recon?
-  recon = -999.;
-  bjet_recon = -999.;
-  photon_recon = -999.;
+  recon = 0.;
+  bjet_recon = 0.;
+  photon_recon = 0.;
     
   // dibjet mass testing
   dibjet_condition_mass = -999.;

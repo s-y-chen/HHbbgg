@@ -22,10 +22,10 @@ using namespace std ;
 void sig_fit()
 {
     TString path = "plots/sigfit/"; 
-    TString filename =  "ggHH_gauss"; // change to match sample name
+    TString filename =  "ggH_gauss"; // change to match sample name
  
     //change this to the path of signal sample you want to work with
-    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/job_1_ntuple0625v1/GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8.root";
+    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/job_5_ntuple0625v1/GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8.root";
  
     TString min = "115";
     TString max = "135";
@@ -39,17 +39,17 @@ void sig_fit()
 
     //gauss1 pdf
     RooRealVar* mean1 = new RooRealVar("mean1","mean of gaussian",125,mind,maxd) ;
-    RooRealVar* sigma1 = new RooRealVar("sigma1","width of gaussian",10,0.1,100) ;
+    RooRealVar* sigma1 = new RooRealVar("sigma1","width of gaussian",1,0.1,10) ;
     RooAbsPdf* gauss1 = new RooGaussian("gauss1","gauss1",*mgg,*mean1,*sigma1) ; 
     
     //gauss2 pdf
     RooRealVar* mean2 = new RooRealVar("mean2","mean of gaussian",120,mind,maxd) ;
-    RooRealVar* sigma2 = new RooRealVar("sigma2","width of gaussian",10,0.1,100) ;
+    RooRealVar* sigma2 = new RooRealVar("sigma2","width of gaussian",1,0.1,10) ;
     RooAbsPdf* gauss2 = new RooGaussian("gauss2","gauss2",*mgg,*mean2,*sigma2) ; 
     
     //gauss3 pdf
     RooRealVar* mean3 = new RooRealVar("mean3","mean of gaussian",130,mind,maxd) ;
-    RooRealVar* sigma3 = new RooRealVar("sigma3","width of gaussian",10,0.1,100) ;
+    RooRealVar* sigma3 = new RooRealVar("sigma3","width of gaussian",1,0.1,10) ;
     RooAbsPdf* gauss3 = new RooGaussian("gauss3","gauss3",*mgg,*mean3,*sigma3) ; 
  
     RooRealVar* frac1 = new RooRealVar("frac1","fraction of gauss1",0.1,0.0,1) ;
@@ -84,7 +84,7 @@ void sig_fit()
     RooFitResult *result = minim.save("fitResult","Fit Results");
     result->Write();
   
-    RooPlot* dtframe = mgg->frame(Range(mind,maxd,kTRUE),Title("mass"));
+    RooPlot* dtframe = mgg->frame(Range(mind,maxd,kTRUE),Title("ggH Diphoton Mass"));
     data->plotOn(dtframe);
     model->plotOn(dtframe);
     model->plotOn(dtframe, Components(*gauss1), LineStyle(kDashed), LineColor(kGreen));

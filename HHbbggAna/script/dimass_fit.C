@@ -15,6 +15,7 @@
 #include "TAxis.h"
 #include "TFile.h"
 #include "TH1.h"
+#include "RooCrystalBall.h"
 using namespace RooFit ;
 using namespace std ;
 
@@ -26,8 +27,8 @@ void gauss_fit(string rt_file_name, string rt_file_path, string obs_var){
     //change this to the path of signal sample you want to work with
     TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/"+rt_file_path;
  
-    TString min = "110";
-    TString max = "140";
+    TString min = "115";
+    TString max = "135";
     double mind = min.Atof();
     double maxd = max.Atof();
     TString obs = obs_var;
@@ -38,17 +39,17 @@ void gauss_fit(string rt_file_name, string rt_file_path, string obs_var){
 
     //gauss1 pdf
     RooRealVar* mean1 = new RooRealVar("mean1","mean of gaussian",125,mind,maxd) ;
-    RooRealVar* sigma1 = new RooRealVar("sigma1","width of gaussian",10,0.1,100) ;
+    RooRealVar* sigma1 = new RooRealVar("sigma1","width of gaussian",5,0.1,50) ;
     RooAbsPdf* gauss1 = new RooGaussian("gauss1","gauss1",*mgg,*mean1,*sigma1) ; 
     
     //gauss2 pdf
     RooRealVar* mean2 = new RooRealVar("mean2","mean of gaussian",120,mind,maxd) ;
-    RooRealVar* sigma2 = new RooRealVar("sigma2","width of gaussian",10,0.1,100) ;
+    RooRealVar* sigma2 = new RooRealVar("sigma2","width of gaussian",5,0.1,50) ;
     RooAbsPdf* gauss2 = new RooGaussian("gauss2","gauss2",*mgg,*mean2,*sigma2) ; 
     
     //gauss3 pdf
     RooRealVar* mean3 = new RooRealVar("mean3","mean of gaussian",130,mind,maxd) ;
-    RooRealVar* sigma3 = new RooRealVar("sigma3","width of gaussian",10,0.1,100) ;
+    RooRealVar* sigma3 = new RooRealVar("sigma3","width of gaussian",5,0.1,50) ;
     RooAbsPdf* gauss3 = new RooGaussian("gauss3","gauss3",*mgg,*mean3,*sigma3) ; 
  
     RooRealVar* frac1 = new RooRealVar("frac1","fraction of gauss1",0.1,0.0,1) ;
@@ -107,8 +108,8 @@ void CB_fit(string rt_file_name, string rt_file_path, string obs_var)
     //change this to the path of signal sample you want to work with
     TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/" +rt_file_path;
  
-    TString min = "100";
-    TString max = "150";
+    TString min = "115";
+    TString max = "135";
     double mind = min.Atof();
     double maxd = max.Atof();
     TString obs = obs_var; 
@@ -118,11 +119,11 @@ void CB_fit(string rt_file_name, string rt_file_path, string obs_var)
     RooRealVar* mjj = new RooRealVar(obs,obs,125,mind,maxd) ;
     
     // CB
-    RooRealVar m0("m0","m0", 125,0.1,200);
-    RooRealVar alphaL("alphaL","alphaL", 120,0.1,200);
+    RooRealVar m0("m0","m0", 125, mind, maxd);
+    RooRealVar alphaL("alphaL","alphaL", 120,mind,125);
     RooRealVar nL("nL","nL", 4,0.1,100);
     RooRealVar sigmaL("sigmaL","sigmaL", 5,0.1,100);
-    RooRealVar alphaR("alphaR","alphaR", 130,0.1,200);
+    RooRealVar alphaR("alphaR","alphaR", 130,125,maxd);
     RooRealVar nR("nR","nR", 4,0.1,100);
     RooRealVar sigmaR("sigmaR","sigmaR", 5,0.1,100);
     
@@ -186,10 +187,10 @@ void Bernstein_fit(string rt_file_name, string rt_file_path, string obs_var)
     RooRealVar* mjj = new RooRealVar(obs,obs,125,mind,maxd) ;
     
     // Bernstein1 pdf
-    RooRealVar a1("a1","a1", 1,0.1,1000);
-    RooRealVar a2("a2","a2", 2,0.1,1000);
-    RooRealVar a3("a3","a3", 3,0.1,1000);
-    RooRealVar a4("a4","a4", 4,0.1,1000);
+    RooRealVar a1("a1","a1", 1,0.1,100);
+    RooRealVar a2("a2","a2", 2,0.1,100);
+    RooRealVar a3("a3","a3", 3,0.1,100);
+    RooRealVar a4("a4","a4", 4,0.1,100);
     //RooRealVar a5("a5","a5", 5,0.1,1000);
     //RooRealVar a6("a6","a6", 6,0.1,1000);
     RooAbsPdf* bern1 = new RooBernstein("bern1", "bern1", *mjj, RooArgList(a1, a2, a3, a4));
@@ -286,7 +287,7 @@ void exponential_fit(string rt_file_name, string rt_file_path, string obs_var){
     RooFitResult *result = minim.save("fitResult","Fit Results");
     result->Write();
   
-    RooPlot* dtframe = mjj->frame(Range(mind,maxd,kTRUE),Title("VH To gg dijet mass"));
+    RooPlot* dtframe = mjj->frame(Range(mind,maxd,kTRUE),Title("mass"));
     data->plotOn(dtframe);
     ex1->plotOn(dtframe);
     ex1->paramOn(dtframe,Layout(0.55)) ;

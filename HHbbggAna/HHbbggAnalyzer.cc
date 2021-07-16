@@ -380,7 +380,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             if(Jet_pt[i] > 25){
                 float dR11bg = DeltaR(Jet_eta[i], Jet_phi[i], Photon_eta[index_ph1], Photon_phi[index_ph1]);
                 float dR12bg = DeltaR(Jet_eta[i], Jet_phi[i], Photon_eta[index_ph2], Photon_phi[index_ph2]);
-                if (dR11bg > 0.4 && dr12bg > 0.4){
+                if (dR11bg > 0.4 && dR12bg > 0.4){
                     bool eta_cut = (year=="2016" ? (fabs(Jet_eta[i]) < 2.4) : (fabs(Jet_eta[i]) < 2.5)); 
                     if(eta_cut) index_bjet.push_back(i);
                 }
