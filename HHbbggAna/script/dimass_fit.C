@@ -58,7 +58,7 @@ void gauss_fit(string rt_file_name, string rt_file_path, string obs_var){
        
     TFile sigFile(signalfile);
     TTree* sigTree = (TTree*)sigFile.Get("tree");
-    RooRealVar* evWeight = new RooRealVar("genweight","genweight",1,-1e-10,1e10) ;
+    RooRealVar* evWeight = new RooRealVar("genweight","genweight",1,-1e10,1e10) ;
 
     RooArgSet obsAndWeight;
     obsAndWeight.add(*mgg);
@@ -120,18 +120,20 @@ void CB_fit(string rt_file_name, string rt_file_path, string obs_var)
     
     // CB
     RooRealVar m0("m0","m0", 125, mind, maxd);
-    RooRealVar alphaL("alphaL","alphaL", 120,mind,125);
-    RooRealVar nL("nL","nL", 4,0.1,100);
-    RooRealVar sigmaL("sigmaL","sigmaL", 5,0.1,100);
-    RooRealVar alphaR("alphaR","alphaR", 130,125,maxd);
-    RooRealVar nR("nR","nR", 4,0.1,100);
-    RooRealVar sigmaR("sigmaR","sigmaR", 5,0.1,100);
+
+    RooRealVar alphaL("alphaL","alphaL", 2, 0.1,10);
+    RooRealVar nL("nL","nL", 2,0.1,50);
+    RooRealVar sigmaL("sigmaL","sigmaL", 5,0.1,50);
+
+    RooRealVar alphaR("alphaR","alphaR", 2,0.1,10);
+    RooRealVar nR("nR","nR", 2,0.1,50);
+    RooRealVar sigmaR("sigmaR","sigmaR", 5,0.1,50);
     
     RooAbsPdf* cb1 = new RooCrystalBall("cb1", "cb1", *mjj, m0, sigmaL, sigmaR, alphaL, nL, alphaR, nR);
        
     TFile sigFile(signalfile);
     TTree* sigTree = (TTree*)sigFile.Get("tree");
-    RooRealVar* evWeight = new RooRealVar("genweight","genweight",1,-1e-10,1e10) ;
+    RooRealVar* evWeight = new RooRealVar("genweight","genweight",1,-1e10,1e10) ;
 
     RooArgSet obsAndWeight;
     obsAndWeight.add(*mjj);
@@ -198,7 +200,7 @@ void Bernstein_fit(string rt_file_name, string rt_file_path, string obs_var)
        
     TFile sigFile(signalfile);
     TTree* sigTree = (TTree*)sigFile.Get("tree");
-    RooRealVar* evWeight = new RooRealVar("genweight","genweight",1,-1e-10,1e10) ;
+    RooRealVar* evWeight = new RooRealVar("genweight","genweight",1,-1e10,1e10) ;
 
     RooArgSet obsAndWeight;
     obsAndWeight.add(*mjj);
@@ -261,7 +263,7 @@ void exponential_fit(string rt_file_name, string rt_file_path, string obs_var){
        
     TFile sigFile(signalfile);
     TTree* sigTree = (TTree*)sigFile.Get("tree");
-    RooRealVar* evWeight = new RooRealVar("genweight","genweight",1,-1e-10,1e10) ;
+    RooRealVar* evWeight = new RooRealVar("genweight","genweight",1,-1e10,1e10) ;
 
     RooArgSet obsAndWeight;
     obsAndWeight.add(*mjj);
@@ -303,7 +305,7 @@ void dimass_fit(){
     
     string paths [10] = {"job_1_ntuple0625v1/GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8.root", "job_2_ntuple0625v1/VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8.root", "job_3_ntuple0625v1/ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8.root", "job_4_ntuple0625v1/VBFHToGG_M125_13TeV_amcatnlo_pythia8.root", "job_5_ntuple0625v1/GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8.root", "job_6_ntuple0625v1/GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root", "job_7_ntuple0625v1/GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root", "job_8_ntuple0625v1/DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa.root", "job_9_ntuple0625v1/DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa.root", "job_10_ntuple0625v1/DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa.root"};
    
-    for (int i=0; i< 5; i++){
+    for (int i=0; i<5; i++){
         gauss_fit(names[i], paths[i], "diphoton_mass");
         CB_fit(names[i], paths[i], "diphoton_mass");
     }
