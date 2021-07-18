@@ -82,6 +82,8 @@ class HHbbggAnalyzer : public MainEvent {
   float dibjet_eta;
   float dibjet_mass;
   float bjet_delR;
+  int nbjet;
+    
   // bjet corrections
   float leading_bjet_pt_corr;
   float subleading_bjet_pt_corr;
@@ -312,6 +314,7 @@ void HHbbggAnalyzer::clearTreeVectors(){
   dibjet_eta = -999.;
   dibjet_mass = -999.;
   bjet_delR = -999.;
+  nbjet = -999.;
   // bjet corrections  
   leading_bjet_pt_corr = -999.;
   subleading_bjet_pt_corr = -999.;
@@ -440,6 +443,7 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("dibjet_mass_corr", &dibjet_mass_corr,"dibjet_mass_corr/f"); 
   tree->Branch("dibjet_eta_corr", &dibjet_eta_corr,"dibjet_eta_corr/f");
   tree->Branch("bjet_delR", &bjet_delR,"bjet_delR/f");
+  tree->Branch("nbjet", &nbjet,"nbjet/i");
     
   //bjet gen matched to reco information
   tree->Branch("gen_matched_LeadingBjet_pt", &gen_matched_LeadingBjet_pt, "gen_matched_LeadingBjet_pt/f");
