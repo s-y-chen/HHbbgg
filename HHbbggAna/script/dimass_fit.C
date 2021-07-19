@@ -310,11 +310,11 @@ void dimass_fit(){
         CB_fit(names[i], paths[i], "diphoton_mass");
     }
     
-    gauss_fit(names[0], paths[0], "dibjet_condition_corr_mass"); //ggHH signal
-    CB_fit(names[0], paths[0], "dibjet_condition_corr_mass"); //ggHH signal
-    Bernstein_fit(names[3], paths[3], "dibjet_condition_corr_mass"); //VBFH
-    Bernstein_fit(names[4], paths[4], "dibjet_condition_corr_mass"); // ggH
-    gauss_fit(names[2], paths[2], "dibjet_condition_corr_mass"); // ttH
-    exponential_fit(names[1], paths[1], "dibjet_condition_corr_mass"); // VH
+    gauss_fit(names[0], paths[0], "dibjet_mass_corr"); //ggHH signal
+    CB_fit(names[0], paths[0], "dibjet_mass_corr"); //ggHH signal
+    Bernstein_fit(names[3], paths[3], "dibjet_mass_corr"); //VBFH
+    Bernstein_fit(names[4], paths[4], "dibjet_mass_corr"); // ggH
+    gauss_fit(names[2], paths[2], "dibjet_mass_corr"); // ttH
+    exponential_fit(names[1], paths[1], "dibjet_mass_corr"); // VH
     
 }

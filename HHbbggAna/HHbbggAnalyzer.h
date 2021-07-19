@@ -155,13 +155,6 @@ class HHbbggAnalyzer : public MainEvent {
   float recon;
   float bjet_recon;
   float photon_recon;
-    
-  float dibjet_condition_mass;
-  float dibjet_condition_pt;
-  float dibjet_condition_eta;
-  float dibjet_condition_corr_mass;
-  float dibjet_condition_corr_pt;
-  float dibjet_condition_corr_eta;
   
 };
 
@@ -381,14 +374,6 @@ void HHbbggAnalyzer::clearTreeVectors(){
   recon = 0.;
   bjet_recon = 0.;
   photon_recon = 0.;
-    
-  // dibjet mass testing
-  dibjet_condition_mass = -999.;
-  dibjet_condition_pt = -999.;
-  dibjet_condition_eta = -999.;
-  dibjet_condition_corr_mass = -999.;
-  dibjet_condition_corr_pt = -999.;
-  dibjet_condition_corr_eta = -999.;
   
 }
 
@@ -497,11 +482,5 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("recon", &recon, "recon/f");
   tree->Branch("bjet_recon", &bjet_recon, "bjet_recon/f");
   tree->Branch("photon_recon", &photon_recon, "photon_recon/f");
-  tree->Branch("dibjet_condition_mass", &dibjet_condition_mass, "dibjet_condition_mass/f");
-  tree->Branch("dibjet_condition_pt", &dibjet_condition_pt, "dibjet_condition_pt/f");
-  tree->Branch("dibjet_condition_eta", &dibjet_condition_eta, "dibjet_condition_eta/f");
-  tree->Branch("dibjet_condition_corr_mass", &dibjet_condition_corr_mass, "dibjet_condition_corr_mass/f");
-  tree->Branch("dibjet_condition_corr_pt", &dibjet_condition_corr_pt, "dibjet_condition_corr_pt/f");
-  tree->Branch("dibjet_condition_corr_eta", &dibjet_condition_corr_eta, "dibjet_condition_corr_eta/f");
 }
 #endif // #ifdef HHbbggAnalyzer_cxx
