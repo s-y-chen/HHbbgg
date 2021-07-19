@@ -83,7 +83,6 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
     BTagCalibrationReader reader(BTagEntry::OP_MEDIUM,  // operating point
 			       "central",             // central sys type
 			       {"up", "down"});      // other sys types
-
     reader.load(calib,                // calibration instance
 	      BTagEntry::FLAV_B,    // btag flavour
 	      "comb")       ;        // measurement type
