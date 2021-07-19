@@ -59,10 +59,10 @@ void HHbbggAnalyzer::cal_sumOfgw(string samplename, const char *isData)
 void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char *isRunGen)
 { 
     if (fChain == 0) return;
-    //clearTreeVectors();
-    //cout<<"cleared tree vectors\n";
-    //BookTreeBranches();
-    //cout<<"booked tree branches\n";
+    clearTreeVectors();
+    cout<<"cleared tree vectors\n";
+    BookTreeBranches();
+    cout<<"booked tree branches\n";
     float muon_mass = 0.1056583745;
 
     float lumi = 300; //fb-1
@@ -271,13 +271,15 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         //start of reco selection
         
         //HLT cut 
-        bool trig_decision = false;
         //2016 : HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90_v* 2017 and 2018: HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90_v*
         //see AN2017_286 Section 3.1 Trigger Selection
-        if( year=="2016" && HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision =true;
-        if( year=="2017" && HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision =true;
-        if( year=="2018" && (HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 || HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass95==1) ) trig_decision =true;
-        //cout <<"trig_decision "<<trig_decision<<endl;
+        if( year=="2016" && HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision = 1;
+        if( year=="2017" && HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision = 1;
+        if( year=="2018" && (HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 || HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass95==1) ) trig_decision = 1;
+        if(trig_decision<1) cout <<"trig_decision "<<trig_decision<<endl;
+        
+        //Primary vertex cut
+        if(PV_npvsGood > 0) pv_pass = 1;
         
         //photon selection
         int index_ph1(-999), index_ph2(-999);
@@ -301,7 +303,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             } 
         }
 
-        if(index_photon.size()>1 && trig_decision){ //else continue;
+        if( (index_photon.size()>1) && (trig_decision==1) ){ 
             if(index_photon.size()==2){
                 TLorentzVector photon_1, photon_2, diphoton;
                 photon_1.SetPtEtaPhiM(Photon_pt[0],Photon_eta[0],Photon_phi[0],0);
@@ -365,7 +367,8 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                     float dRbg2 = DeltaR(Jet_eta[i], Jet_phi[i], Photon_eta[index_ph2], Photon_phi[index_ph2]);
                     if (dRbg1 > 0.4 && dRbg2 > 0.4){
                         bool eta_cut = (year=="2016" ? (fabs(Jet_eta[i]) < 2.4) : (fabs(Jet_eta[i]) < 2.5)); 
-                        if(eta_cut) index_bjet.push_back(i);
+                        bool jet_puid_cut = jet_puid_sel("loose", Jet_puId[i], Jet_pt[i]);
+                        if(eta_cut && jet_puid_cut) index_bjet.push_back(i);
                     }
                 }
             }//end of nJet loop

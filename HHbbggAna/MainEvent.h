@@ -26,8 +26,9 @@ public :
    //Bool_t  Notify();
    //Int_t   GetEntry(Long64_t entry, Int_t getall = 0) { return fChain ? fChain->GetTree()->GetEntry(entry, getall) : 0; }
    double  DeltaPhi(double, double);
-   double  DeltaR(double eta1, double phi1, double eta2, double phi2);
-    
+   double  DeltaR(double, double, double, double);
+   bool jet_puid_sel(TString, int, float);
+       
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
 
