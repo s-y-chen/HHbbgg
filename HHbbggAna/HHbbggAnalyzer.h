@@ -61,6 +61,9 @@ class HHbbggAnalyzer : public MainEvent {
   uint t_run;
   uint t_luminosityBlock;
   ulong t_event;
+    
+  int trig_decision;
+  int pv_pass;
   float leading_photon_pt;
   float leading_photon_eta;
   float leading_photon_phi;
@@ -293,6 +296,8 @@ void HHbbggAnalyzer::clearTreeVectors(){
   t_run = 0;
   t_luminosityBlock = 0;
   t_event = 0;
+  trig_decision = 0;
+  pv_pass = 0;
   leading_photon_pt = -999.;
   leading_photon_eta = -999.;
   leading_photon_phi = -999.;
@@ -397,12 +402,14 @@ void HHbbggAnalyzer::clearTreeVectors(){
 
 void HHbbggAnalyzer::BookTreeBranches(){
   tree = new TTree("tree","tree");
-  tree->SetAutoSave(10000);
+  //tree->SetAutoSave(10000);
 
   tree->Branch("run", &t_run,"run/i");
   tree->Branch("lumi", &t_luminosityBlock,"lumi/i");
   tree->Branch("event", &t_event,"event/l");
-  
+  tree->Branch("trig_decision", &trig_decision, "trig_decision/i");
+  tree->Branch("pv_pass", &pv_pass, "pv_pass/i");    
+      
   //photon
   tree->Branch("leading_photon_pt", &leading_photon_pt,"leading_photon_pt/f");
   tree->Branch("leading_photon_eta", &leading_photon_eta,"leading_photon_eta/f");
