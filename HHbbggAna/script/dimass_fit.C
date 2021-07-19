@@ -114,10 +114,12 @@ void CB_fit(string rt_file_name, string rt_file_path, string obs_var)
     double maxd = max.Atof();
     TString obs = obs_var; 
     TString cuttree = obs + " < " + max + " && " + obs + " > " + min;
+    //TString cuttree = obs + " < " + max + " && " + obs + " > " + min + " && genLeadingH_pt > 400 ";
 
     // Declare observable x
     RooRealVar* mjj = new RooRealVar(obs,obs,125,mind,maxd) ;
-    
+    //RooRealVar* hpt = new RooRealVar("genLeadingH_pt","genLeadingH_pt",125,0,100000) ;
+
     // CB
     RooRealVar m0("m0","m0", 125, mind, maxd);
 
@@ -137,6 +139,7 @@ void CB_fit(string rt_file_name, string rt_file_path, string obs_var)
 
     RooArgSet obsAndWeight;
     obsAndWeight.add(*mjj);
+    //obsAndWeight.add(*hpt);
     obsAndWeight.add(*evWeight);
 
     RooDataSet* data = new RooDataSet("ggfmc","ggfmc",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*sigTree),Cut(cuttree)) ;
@@ -156,9 +159,11 @@ void CB_fit(string rt_file_name, string rt_file_path, string obs_var)
     minim.migrad() ;
     minim.minos(POIs) ;
     */
+    TFile f(path+"fit_result_cb.root","recreate");
     RooFitResult *result = minim.save("fitResult","Fit Results");
     result->Write();
-  
+    f.Close();
+ 
     RooPlot* dtframe = mjj->frame(Range(mind,maxd,kTRUE),Title("mass"));
     data->plotOn(dtframe);
     cb1->plotOn(dtframe);
@@ -305,16 +310,17 @@ void dimass_fit(){
     
     string paths [10] = {"job_1_ntuple0625v1/GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8.root", "job_2_ntuple0625v1/VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8.root", "job_3_ntuple0625v1/ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8.root", "job_4_ntuple0625v1/VBFHToGG_M125_13TeV_amcatnlo_pythia8.root", "job_5_ntuple0625v1/GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8.root", "job_6_ntuple0625v1/GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root", "job_7_ntuple0625v1/GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root", "job_8_ntuple0625v1/DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa.root", "job_9_ntuple0625v1/DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa.root", "job_10_ntuple0625v1/DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa.root"};
    
-    for (int i=0; i<5; i++){
-        gauss_fit(names[i], paths[i], "diphoton_mass");
-        CB_fit(names[i], paths[i], "diphoton_mass");
+    for (int i=0; i<1; i++){
+        //gauss_fit(names[i], paths[i], "diphoton_mass");
+        //CB_fit(names[i], paths[i], "diphoton_mass");
     }
     
-    gauss_fit(names[0], paths[0], "dibjet_mass_corr"); //ggHH signal
+    //gauss_fit(names[0], paths[0], "dibjet_condition_corr_mass"); //ggHH signal
     CB_fit(names[0], paths[0], "dibjet_mass_corr"); //ggHH signal
-    Bernstein_fit(names[3], paths[3], "dibjet_mass_corr"); //VBFH
-    Bernstein_fit(names[4], paths[4], "dibjet_mass_corr"); // ggH
-    gauss_fit(names[2], paths[2], "dibjet_mass_corr"); // ttH
-    exponential_fit(names[1], paths[1], "dibjet_mass_corr"); // VH
-    
+    /*
+    Bernstein_fit(names[3], paths[3], "dibjet_condition_corr_mass"); //VBFH
+    Bernstein_fit(names[4], paths[4], "dibjet_condition_corr_mass"); // ggH
+    gauss_fit(names[2], paths[2], "dibjet_condition_corr_mass"); // ttH
+    exponential_fit(names[1], paths[1], "dibjet_condition_corr_mass"); // VH
+    */
 }

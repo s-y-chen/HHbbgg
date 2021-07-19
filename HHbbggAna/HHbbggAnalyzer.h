@@ -61,6 +61,9 @@ class HHbbggAnalyzer : public MainEvent {
   uint t_run;
   uint t_luminosityBlock;
   ulong t_event;
+    
+  int trig_decision;
+  int pv_pass;
   float leading_photon_pt;
   float leading_photon_eta;
   float leading_photon_phi;
@@ -82,6 +85,8 @@ class HHbbggAnalyzer : public MainEvent {
   float dibjet_eta;
   float dibjet_mass;
   float bjet_delR;
+  int nbjet;
+    
   // bjet corrections
   float leading_bjet_pt_corr;
   float subleading_bjet_pt_corr;
@@ -284,6 +289,8 @@ void HHbbggAnalyzer::clearTreeVectors(){
   t_run = 0;
   t_luminosityBlock = 0;
   t_event = 0;
+  trig_decision = 0;
+  pv_pass = 0;
   leading_photon_pt = -999.;
   leading_photon_eta = -999.;
   leading_photon_phi = -999.;
@@ -305,6 +312,7 @@ void HHbbggAnalyzer::clearTreeVectors(){
   dibjet_eta = -999.;
   dibjet_mass = -999.;
   bjet_delR = -999.;
+  nbjet = -999.;
   // bjet corrections  
   leading_bjet_pt_corr = -999.;
   subleading_bjet_pt_corr = -999.;
@@ -379,12 +387,14 @@ void HHbbggAnalyzer::clearTreeVectors(){
 
 void HHbbggAnalyzer::BookTreeBranches(){
   tree = new TTree("tree","tree");
-  tree->SetAutoSave(10000);
+  //tree->SetAutoSave(10000);
 
   tree->Branch("run", &t_run,"run/i");
   tree->Branch("lumi", &t_luminosityBlock,"lumi/i");
   tree->Branch("event", &t_event,"event/l");
-  
+  tree->Branch("trig_decision", &trig_decision, "trig_decision/i");
+  tree->Branch("pv_pass", &pv_pass, "pv_pass/i");    
+      
   //photon
   tree->Branch("leading_photon_pt", &leading_photon_pt,"leading_photon_pt/f");
   tree->Branch("leading_photon_eta", &leading_photon_eta,"leading_photon_eta/f");
@@ -425,6 +435,7 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("dibjet_mass_corr", &dibjet_mass_corr,"dibjet_mass_corr/f"); 
   tree->Branch("dibjet_eta_corr", &dibjet_eta_corr,"dibjet_eta_corr/f");
   tree->Branch("bjet_delR", &bjet_delR,"bjet_delR/f");
+  tree->Branch("nbjet", &nbjet,"nbjet/i");
     
   //bjet gen matched to reco information
   tree->Branch("gen_matched_LeadingBjet_pt", &gen_matched_LeadingBjet_pt, "gen_matched_LeadingBjet_pt/f");
