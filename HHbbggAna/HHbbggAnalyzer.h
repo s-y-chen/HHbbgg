@@ -160,6 +160,15 @@ class HHbbggAnalyzer : public MainEvent {
   float recon;
   float bjet_recon;
   float photon_recon;
+    
+  // added ML vars
+  float leadingDeepBscore;
+  float subleadingDeepBscore;
+  float sumDeepBscore;
+  float leading_pho_pt_over_dimass;
+  float leading_bjet_pt_over_dimass;
+  float leading_bjet_pt_over_dimass_corr;
+
   
 };
 
@@ -382,6 +391,15 @@ void HHbbggAnalyzer::clearTreeVectors(){
   recon = 0.;
   bjet_recon = 0.;
   photon_recon = 0.;
+ 
+  // added ML vars
+  leadingDeepBscore = -999.;
+  subleadingDeepBscore = -999.;
+  sumDeepBscore = -999.;
+  leading_pho_pt_over_dimass = -999.;
+  leading_bjet_pt_over_dimass = -999.;
+  leading_bjet_pt_over_dimass_corr = -999.;
+
   
 }
 
@@ -493,5 +511,11 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("recon", &recon, "recon/f");
   tree->Branch("bjet_recon", &bjet_recon, "bjet_recon/f");
   tree->Branch("photon_recon", &photon_recon, "photon_recon/f");
+  tree->Branch("leadingDeepBscore", &leadingDeepBscore, "leadingDeepBscore/f");
+  tree->Branch("subleadingDeepBscore", &subleadingDeepBscore, "subleadingDeepBscore/f");
+  tree->Branch("sumDeepBscore", &sumDeepBscore, "sumDeepBscore/f");
+  tree->Branch("leading_pho_pt_over_dimass", &leading_pho_pt_over_dimass, "leading_pho_pt_over_dimass/f");
+  tree->Branch("leading_bjet_pt_over_dimass", &leading_bjet_pt_over_dimass, "leading_bjet_pt_over_dimass/f");
+  tree->Branch("leading_bjet_pt_over_dimass_corr", &leading_bjet_pt_over_dimass_corr, "leading_bjet_pt_over_dimass_corr/f");
 }
 #endif // #ifdef HHbbggAnalyzer_cxx

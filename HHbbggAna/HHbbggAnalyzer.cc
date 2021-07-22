@@ -431,6 +431,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                     dibjet_mass_corr = dibjet_corr.M();
                     dibjet_eta_corr = dibjet_corr.Eta();
                     bjet_delR = DeltaR(bjet_1.Eta(), bjet_1.Phi(), bjet_2.Eta(), bjet_2.Phi());
+                    sumDeepBscore = Jet_btagDeepB[index_bj1] + Jet_btagDeepB[index_bj2];
                 }//end of di-bjet mass window if  
                 
                 // first index if gen bjet, second is recon bjet; the goal is to match gen bjet and reco-bjet
@@ -458,6 +459,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
           leading_photon_pt=Photon_pt[index_ph1];
           leading_photon_eta=Photon_eta[index_ph1];
           leading_photon_phi=Photon_phi[index_ph1];
+          leading_pho_pt_over_dimass = leading_photon_pt / diphoton_mass;
         }
         if(index_ph2>=0){
           subleading_photon_pt=Photon_pt[index_ph2];
@@ -480,12 +482,16 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             leading_bjet_pt_corr=Jet_pt[index_bj1] * Jet_bRegCorr[index_bj1];
             leading_bjet_eta=Jet_eta[index_bj1];
             leading_bjet_phi=Jet_phi[index_bj1];
+            leadingDeepBscore = Jet_btagDeepB[index_bj1];
+            leading_bjet_pt_over_dimass = leading_bjet_pt / dibjet_mass;
+            leading_bjet_pt_over_dimass_corr = leading_bjet_pt_corr / dibjet_mass_corr;
         }
         if(index_bj2>=0){
             subleading_bjet_pt=Jet_pt[index_bj2];
             subleading_bjet_pt_corr=Jet_pt[index_bj2] * Jet_bRegCorr[index_bj2];
             subleading_bjet_eta=Jet_eta[index_bj2];
             subleading_bjet_phi=Jet_phi[index_bj2]; 
+            subleadingDeepBscore = Jet_btagDeepB[index_bj2];
         }
         if(gen_index1_matched_reco_bjet>=0){
             gen_matched_LeadingBjet_pt = GenJet_pt[gen_index1_matched_reco_bjet];
