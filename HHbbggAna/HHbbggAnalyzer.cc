@@ -433,6 +433,10 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                     bjet_delR = DeltaR(bjet_1.Eta(), bjet_1.Phi(), bjet_2.Eta(), bjet_2.Phi());
                     sumDeepBscore = Jet_btagDeepB[index_bj1] + Jet_btagDeepB[index_bj2];
                 }//end of di-bjet mass window if  
+                else{
+                    index_bj1 = -800;
+                    index_bj2 = -800;
+                }
                 
                 // first index if gen bjet, second is recon bjet; the goal is to match gen bjet and reco-bjet
                 float dR11bb = DeltaR(GenJet_eta[genjet1_index_tmp], GenJet_phi[genjet1_index_tmp], Jet_eta[index_bj1], Jet_phi[index_bj1]);
