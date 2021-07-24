@@ -30,4 +30,4 @@ env
 ulimit -s unlimited
 
 echo "to find raw ntuples for AOD ntuple starting from " $NJOB for $dataset "files in total"
-./analyzeHHbbgg Job${NJOB}_list.txt ${dataset}.root $dataset F T 2018 
+./analyzeHHbbgg Job${NJOB}_list.txt ${dataset}Job${NJOB}.root $dataset F T 2018 
