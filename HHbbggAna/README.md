@@ -18,3 +18,9 @@ nanoAOD:
 
 https://cms-nanoaod-integration.web.cern.ch/integration/cms-swCMSSW_10_6_19/mc102X_doc.html#Photon
 https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookNanoAOD#Photons
+
+cms datasets:
+
+https://twiki.cern.ch/twiki/bin/view/CMS/PdmVDataReprocessing
+https://twiki.cern.ch/twiki/bin/view/CMS/PdmVDataReprocessingNanoAODv7
+
