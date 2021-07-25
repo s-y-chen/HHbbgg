@@ -24,3 +24,43 @@ cms datasets:
 https://twiki.cern.ch/twiki/bin/view/CMS/PdmVDataReprocessing
 https://twiki.cern.ch/twiki/bin/view/CMS/PdmVDataReprocessingNanoAODv7
 
+data
+
+/EGamma/Run2018A-02Apr2020-v1/NANOAOD
+/EGamma/Run2018B-02Apr2020-v1/NANOAOD
+/EGamma/Run2018C-02Apr2020-v1/NANOAOD
+/EGamma/Run2018D-02Apr2020-v1/NANOAOD
+
+https://cmsweb.cern.ch/das/request?view=plain&limit=50&instance=prod%2Fglobal&input=dataset%3D%2F*DoubleEG*%2F*Run201*02Apr2020*%2FNANOAOD
+
+/DoubleEG/Run2016B-02Apr2020_ver1-v1/NANOAOD
+/DoubleEG/Run2016B-02Apr2020_ver2-v1/NANOAOD
+/DoubleEG/Run2016C-02Apr2020-v1/NANOAOD
+/DoubleEG/Run2016D-02Apr2020-v1/NANOAOD
+/DoubleEG/Run2016E-02Apr2020-v1/NANOAOD
+/DoubleEG/Run2016F-02Apr2020-v1/NANOAOD
+/DoubleEG/Run2016G-02Apr2020-v1/NANOAOD
+/DoubleEG/Run2016H-02Apr2020-v1/NANOAOD
+/DoubleEG/Run2017B-02Apr2020-v1/NANOAOD
+/DoubleEG/Run2017C-02Apr2020-v1/NANOAOD
+/DoubleEG/Run2017D-02Apr2020-v1/NANOAOD
+/DoubleEG/Run2017E-02Apr2020-v1/NANOAOD
+/DoubleEG/Run2017F-02Apr2020-v1/NANOAOD
+
+CMS DAS
+
+ The DAS command line tool dasgoclient is available in any CMSSW releases.
+
+    How can I use DAS CLI?
+
+See help section of the DAS CLI tool:
+
+dasgoclient --help # Go-based DAS CLI tool (recommended)
+dasgoclient --examples # provides list of queries it supports
+
+Here are few examples of DAS cli usage:
+
+dasgoclient --query="dataset=/EG/Run2010A*/AOD"
+dasgoclient --query="dataset=/EG/Run2010A*/AOD" --verbose=1
+dasgoclient --query="dataset=/EG/Run2010A*/AOD | grep dataset.name"
+dasgoclient --query="dataset=/EG/Run2010A*/AOD | grep dataset.name" --format=json
