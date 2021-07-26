@@ -202,7 +202,7 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   //float xsHH = 31.05; //fb
   //float BRHbb = 5.824E-01;
   //float BRHgg = 2.270E-03;
-    
+  //ref https://github.com/cms-analysis/flashgg/blob/dev_legacy_runII/MetaData/data/cross_sections.json    
   xs["GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"] = 31.05*5.824E-01*2.270E-03*2;
   xs["VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8"] = 2.257*0.00227*1.06*1000.;
   xs["ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8"] = 0.5071*0.00227*1.06*1000.;
@@ -214,6 +214,10 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   xs["DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa"] = 0.494*1000.;
   xs["DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa"] = 0.8674276*1000.;
   xs["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 84.4*1000.;
+  xs["TTGG_0Jets_TuneCP5_13TeV_amcatnlo_madspin_pythia8"]=0.01687*1000.;
+  xs["TTGG_0Jets_TuneCUETP8M1_13TeV_amcatnlo_madspin_pythia8"]=0.01731*1000.;
+  xs["TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8"]=4.078*1000.;
+  xs["TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8"]=3.819*1000.;
       
   sumOfgenw["GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"] = 5402.244803-122.629;
   sumOfgenw["VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8"] = 3800454.268154;
@@ -226,7 +230,13 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   sumOfgenw["DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa"] = 161251.902403;
   sumOfgenw["DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa"] = 169252.801539;
   sumOfgenw["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 6423331.317918;
-    
+  sumOfgenw["TTGG_0Jets_TuneCP5_13TeV_amcatnlo_madspin_pythia8"]=50221.856343;
+  //2016 to be added
+  sumOfgenw["TTGG_0Jets_TuneCUETP8M1_13TeV_amcatnlo_madspin_pythia8"]=1.;
+  sumOfgenw["TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8"]=33438764.446170;
+  //2016 to be added, 1 is a place holder
+  sumOfgenw["TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8"]=1.;
+  
   TChain *tree = new TChain("Events");
 
   if( ! FillChain(tree, inputFileList) ) {

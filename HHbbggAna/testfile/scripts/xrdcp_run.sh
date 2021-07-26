@@ -1,0 +1,1 @@
+xrdcp root://cmsxrootd.fnal.gov///store/mc/RunIIAutumn18NanoAODv7/GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8/NANOAODSIM/Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/100000/24B37EBE-E184-9D40-A241-3DB4340E32B7.root GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_Nano02Apr2020_24B37EBE-E184-9D40-A241-3DB4340E32B7.root

@@ -1,0 +1,4 @@
+/storage/af/user/nlu/hh/skim_merged/bbgg0624/nanoAODv7/2018/GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8_merged_0.root
+/storage/af/user/nlu/hh/skim_merged/bbgg0624/nanoAODv7/2018/GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8_merged_1.root
+/storage/af/user/nlu/hh/skim_merged/bbgg0624/nanoAODv7/2018/GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8_merged_2.root
+/storage/af/user/nlu/hh/skim_merged/bbgg0624/nanoAODv7/2018/GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8_merged_3.root

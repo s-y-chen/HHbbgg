@@ -1,0 +1,2 @@
+/storage/af/user/nlu/hh/skim_merged/bbgg0624/nanoAODv7/2018/VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8_merged_0.root
+/storage/af/user/nlu/hh/skim_merged/bbgg0624/nanoAODv7/2018/VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8_merged_1.root

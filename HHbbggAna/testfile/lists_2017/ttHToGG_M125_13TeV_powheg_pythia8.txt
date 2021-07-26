@@ -1,0 +1,4 @@
+/storage/af/user/nlu/hh/nanoAOD/store/mc/RunIIAutumn18NanoAODv7/ttHToGG_M125_13TeV_powheg_pythia8/NANOAODSIM/PU2017_12Apr2018_Nano02Apr2020_102X_mc2017_realistic_v8-v1/100000/B8169BCE-B866-714F-A25E-82C3769001AF.root
+/storage/af/user/nlu/hh/nanoAOD/store/mc/RunIIAutumn18NanoAODv7/ttHToGG_M125_13TeV_powheg_pythia8/NANOAODSIM/PU2017_12Apr2018_Nano02Apr2020_102X_mc2017_realistic_v8-v1/100000/CBD3C0B9-6C7E-724B-83F3-9E21E3495BF4.root
+/storage/af/user/nlu/hh/nanoAOD/store/mc/RunIIAutumn18NanoAODv7/ttHToGG_M125_13TeV_powheg_pythia8/NANOAODSIM/PU2017_12Apr2018_Nano02Apr2020_102X_mc2017_realistic_v8-v1/100000/EC43FCF1-FF9B-D641-BD6E-50663C46D860.root
+/storage/af/user/nlu/hh/nanoAOD/store/mc/RunIIAutumn18NanoAODv7/ttHToGG_M125_13TeV_powheg_pythia8/NANOAODSIM/PU2017_12Apr2018_Nano02Apr2020_102X_mc2017_realistic_v8-v1/70000/C48B0D1F-49E5-2540-AB7A-32A56367FA9B.root

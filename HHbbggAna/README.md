@@ -64,3 +64,7 @@ dasgoclient --query="dataset=/EG/Run2010A*/AOD"
 dasgoclient --query="dataset=/EG/Run2010A*/AOD" --verbose=1
 dasgoclient --query="dataset=/EG/Run2010A*/AOD | grep dataset.name"
 dasgoclient --query="dataset=/EG/Run2010A*/AOD | grep dataset.name" --format=json
+
+dasgoclient --query="dataset=/TTGG_0Jets_TuneCP5_13TeV_amcatnlo_madspin_pythia8/RunIIAutumn18NanoAODv7*/NANOAODSIM"
+
+dasgoclient --query="file dataset=/TTGG_0Jets_TuneCP5_13TeV_amcatnlo_madspin_pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM"

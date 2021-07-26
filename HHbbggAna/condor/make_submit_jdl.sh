@@ -1,7 +1,9 @@
 NJOB=0
-NCHUNK=20
-date=ntuple0625v1
-for dataset in `cat ../testfile/bbgg_nanoAOD_file_lists.txt`; do
+NCHUNK=100
+year=2018
+ref=2018
+date=ntuple${year}0625v1
+for dataset in `cat ../testfile/bbgg_nanoAOD_file_lists_${year}.txt`; do
     echo "get a list of dataset:", $dataset
     NJOB=$((NJOB + 1))
 
@@ -14,8 +16,14 @@ for dataset in `cat ../testfile/bbgg_nanoAOD_file_lists.txt`; do
     #switch
     cp ../../bin/analyzeHHbbgg .
     cp ../../example_job.sh .
-    echo "cat ../../../testfile/skim_lists/${dataset}.txt > Job${NJOB}_list.txt"
-    cat ../../../testfile/skim_lists/${dataset}.txt > Job${NJOB}_list.txt
+    if [ $year -eq $ref ]
+    then
+        echo "cat ../../../testfile/skim_lists_${year}/${dataset}.txt > Job${NJOB}_list.txt"
+    	cat ../../../testfile/skim_lists_${year}/${dataset}.txt > Job${NJOB}_list.txt
+    else
+        echo "cat ../../../testfile/lists_${year}/${dataset}.txt > Job${NJOB}_list.txt"
+	cat ../../../testfile/lists_${year}/${dataset}.txt > Job${NJOB}_list.txt
+    fi
     pwd > path.txt
     
     #Run N different random chunks per dataset
