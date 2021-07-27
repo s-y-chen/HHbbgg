@@ -65,7 +65,8 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
     cout<<"booked tree branches\n";
     float muon_mass = 0.1056583745;
 
-    float lumi = 300; //fb-1
+    float lumi = luminosity[yearst]; //fb-1
+    cout <<"year "<<yearst<<" lumi "<<lumi<<endl;
       
     bool datafile = true;
     if(*isData=='F') datafile = false;
@@ -87,15 +88,15 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
 	      BTagEntry::FLAV_B,    // btag flavour
 	      "comb")       ;        // measurement type
     */
+    
     //xs
-    cout <<"samplename: "<<samplename<< " xs: "<<xs[samplename]<<" sumOfgenweight "<<sumOfgenw[samplename]<<endl;
+    double sumOfgenweight = sumOfgenw[yearst][samplename];
+    cout <<"samplename: "<<samplename<< " xs: "<<xs[samplename]<<" sumOfgenweight "<<sumOfgenweight<<endl;
        
     bool skip = false;    
     bool checkGenWeight = false;
-    if(samplename!="GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8") skip = true;
-    else checkGenWeight = true;
-    
-    double sumOfgenweight = sumOfgenw[samplename];
+    if(samplename.find("GluGluToHHTo2B2G_node_cHHH1") == std::string::npos) skip = true;
+    else checkGenWeight = true; 
        
     //event loop
     Long64_t nentries = fChain->GetEntriesFast();
@@ -109,13 +110,25 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         if(jentry%10000==0) cout <<"entry: "<<jentry<<endl;
         clearTreeVectors();
        
-        genweight = genWeight;
+        genweight = genWeight*xs[samplename]*lumi/sumOfgenweight;
        
-        if(checkGenWeight && (event==20522) && (run==1)){
-            //cout <<"genWeight" <<genWeight<<endl;
+        if(checkGenWeight && yearst=="2018" && (event==20522) && (run==1)){
+            cout <<"large genWeight" <<event<< " " <<genWeight<<endl;
             continue;
         } 
-           
+        else if(checkGenWeight && yearst=="2017" && (fabs(genWeight)-0.03)>0.1){
+            //event 35873 genWeight 0.272939
+            //event 179625 genWeight -8.68992
+            cout <<"large genWeight" <<event<<" "<<genWeight<<endl;
+            continue;
+        }
+         
+        else if(checkGenWeight && yearst=="2016" && (fabs(genWeight)-0.03)>0.1){
+            //event 149762 genWeight 12.9627
+            cout <<"large genWeight" <<event<<" "<<genWeight<<endl;
+            continue;
+        }
+        
         //gen information: 
         //pdg ID scheme: https://pdg.lbl.gov/2019/reviews/rpp2019-rev-monte-carlo-numbering.pdf
         //https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookNanoAOD
@@ -272,10 +285,10 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         //HLT cut 
         //2016 : HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90_v* 2017 and 2018: HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90_v*
         //see AN2017_286 Section 3.1 Trigger Selection
-        if( year=="2016" && HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision = 1;
-        if( year=="2017" && HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision = 1;
-        if( year=="2018" && (HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 || HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass95==1) ) trig_decision = 1;
-        if(trig_decision<1) cout <<"trig_decision "<<trig_decision<<endl;
+        if( yearst=="2016" && HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision = 1;
+        if( yearst=="2017" && HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 ) trig_decision = 1; 
+        if( yearst=="2018" && (HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1 || HLT_Diphoton30_22_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass95==1) ) trig_decision = 1;
+        //if(trig_decision<1) cout <<"trig_decision "<<trig_decision<<endl;
         
         //Primary vertex cut
         if(PV_npvsGood > 0) pv_pass = 1;
@@ -519,8 +532,6 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             gen_dibjet_eta = gen_dibjet.Eta();
         }
         
-        
-        genweight = genweight*xs[samplename]*lumi/sumOfgenweight;
         if (leading_photon_pt > 0 && leading_bjet_pt > 0){
             recon = 1;
         } 

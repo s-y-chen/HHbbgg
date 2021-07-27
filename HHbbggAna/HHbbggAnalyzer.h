@@ -49,8 +49,9 @@ class HHbbggAnalyzer : public MainEvent {
   std::string yearst;
   std::map<std::string,float> muon_pt_cut;
   std::map<std::string,float> btag_cut;
+  std::map<std::string, float> luminosity;
   std::map<std::string, float> xs;
-  std::map<std::string, float> sumOfgenw;
+  std::map<std::string, std::map<std::string, float>> sumOfgenw;
   
   TH1D *h_sumOfgw = new TH1D("h_sumOfgenWeight","h_sumOfgenWeight",1,0,1);
   TH1D *h_sumOfgpw = new TH1D("h_sumOfgenpuWeight","h_sumOfgenpuWeight",1,0,1);
@@ -196,6 +197,11 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   btag_cut["2016"] = 0.6321; 
   btag_cut["2017"] = 0.4941;
   btag_cut["2018"] = 0.4184;
+ 
+  //luminosity for each year
+  luminosity["2016"] = 35.9;
+  luminosity["2017"] = 41.5;
+  luminosity["2018"] = 59.8;
   
   //xs in unit of fb
   //e.g. 
@@ -204,38 +210,80 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   //float BRHgg = 2.270E-03;
   //ref https://github.com/cms-analysis/flashgg/blob/dev_legacy_runII/MetaData/data/cross_sections.json    
   xs["GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"] = 31.05*5.824E-01*2.270E-03*2;
+  xs["GluGluToHHTo2B2G_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8"] = 31.05*5.824E-01*2.270E-03*2;
   xs["VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8"] = 2.257*0.00227*1.06*1000.;
   xs["ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8"] = 0.5071*0.00227*1.06*1000.;
+  xs["ttHToGG_M125_13TeV_powheg_pythia8"] = 0.5071*0.00227*1.06*1000.;
+  xs["ttHToGG_M125_13TeV_powheg_pythia8_v2"] = 0.5071*0.00227*1.06*1000.;
   xs["VBFHToGG_M125_13TeV_amcatnlo_pythia8"] = 3.7820*0.00227*1.06*1000.;
+  xs["VBFHToGG_M-125_13TeV_powheg_pythia8"] = 3.7820*0.00227*1.06*1000.;
+  xs["VBFHToGG_M125_13TeV_amcatnlo_pythia8_v2"] = 3.7820*0.00227*1.06*1000.;
   xs["GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8"] = 48.5800*0.00227*1.06*1000.;
+  xs["GluGluHToGG_M-125_13TeV_powheg_pythia8"] = 48.5800*0.00227*1.06*1000.;
+  xs["GluGluHToGG_M125_13TeV_amcatnloFXFX_pythia"] = 48.5800*0.00227*1.06*1000.;
   xs["TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8"] = 831.76*1000.;
+  xs["TTJets_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8"] = 831.76*1000.;
   xs["GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 232.9*1000.;
+  xs["GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCUETP8M1_13TeV_Pythia8"] = 220.0*1000.;
   xs["GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 878.1*1000.;
+  xs["GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCUETP8M1_13TeV_Pythia8"] = 850.8*1000.;
   xs["DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa"] = 0.494*1000.;
+  xs["DiPhotonJetsBox2BJets_MGG-80toInf_TuneSherpa_13TeV-Sherpa"] = 0.494*1000.;
   xs["DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa"] = 0.8674276*1000.;
+  xs["DiPhotonJetsBox1BJet_MGG-80toInf_TuneSherpa_13TeV-Sherpa"] = 0.8674276*1000.;
   xs["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 84.4*1000.;
   xs["TTGG_0Jets_TuneCP5_13TeV_amcatnlo_madspin_pythia8"]=0.01687*1000.;
   xs["TTGG_0Jets_TuneCUETP8M1_13TeV_amcatnlo_madspin_pythia8"]=0.01731*1000.;
   xs["TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8"]=4.078*1000.;
   xs["TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8"]=3.819*1000.;
       
-  sumOfgenw["GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"] = 5402.244803-122.629;
-  sumOfgenw["VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8"] = 3800454.268154;
-  sumOfgenw["ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8"] = 526575.192991;
-  sumOfgenw["VBFHToGG_M125_13TeV_amcatnlo_pythia8"] = 7681928.781840;
-  sumOfgenw["GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8"] = 213408137.745751;
-  sumOfgenw["TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8"] = 6224016513.896233;
-  sumOfgenw["GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 14366641.000000;
-  sumOfgenw["GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 10205533.000000;
-  sumOfgenw["DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa"] = 161251.902403;
-  sumOfgenw["DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa"] = 169252.801539;
-  sumOfgenw["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 6423331.317918;
-  sumOfgenw["TTGG_0Jets_TuneCP5_13TeV_amcatnlo_madspin_pythia8"]=50221.856343;
-  //2016 to be added
-  sumOfgenw["TTGG_0Jets_TuneCUETP8M1_13TeV_amcatnlo_madspin_pythia8"]=1.;
-  sumOfgenw["TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8"]=33438764.446170;
-  //2016 to be added, 1 is a place holder
-  sumOfgenw["TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8"]=1.;
+  std::map<std::string, float> sumOfgenw_2016, sumOfgenw_2017, sumOfgenw_2018;
+    
+  sumOfgenw_2018["GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"] = 5402.244803-122.629;
+  sumOfgenw_2018["VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8"] = 3800454.268154;
+  sumOfgenw_2018["ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8"] = 526575.192991;
+  sumOfgenw_2018["VBFHToGG_M125_13TeV_amcatnlo_pythia8"] = 7681928.781840;
+  sumOfgenw_2018["GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8"] = 213408137.745751;
+  sumOfgenw_2018["TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8"] = 6224016513.896233;
+  sumOfgenw_2018["GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 14366641.000000;
+  sumOfgenw_2018["GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 10205533.000000;
+  sumOfgenw_2018["DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa"] = 161251.902403;
+  sumOfgenw_2018["DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa"] = 169252.801539;
+  sumOfgenw_2018["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 6423331.317918;
+  sumOfgenw_2018["TTGG_0Jets_TuneCP5_13TeV_amcatnlo_madspin_pythia8"]=50221.856343;
+  sumOfgenw_2018["TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8"]=33438764.446170;
+    
+  sumOfgenw_2017["DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa"] = 179926.901632;
+  sumOfgenw_2017["DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa"] = 167403.102495;
+  sumOfgenw_2017["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 21638416.160386;
+  sumOfgenw_2017["GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 17678702.000000;
+  sumOfgenw_2017["GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 77891509.000000 + 1351848.000000;
+  sumOfgenw_2017["GluGluHToGG_M-125_13TeV_powheg_pythia8"] = 20469842.472050;
+  sumOfgenw_2017["GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"] = 5342.418638 - 0.272939 + 8.68992;
+  sumOfgenw_2017["TTGG_0Jets_TuneCP5_13TeV_amcatnlo_madspin_pythia8"] = 25145.499206;
+  sumOfgenw_2017["TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8"] = 51104342.106516;
+  sumOfgenw_2017["TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8"] = 168839320148.771484 + 149846991131.472656;
+  sumOfgenw_2017["VBFHToGG_M-125_13TeV_powheg_pythia8"] = 3846447.118494;
+  sumOfgenw_2017["VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8"]=4100171.498428;
+  sumOfgenw_2017["ttHToGG_M125_13TeV_powheg_pythia8"]=504098.309843;
+
+  sumOfgenw_2016["DiPhotonJetsBox1BJet_MGG-80toInf_TuneSherpa_13TeV-Sherpa"] = 161957.101472;
+  sumOfgenw_2016["DiPhotonJetsBox2BJets_MGG-80toInf_TuneSherpa_13TeV-Sherpa"] = 165812.602471;
+  sumOfgenw_2016["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 27856298.465428;
+  sumOfgenw_2016["GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCUETP8M1_13TeV_Pythia8"] = 23302380.000000;
+  sumOfgenw_2016["GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCUETP8M1_13TeV_Pythia8"] = 70829685.000000;
+  sumOfgenw_2016["GluGluHToGG_M125_13TeV_amcatnloFXFX_pythia"] = 89212191.843750;
+  sumOfgenw_2016["GluGluToHHTo2B2G_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8"] = 5372.566596 - 12.9627;
+  sumOfgenw_2016["TTGG_0Jets_TuneCUETP8M1_13TeV_amcatnlo_madspin_pythia8"] = 25098.827204;
+  sumOfgenw_2016["TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8"] = 92616273.477539;
+  sumOfgenw_2016["TTJets_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8"] = 96235104210.584473;
+  sumOfgenw_2016["VBFHToGG_M125_13TeV_amcatnlo_pythia8_v2"] = 3908737.380020;
+  sumOfgenw_2016["VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8"]=1862202.469505;
+  sumOfgenw_2016["ttHToGG_M125_13TeV_powheg_pythia8_v2"]=431817.244797;
+ 
+  sumOfgenw["2016"] = sumOfgenw_2016;
+  sumOfgenw["2017"] = sumOfgenw_2017;
+  sumOfgenw["2018"] = sumOfgenw_2018;
   
   TChain *tree = new TChain("Events");
 
