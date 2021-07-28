@@ -2,7 +2,7 @@ Universe = vanilla
 
 Executable = example_job.sh
 
-Arguments = IJOB NAME
+Arguments = IJOB NAME YEAR
 
 #The logs directory must exist
 Log = logs/example_DATE_IJOB.$(Cluster).log
@@ -14,7 +14,7 @@ Error = logs/example_DATE_IJOB.err.$(Cluster).$(Process)
 #This is necessary to choose either rhel7 (slc7) or rhel6 (slc6) as needed
 +RunAsOwner = True
 +InteractiveUser = true
-+SingularityImage = "/cvmfs/singularity.opensciencegrid.org/bbockelm/cms:rhel7"
++SingularityImage = "/cvmfs/singularity.opensciencegrid.org/cmssw/cms:rhel7"
 +SingularityBindCVMFS = True
 run_as_owner = True
 

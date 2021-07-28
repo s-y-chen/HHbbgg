@@ -1,6 +1,6 @@
 NJOB=0
-NCHUNK=100
-year=2018
+NCHUNK=10
+year=2016
 ref=2018
 date=ntuple${year}0625v1
 for dataset in `cat ../testfile/bbgg_nanoAOD_file_lists_${year}.txt`; do
@@ -41,6 +41,7 @@ for dataset in `cat ../testfile/bbgg_nanoAOD_file_lists_${year}.txt`; do
         sed -i "s/IJOB/${NJOB}ifile${ifile}/g" submit_$jobname.jdl
         sed -i "s/NAME/$dataset/g" submit_$jobname.jdl
         sed -i "s/DATE/$data/g" submit_$jobname.jdl
+        sed -i "s/YEAR/$year/g" submit_$jobname.jdl
         echo "Queue" >> submit_$jobname.jdl
         echo >> submit_$jobname.jdl
         condor_command="condor_submit submit_"$jobname".jdl"
