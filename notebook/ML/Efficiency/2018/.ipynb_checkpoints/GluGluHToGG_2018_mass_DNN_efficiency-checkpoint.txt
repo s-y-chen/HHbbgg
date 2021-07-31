@@ -1,0 +1,4 @@
+1% acceptance
+0.7129072421664245
+
+0.1% acceptance
