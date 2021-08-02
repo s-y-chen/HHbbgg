@@ -1,0 +1,300 @@
+cutoff: 0.5
+# background: 17848
+# false signal: 1015
+# signal: 9638
+# true signal: 8799
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 13.406561825424433
+remaining signal: 1.080854390107561
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.2839695166330767
+
+cutoff: 0.5236842105263158
+# background: 17848
+# false signal: 968
+# signal: 9638
+# true signal: 8750
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 12.677513659000397
+remaining signal: 1.0745852065301733
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.2897719641361737
+
+cutoff: 0.5473684210526316
+# background: 17848
+# false signal: 920
+# signal: 9638
+# true signal: 8713
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 11.72689824551344
+remaining signal: 1.0705450660025235
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.29925633098486126
+
+cutoff: 0.5710526315789474
+# background: 17848
+# false signal: 865
+# signal: 9638
+# true signal: 8673
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 10.934454586356878
+remaining signal: 1.0652510887593962
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.3075152726728839
+
+cutoff: 0.5947368421052631
+# background: 17848
+# false signal: 821
+# signal: 9638
+# true signal: 8626
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 10.11063015833497
+remaining signal: 1.0587032748007914
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.31678209634899923
+
+cutoff: 0.618421052631579
+# background: 17848
+# false signal: 778
+# signal: 9638
+# true signal: 8571
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 9.825350441038609
+remaining signal: 1.0521568539843429
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.31901844735003076
+
+cutoff: 0.6421052631578947
+# background: 17848
+# false signal: 736
+# signal: 9638
+# true signal: 8514
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 9.44497748464346
+remaining signal: 1.0453304096445208
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.32274495854787577
+
+cutoff: 0.6657894736842105
+# background: 17848
+# false signal: 701
+# signal: 9638
+# true signal: 8449
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 8.715929318219423
+remaining signal: 1.03738944377983
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.33217398396740794
+
+cutoff: 0.6894736842105262
+# background: 17848
+# false signal: 658
+# signal: 9638
+# true signal: 8384
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 8.303858615458012
+remaining signal: 1.0297271082963562
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.33705275840583293
+
+cutoff: 0.7131578947368421
+# background: 17848
+# false signal: 617
+# signal: 9638
+# true signal: 8321
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 7.6382059417665005
+remaining signal: 1.021230274811387
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.34703947074263797
+
+cutoff: 0.7368421052631579
+# background: 17848
+# false signal: 581
+# signal: 9638
+# true signal: 8256
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 7.067646507173777
+remaining signal: 1.0146824608527822
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.356912609775982
+
+cutoff: 0.7605263157894737
+# background: 17848
+# false signal: 541
+# signal: 9638
+# true signal: 8177
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 6.370296087116003
+remaining signal: 1.005906996986596
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.3703747713617182
+
+cutoff: 0.7842105263157895
+# background: 17848
+# false signal: 505
+# signal: 9638
+# true signal: 8111
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 5.926527637988329
+remaining signal: 0.9969908247876447
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.3789027298624622
+
+cutoff: 0.8078947368421052
+# background: 17848
+# false signal: 459
+# signal: 9638
+# true signal: 8017
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 5.482759188860655
+remaining signal: 0.9850097183953039
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.38731406496499005
+
+cutoff: 0.831578947368421
+# background: 17848
+# false signal: 419
+# signal: 9638
+# true signal: 7923
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 4.912199754267931
+remaining signal: 0.9727513747639023
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.40098711994959474
+
+cutoff: 0.8552631578947367
+# background: 17848
+# false signal: 382
+# signal: 9638
+# true signal: 7799
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 4.373655043542385
+remaining signal: 0.9568694430345204
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.41444577300945623
+
+cutoff: 0.8789473684210526
+# background: 17848
+# false signal: 343
+# signal: 9638
+# true signal: 7678
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 3.9615843407809734
+remaining signal: 0.9411268264957471
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.42504019169734475
+
+cutoff: 0.9026315789473685
+# background: 17848
+# false signal: 290
+# signal: 9638
+# true signal: 7451
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 3.6763046234846115
+remaining signal: 0.9131272594677284
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.42623768433250847
+
+cutoff: 0.9263157894736842
+# background: 17848
+# false signal: 244
+# signal: 9638
+# true signal: 7161
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 3.1697746366262436
+remaining signal: 0.8774625706719235
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.4361634512469733
+
+cutoff: 0.95
+# background: 17848
+# false signal: 180
+# signal: 9638
+# true signal: 6700
+original background: 1214.4693603515625
+original test background: 240.75421142578125
+original signal: 5.967202663421631
+original test signal: 1.1882621049880981
+remaining background: 2.2822377383708954
+remaining signal: 0.8182550078054192
+original S/sqrt(S+B): 0.17080996930599213
+original test S/sqrt(S+B): 0.07639346271753311
+S/sqrt(S+B): 0.4647006844074313
+
