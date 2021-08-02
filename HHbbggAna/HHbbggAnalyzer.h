@@ -199,6 +199,7 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   btag_cut["2018"] = 0.4184;
  
   //luminosity for each year
+  //https://twiki.cern.ch/twiki/bin/view/CMS/TWikiLUM#CurRec
   luminosity["2016"] = 35.9;
   luminosity["2017"] = 41.5;
   luminosity["2018"] = 59.8;

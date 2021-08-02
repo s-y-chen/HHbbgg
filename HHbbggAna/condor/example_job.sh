@@ -30,5 +30,14 @@ env
 
 ulimit -s unlimited
 
+ref="data"
+
 echo "to find raw ntuples for AOD ntuple starting from " $NJOB for $dataset "files in total"
-./analyzeHHbbgg Job${NJOB}_list.txt ${dataset}Job${NJOB}.root $dataset F T $year 
+if [ "$dataset = $ref" ]
+then
+    echo "analyzeHHbbgg processing data"
+    ./analyzeHHbbgg Job${NJOB}_list.txt ${dataset}Job${NJOB}.root $dataset T T $year 
+else
+    echo "analyzeHHbbgg processing mc"
+    ./analyzeHHbbgg Job${NJOB}_list.txt ${dataset}Job${NJOB}.root $dataset F T $year
+fi 

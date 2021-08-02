@@ -90,12 +90,14 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
     */
     
     //xs
-    double sumOfgenweight = sumOfgenw[yearst][samplename];
-    cout <<"samplename: "<<samplename<< " xs: "<<xs[samplename]<<" sumOfgenweight "<<sumOfgenweight<<endl;
-       
-    bool skip = false;    
+    double sumOfgenweight = 1.0;
+    if(!datafile){
+        sumOfgenweight = sumOfgenw[yearst][samplename];
+        cout <<"samplename: "<<samplename<< " xs: "<<xs[samplename]<<" sumOfgenweight "<<sumOfgenweight<<endl;
+    }
+    bool skip = true;    
     bool checkGenWeight = false;
-    if(samplename.find("GluGluToHHTo2B2G_node_cHHH1") == std::string::npos) skip = true;
+    if(samplename.find("GluGluToHHTo2B2G_node_cHHH1") != std::string::npos) skip = false;
     else checkGenWeight = true; 
        
     //event loop
@@ -112,7 +114,8 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         if(jentry%10000==0) cout <<"entry: "<<jentry<<endl;
         clearTreeVectors();
        
-        genweight = genWeight*xs[samplename]*lumi/sumOfgenweight;
+        if(datafile) genweight = 1.;
+        else genweight = genWeight*xs[samplename]*lumi/sumOfgenweight;
        
         if(checkGenWeight && yearst=="2018" && (event==20522) && (run==1)){
             cout <<"large genWeight" <<event<< " " <<genWeight<<endl;

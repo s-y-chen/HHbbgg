@@ -12,4 +12,7 @@ for dataset in `cat testfile/bbgg_nanoAOD_file_lists_2018.txt`; do
 
     #test command to run 2016 SM HH signal
     #./analyzeHHbbgg testfile/lists_2016/GluGluToHHTo2B2G_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8.txt out.root GluGluToHHTo2B2G_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8 F T 2016
+
+    #test command to run one 2018 data ntuple
+    #./analyzeHHbbgg testfile/lists_2018/data_test.txt out.root data T T 2018
 done

@@ -1,6 +1,6 @@
 NJOB=0
-NCHUNK=10
-year=2016
+NCHUNK=1
+year=2018
 ref=2018
 date=ntuple${year}0625v1
 for dataset in `cat ../testfile/bbgg_nanoAOD_file_lists_${year}.txt`; do
