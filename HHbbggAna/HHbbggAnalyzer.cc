@@ -97,9 +97,11 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
     }
     bool skip = true;    
     bool checkGenWeight = false;
-    if(samplename.find("GluGluToHHTo2B2G_node_cHHH1") != std::string::npos) skip = false;
-    else checkGenWeight = true; 
-       
+    if(samplename.find("GluGluToHHTo2B2G_node_cHHH1") != std::string::npos){
+        skip = false;
+        checkGenWeight = true; 
+    }
+
     //event loop
     Long64_t nentries = fChain->GetEntriesFast();
     cout <<"total entries: "<<nentries<<endl;
@@ -115,25 +117,24 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         clearTreeVectors();
        
         if(datafile) genweight = 1.;
-        else genweight = genWeight*xs[samplename]*lumi/sumOfgenweight;
-       
-        if(checkGenWeight && yearst=="2018" && (event==20522) && (run==1)){
-            cout <<"large genWeight" <<event<< " " <<genWeight<<endl;
-            continue;
-        } 
-        else if(checkGenWeight && yearst=="2017" && (fabs(genWeight)-0.03)>0.1){
-            //event 35873 genWeight 0.272939
-            //event 179625 genWeight -8.68992
-            cout <<"large genWeight" <<event<<" "<<genWeight<<endl;
-            continue;
+        else{ 
+            if(checkGenWeight && yearst=="2018" && (event==20522) && (run==1)){
+                cout <<"large genWeight" <<event<< " " <<genWeight<<endl;
+                continue;
+            } 
+            else if(checkGenWeight && yearst=="2017" && (fabs(genWeight)-0.03)>0.1){
+                //event 35873 genWeight 0.272939
+                //event 179625 genWeight -8.68992
+                cout <<"large genWeight" <<event<<" "<<genWeight<<endl;
+                continue;
+            }
+            else if(checkGenWeight && yearst=="2016" && (fabs(genWeight)-0.03)>0.1){
+                //event 149762 genWeight 12.9627
+                cout <<"large genWeight" <<event<<" "<<genWeight<<endl;
+                continue;
+            }
+            genweight = genWeight*xs[samplename]*lumi/sumOfgenweight;
         }
-         
-        else if(checkGenWeight && yearst=="2016" && (fabs(genWeight)-0.03)>0.1){
-            //event 149762 genWeight 12.9627
-            cout <<"large genWeight" <<event<<" "<<genWeight<<endl;
-            continue;
-        }
-        
         //gen information: 
         //pdg ID scheme: https://pdg.lbl.gov/2019/reviews/rpp2019-rev-monte-carlo-numbering.pdf
         //https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookNanoAOD

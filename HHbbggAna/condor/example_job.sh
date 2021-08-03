@@ -33,7 +33,7 @@ ulimit -s unlimited
 ref="data"
 
 echo "to find raw ntuples for AOD ntuple starting from " $NJOB for $dataset "files in total"
-if [ "$dataset = $ref" ]
+if [ $dataset = $ref ]
 then
     echo "analyzeHHbbgg processing data"
     ./analyzeHHbbgg Job${NJOB}_list.txt ${dataset}Job${NJOB}.root $dataset T T $year 
