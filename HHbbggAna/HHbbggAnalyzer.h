@@ -209,9 +209,12 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   //float xsHH = 31.05; //fb
   //float BRHbb = 5.824E-01;
   //float BRHgg = 2.270E-03;
-  //ref https://github.com/cms-analysis/flashgg/blob/dev_legacy_runII/MetaData/data/cross_sections.json    
+  //ref https://github.com/cms-analysis/flashgg/blob/dev_legacy_runII/MetaData/data/cross_sections.json   
+  //ref https://twiki.cern.ch/twiki/bin/view/LHCPhysics/LHCHWGHH?redirectedfrom=LHCPhysics.LHCHXSWGHH#HHjj_VBF
   xs["GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"] = 31.05*5.824E-01*2.270E-03*2;
   xs["GluGluToHHTo2B2G_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8"] = 31.05*5.824E-01*2.270E-03*2;
+  xs["VBFHHTo2B2G_CV_1_C2V_1_C3_1_TuneCP5_PSWeights_13TeV-madgraph-pythia8"] = 1.726*5.824E-01*2.270E-03*2;
+  xs["VBFHHTo2B2G_CV_1_C2V_1_C3_1_13TeV-madgraph"] = 1.726*5.824E-01*2.270E-03*2;
   xs["VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8"] = 2.257*0.00227*1.06*1000.;
   xs["ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8"] = 0.5071*0.00227*1.06*1000.;
   xs["ttHToGG_M125_13TeV_powheg_pythia8"] = 0.5071*0.00227*1.06*1000.;
@@ -241,6 +244,7 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   std::map<std::string, float> sumOfgenw_2016, sumOfgenw_2017, sumOfgenw_2018;
     
   sumOfgenw_2018["GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"] = 5402.244803-122.629;
+  sumOfgenw_2018["VBFHHTo2B2G_CV_1_C2V_1_C3_1_TuneCP5_PSWeights_13TeV-madgraph-pythia8"] = 392173.713352;
   sumOfgenw_2018["VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8"] = 3800454.268154;
   sumOfgenw_2018["ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8"] = 526575.192991;
   sumOfgenw_2018["VBFHToGG_M125_13TeV_amcatnlo_pythia8"] = 7681928.781840;
@@ -261,6 +265,7 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   sumOfgenw_2017["GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 77891509.000000 + 1351848.000000;
   sumOfgenw_2017["GluGluHToGG_M-125_13TeV_powheg_pythia8"] = 20469842.472050;
   sumOfgenw_2017["GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8"] = 5342.418638 - 0.272939 + 8.68992;
+  sumOfgenw_2017["VBFHHTo2B2G_CV_1_C2V_1_C3_1_13TeV-madgraph"] = 99078.000000;
   sumOfgenw_2017["TTGG_0Jets_TuneCP5_13TeV_amcatnlo_madspin_pythia8"] = 25145.499206;
   sumOfgenw_2017["TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8"] = 51104342.106516;
   sumOfgenw_2017["TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8"] = 168839320148.771484 + 149846991131.472656;
@@ -269,6 +274,7 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   sumOfgenw_2017["ttHToGG_M125_13TeV_powheg_pythia8"]=504098.309843;
 
   sumOfgenw_2016["DiPhotonJetsBox1BJet_MGG-80toInf_TuneSherpa_13TeV-Sherpa"] = 161957.101472;
+  sumOfgenw_2016["VBFHHTo2B2G_CV_1_C2V_1_C3_1_13TeV-madgraph"] = 300000.000000;
   sumOfgenw_2016["DiPhotonJetsBox2BJets_MGG-80toInf_TuneSherpa_13TeV-Sherpa"] = 165812.602471;
   sumOfgenw_2016["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 27856298.465428;
   sumOfgenw_2016["GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCUETP8M1_13TeV_Pythia8"] = 23302380.000000;

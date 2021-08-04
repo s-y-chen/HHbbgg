@@ -1,0 +1,3 @@
+/storage/af/user/nlu/hh/nanoAOD/store/mc/RunIIAutumn18NanoAODv7/VBFHHTo2B2G_CV_1_C2V_1_C3_1_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/260000/531AC323-77FE-D643-97C9-AEBF3D02F27C.root
+/storage/af/user/nlu/hh/nanoAOD/store/mc/RunIIAutumn18NanoAODv7/VBFHHTo2B2G_CV_1_C2V_1_C3_1_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/260000/7564D4C9-14D8-BE48-9B68-EC8BA37D88A1.root
+/storage/af/user/nlu/hh/nanoAOD/store/mc/RunIIAutumn18NanoAODv7/VBFHHTo2B2G_CV_1_C2V_1_C3_1_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/260000/D23C396E-9F0D-8140-918C-8D1FB71B5967.root

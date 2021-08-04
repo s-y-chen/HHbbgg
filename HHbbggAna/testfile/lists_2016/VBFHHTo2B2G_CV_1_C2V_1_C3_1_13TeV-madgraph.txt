@@ -1,0 +1,1 @@
+/storage/af/user/nlu/hh/nanoAOD/store/mc/RunIIAutumn18NanoAODv7/VBFHHTo2B2G_CV_1_C2V_1_C3_1_13TeV-madgraph/NANOAODSIM/PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1/130000/4B24218A-EF93-CE42-B93A-7EB4688CD8EA.root
