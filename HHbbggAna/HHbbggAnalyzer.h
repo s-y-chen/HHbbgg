@@ -161,6 +161,7 @@ class HHbbggAnalyzer : public MainEvent {
   float recon;
   float bjet_recon;
   float photon_recon;
+  float boostedCat;
     
   // added ML vars
   float leadingDeepBscore;
@@ -170,6 +171,12 @@ class HHbbggAnalyzer : public MainEvent {
   float leading_bjet_pt_over_dimass;
   float leading_bjet_pt_over_dimass_corr;
 
+  //add boosted object vars
+  float fatJetPt;
+  float fatJetEta;
+  float fatJetPhi;
+  float fatJetMassSD_UnCorrected;
+  float fatJetbtagDDBvL;
   
 };
 
@@ -456,7 +463,8 @@ void HHbbggAnalyzer::clearTreeVectors(){
   recon = 0.;
   bjet_recon = 0.;
   photon_recon = 0.;
- 
+  boostedCat = 0.;
+    
   // added ML vars
   leadingDeepBscore = -999.;
   subleadingDeepBscore = -999.;
@@ -465,7 +473,13 @@ void HHbbggAnalyzer::clearTreeVectors(){
   leading_bjet_pt_over_dimass = -999.;
   leading_bjet_pt_over_dimass_corr = -999.;
 
-  
+  //boosted category vars
+  fatJetPt = -999.;
+  fatJetEta = -999.;
+  fatJetPhi = -999.;
+  fatJetMassSD_UnCorrected = -999.;
+  fatJetbtagDDBvL = -999.;
+
 }
 
 void HHbbggAnalyzer::BookTreeBranches(){
@@ -572,15 +586,25 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("genBjet_deltaR", &genBjet_deltaR, "genBjet_deltaR/f");
   tree->Branch("genBjet_H_pt", &genBjet_H_pt, "genbBjet_H_pt/f");
   tree->Branch("genPho_H_pt", &genPho_H_pt, "genPho_H_pt/f");
+  
+  //event weight (genweight) and other reco level information
   tree->Branch("genweight", &genweight, "genweight/f");
   tree->Branch("recon", &recon, "recon/f");
   tree->Branch("bjet_recon", &bjet_recon, "bjet_recon/f");
   tree->Branch("photon_recon", &photon_recon, "photon_recon/f");
+  tree->Branch("boostedCat", &boostedCat, "boostedCat/f");
   tree->Branch("leadingDeepBscore", &leadingDeepBscore, "leadingDeepBscore/f");
   tree->Branch("subleadingDeepBscore", &subleadingDeepBscore, "subleadingDeepBscore/f");
   tree->Branch("sumDeepBscore", &sumDeepBscore, "sumDeepBscore/f");
   tree->Branch("leading_pho_pt_over_dimass", &leading_pho_pt_over_dimass, "leading_pho_pt_over_dimass/f");
   tree->Branch("leading_bjet_pt_over_dimass", &leading_bjet_pt_over_dimass, "leading_bjet_pt_over_dimass/f");
   tree->Branch("leading_bjet_pt_over_dimass_corr", &leading_bjet_pt_over_dimass_corr, "leading_bjet_pt_over_dimass_corr/f");
+
+  //boosted category  
+  tree->Branch("fatJetPt", &fatJetPt, "fatJetPt/f");
+  tree->Branch("fatJetEta", &fatJetEta, "fatJetEta/f");
+  tree->Branch("fatJetPhi", &fatJetPhi, "fatJetPhi/f");
+  tree->Branch("fatJetMassSD_UnCorrected", &fatJetMassSD_UnCorrected, "fatJetMassSD_UnCorrected/f");
+  tree->Branch("fatJetbtagDDBvL", &fatJetbtagDDBvL, "fatJetbtagDDBvL"); 
 }
 #endif // #ifdef HHbbggAnalyzer_cxx

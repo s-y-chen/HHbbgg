@@ -308,7 +308,10 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         int index_bj1(-999), index_bj2(-999);        
         //match reco bjet to genbjet
         int gen_index1_matched_reco_bjet = -999, gen_index2_matched_reco_bjet = -999;
-       
+        
+        //AK8 fat jet
+        int index_fatJet(-999);
+        
         vector<int> index_bjet;
         index_bjet.clear();
         
@@ -336,7 +339,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                     photon_delR = DeltaR(photon_1.Eta(), photon_1.Phi(), photon_2.Eta(), photon_2.Phi());
                 }
             }
-      
+            
             else if(index_photon.size()>2){
                 float tmp_diphoton_pt = 0.;
                 for(int j=0; j<index_photon.size(); j++){
@@ -436,8 +439,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                             }
                         }
                     }
-                }//end of else if(nbjet>2){}
-            
+                }//end of else if(nbjet>2){}            
 
                 // fill both
                 if(70 < dibjet_corr.M() && dibjet_corr.M() < 190){
@@ -451,27 +453,30 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                     dibjet_eta_corr = dibjet_corr.Eta();
                     bjet_delR = DeltaR(bjet_1.Eta(), bjet_1.Phi(), bjet_2.Eta(), bjet_2.Phi());
                     sumDeepBscore = Jet_btagDeepB[index_bj1] + Jet_btagDeepB[index_bj2];
+                    
+                    // first index if gen bjet, second is recon bjet; the goal is to match gen bjet and reco-bjet
+                    float dR11bb = DeltaR(GenJet_eta[genjet1_index_tmp], GenJet_phi[genjet1_index_tmp], Jet_eta[index_bj1], Jet_phi[index_bj1]);
+                    float dR12bb = DeltaR(GenJet_eta[genjet1_index_tmp], GenJet_phi[genjet1_index_tmp], Jet_eta[index_bj2], Jet_phi[index_bj2]);
+                    float dR21bb = DeltaR(GenJet_eta[genjet2_index_tmp], GenJet_phi[genjet2_index_tmp], Jet_eta[index_bj1], Jet_phi[index_bj1]);
+                    float dR22bb = DeltaR(GenJet_eta[genjet2_index_tmp], GenJet_phi[genjet2_index_tmp], Jet_eta[index_bj2], Jet_phi[index_bj2]);
+       
+                    if(dR11bb<dR21bb && dR11bb<0.4){
+                        gen_index1_matched_reco_bjet = genjet1_index_tmp;
+                        if(dR22bb<0.4) gen_index2_matched_reco_bjet = genjet2_index_tmp;
+                    } 
+                    else if(dR11bb>dR21bb && dR21bb<0.4){
+                        gen_index1_matched_reco_bjet = genjet2_index_tmp;
+                        if(dR12bb<0.4) gen_index2_matched_reco_bjet = genjet1_index_tmp;
+                    }   
                 }//end of di-bjet mass window if  
                 else{
                     index_bj1 = -800;
                     index_bj2 = -800;
+                    for(int ifatj=0; ifatj<nFatJet; ifatj++){
+                        if( FatJet_btagDDBvL[ifatj]>0.5 && FatJet_pt[ifatj] > 200 && FatJet_msoftdrop[ifatj]<190. && FatJet_msoftdrop[ifatj]>70.) boostedCat = 1.0;
+                    }
                 }
-                
-                // first index if gen bjet, second is recon bjet; the goal is to match gen bjet and reco-bjet
-                float dR11bb = DeltaR(GenJet_eta[genjet1_index_tmp], GenJet_phi[genjet1_index_tmp], Jet_eta[index_bj1], Jet_phi[index_bj1]);
-                float dR12bb = DeltaR(GenJet_eta[genjet1_index_tmp], GenJet_phi[genjet1_index_tmp], Jet_eta[index_bj2], Jet_phi[index_bj2]);
-                float dR21bb = DeltaR(GenJet_eta[genjet2_index_tmp], GenJet_phi[genjet2_index_tmp], Jet_eta[index_bj1], Jet_phi[index_bj1]);
-                float dR22bb = DeltaR(GenJet_eta[genjet2_index_tmp], GenJet_phi[genjet2_index_tmp], Jet_eta[index_bj2], Jet_phi[index_bj2]);
-       
-                if(dR11bb<dR21bb && dR11bb<0.4){
-                    gen_index1_matched_reco_bjet = genjet1_index_tmp;
-                    if(dR22bb<0.4) gen_index2_matched_reco_bjet = genjet2_index_tmp;
-                } 
-                else if(dR11bb>dR21bb && dR21bb<0.4){
-                    gen_index1_matched_reco_bjet = genjet2_index_tmp;
-                    if(dR12bb<0.4) gen_index2_matched_reco_bjet = genjet1_index_tmp;
-                } 
-            }//end of at least one b-jet loop  
+            }//end of at least two b-jet loop
         }//this is the end of the condition: if(index_photon.size()>1 && trig_decision)  
         
         //trigger if statement
@@ -528,7 +533,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         } 
         
         // matched dibjet variables
-        if (gen_index1_matched_reco_bjet>=0 && gen_index2_matched_reco_bjet>=0){
+        if(gen_index1_matched_reco_bjet>=0 && gen_index2_matched_reco_bjet>=0){
             TLorentzVector gen_bjet_1, gen_bjet_2, gen_dibjet;
             gen_bjet_1.SetPtEtaPhiM(GenPart_pt[gen_index1_matched_reco_bjet],GenPart_eta[gen_index1_matched_reco_bjet],GenPart_phi[gen_index1_matched_reco_bjet],0);
             gen_bjet_2.SetPtEtaPhiM(GenPart_pt[gen_index2_matched_reco_bjet],GenPart_eta[gen_index2_matched_reco_bjet],GenPart_phi[gen_index2_matched_reco_bjet],0);
@@ -537,14 +542,20 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             gen_dibjet_pt = gen_dibjet.Pt();
             gen_dibjet_eta = gen_dibjet.Eta();
         }
-        
+        if (boostedCat > 0){
+            fatJetPt = FatJet_pt[index_fatJet];
+            fatJetEta = FatJet_eta[index_fatJet];
+            fatJetPhi = FatJet_phi[index_fatJet];
+            fatJetMassSD_UnCorrected = FatJet_msoftdrop[index_fatJet];
+            fatJetbtagDDBvL = FatJet_btagDDBvL[index_fatJet];
+        }
         if (leading_photon_pt > 0 && leading_bjet_pt > 0){
             recon = 1;
         } 
-        if (leading_photon_pt > 0){
+        if(leading_photon_pt > 0){
             photon_recon = 1;
         }
-        if (leading_bjet_pt > 0){
+        if(leading_bjet_pt > 0){
             bjet_recon = 1;
         }
         tree->Fill();
