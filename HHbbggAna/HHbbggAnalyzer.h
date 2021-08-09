@@ -247,6 +247,8 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   xs["TTGG_0Jets_TuneCUETP8M1_13TeV_amcatnlo_madspin_pythia8"]=0.01731*1000.;
   xs["TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8"]=4.078*1000.;
   xs["TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8"]=3.819*1000.;
+  xs["QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 118100.0*1000.;
+  xs["QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCUETP8M1_13TeV_Pythia8"] = 113400.0*1000.;
       
   std::map<std::string, float> sumOfgenw_2016, sumOfgenw_2017, sumOfgenw_2018;
     
@@ -264,7 +266,8 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   sumOfgenw_2018["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 6423331.299999999;
   sumOfgenw_2018["TTGG_0Jets_TuneCP5_13TeV_amcatnlo_madspin_pythia8"]= 50221.85598815847;
   sumOfgenw_2018["TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8"]= 33438763.162006084;
-    
+  sumOfgenw_2018["QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 10781997.056885984;    
+
   sumOfgenw_2017["DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa"] = 179926.90000000002;
   sumOfgenw_2017["DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa"] = 167403.10000000003;
   sumOfgenw_2017["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 21638416.099999994;
@@ -279,6 +282,7 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   sumOfgenw_2017["VBFHToGG_M-125_13TeV_powheg_pythia8"] = 3846447.1165199997;
   sumOfgenw_2017["VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8"] = 4100171.411232001;
   sumOfgenw_2017["ttHToGG_M125_13TeV_powheg_pythia8"] = 504098.30106273957;
+  sumOfgenw_2017["QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 20622034.0;
 
   sumOfgenw_2016["DiPhotonJetsBox1BJet_MGG-80toInf_TuneSherpa_13TeV-Sherpa"] = 161957.1;
   sumOfgenw_2016["VBFHHTo2B2G_CV_1_C2V_1_C3_1_13TeV-madgraph"] = 300000.000000;
@@ -294,7 +298,8 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   sumOfgenw_2016["VBFHToGG_M125_13TeV_amcatnlo_pythia8_v2"] = 3908737.28136;
   sumOfgenw_2016["VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8"] = 1862202.435519;
   sumOfgenw_2016["ttHToGG_M125_13TeV_powheg_pythia8_v2"] = 431817.25939200015;
- 
+  sumOfgenw_2016["QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCUETP8M1_13TeV_Pythia8"] = 20816188.0;
+
   sumOfgenw["2016"] = sumOfgenw_2016;
   sumOfgenw["2017"] = sumOfgenw_2017;
   sumOfgenw["2018"] = sumOfgenw_2018;
