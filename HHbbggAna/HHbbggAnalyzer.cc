@@ -551,16 +551,16 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         }
         if (leading_photon_pt > 0 && leading_bjet_pt > 0){
             recon = 1;
-            tree->Fill();
+            //tree->Fill();
         } 
-        /*if(leading_photon_pt > 0){
+        if(leading_photon_pt > 0){
             photon_recon = 1;
         }
         if(leading_bjet_pt > 0){
             bjet_recon = 1;
         }
-        */
-        //tree->Fill();
+        
+        tree->Fill();
     }//end of event loop
     for(int i=0; i<nHpTbin; i++){
         cout <<"H pT bin "<<HpT_bounds[i]<<" - "<<HpT_bounds[i+1]<<" eff: "<<pass_events[i]/all_events[i] <<" pass: "<<pass_events[i]<<" all: "<<all_events[i]<<endl;   
