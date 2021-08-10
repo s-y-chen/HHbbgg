@@ -285,7 +285,7 @@ HHbbggAnalyzer::HHbbggAnalyzer(const TString &inputFileList, const char *outFile
   sumOfgenw_2017["QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8"] = 20622034.0;
 
   sumOfgenw_2016["DiPhotonJetsBox1BJet_MGG-80toInf_TuneSherpa_13TeV-Sherpa"] = 161957.1;
-  sumOfgenw_2016["VBFHHTo2B2G_CV_1_C2V_1_C3_1_13TeV-madgraph"] = 300000.000000;
+  sumOfgenw_2016["VBFHHTo2B2G_CV_1_C2V_1_C3_1_13TeV-madgraph"] = 3099141.4427206507;
   sumOfgenw_2016["DiPhotonJetsBox2BJets_MGG-80toInf_TuneSherpa_13TeV-Sherpa"] = 165812.60000000003;
   sumOfgenw_2016["DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa"] = 27856298.400000002;
   sumOfgenw_2016["GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCUETP8M1_13TeV_Pythia8"] = 23302380.0;
