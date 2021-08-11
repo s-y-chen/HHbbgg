@@ -323,7 +323,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         vector<int> index_photon;
         index_photon.clear();
         for(int i=0;i<nPhoton;i++){
-            if(Photon_mvaID_WP90[i]==1 && Photon_pt[i] > 25){ 
+            if(Photon_mvaID_WP80[i]==1 && Photon_pt[i] > 25){ 
                 bool eta_cut = (fabs(Photon_eta[i]) < 2.5) && ((fabs(Photon_eta[i])<1.44 || fabs(Photon_eta[i])>1.57)); 
                 if(eta_cut) index_photon.push_back(i);
             } 
@@ -649,16 +649,19 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             if(leading_vbfjet_pt > 0){
                 VBFHH_recon = 1;
             }
-            //tree->Fill();
+            else{
+                ggHH_recon = 1;
+            }
+            tree->Fill();
         } 
-        if(leading_photon_pt > 0){
+        /*if(leading_photon_pt > 0){
             photon_recon = 1;
         }
         if(leading_bjet_pt > 0){
             bjet_recon = 1;
-        }
+        }*/
         
-        tree->Fill();
+        //tree->Fill();
     }//end of event loop
     for(int i=0; i<nHpTbin; i++){
         cout <<"H pT bin "<<HpT_bounds[i]<<" - "<<HpT_bounds[i+1]<<" eff: "<<pass_events[i]/all_events[i] <<" pass: "<<pass_events[i]<<" all: "<<all_events[i]<<endl;   

@@ -177,6 +177,7 @@ public :
   float bjet_recon;
   float photon_recon;
   float boostedCat;
+  float ggHH_recon;
   float VBFHH_recon;
     
   // added ML vars
@@ -499,6 +500,7 @@ void HHbbggAnalyzer::clearTreeVectors(){
   bjet_recon = 0.;
   photon_recon = 0.;
   boostedCat = 0.;
+  ggHH_recon = 0.;
   VBFHH_recon = 0.;
     
   // added ML vars
@@ -643,6 +645,7 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("bjet_recon", &bjet_recon, "bjet_recon/f");
   tree->Branch("photon_recon", &photon_recon, "photon_recon/f");
   tree->Branch("boostedCat", &boostedCat, "boostedCat/f");
+  tree->Branch("ggHH_recon", &ggHH_recon, "ggHH_recon/f");
   tree->Branch("VBFHH_recon", &VBFHH_recon, "VBFHH_recon/f");
   tree->Branch("leadingDeepBscore", &leadingDeepBscore, "leadingDeepBscore/f");
   tree->Branch("subleadingDeepBscore", &subleadingDeepBscore, "subleadingDeepBscore/f");
