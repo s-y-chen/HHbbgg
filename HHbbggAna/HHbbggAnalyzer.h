@@ -31,7 +31,7 @@
 // Header file for the classes stored in the TTree if any.
 
 class HHbbggAnalyzer : public MainEvent {
- public :
+public :
    HHbbggAnalyzer(const TString &inputFileList="foo.txt", const char *outFileName="histo.root", TString dataset="data", const char *isData="F", TString year_num="2017");
    virtual ~HHbbggAnalyzer();
    void Analyze(bool isData, int option, string outputFileName, string label);
@@ -87,6 +87,21 @@ class HHbbggAnalyzer : public MainEvent {
   float dibjet_mass;
   float bjet_delR;
   int nbjet;
+    
+  // vbf jet reconstruction
+  float leading_vbfjet_pt;
+  float leading_vbfjet_eta;
+  float leading_vbfjet_phi;
+  float subleading_vbfjet_pt;
+  float subleading_vbfjet_eta;
+  float subleading_vbfjet_phi;
+  float divbfjet_pt;
+  float divbfjet_eta;
+  float divbfjet_mass;
+  float vbfjet_delR;
+  float vbfjet_del_eta;
+  int nvbfjet;
+  
     
   // bjet corrections
   float leading_bjet_pt_corr;
@@ -162,6 +177,7 @@ class HHbbggAnalyzer : public MainEvent {
   float bjet_recon;
   float photon_recon;
   float boostedCat;
+  float VBFHH_recon;
     
   // added ML vars
   float leadingDeepBscore;
@@ -405,6 +421,20 @@ void HHbbggAnalyzer::clearTreeVectors(){
   dibjet_pt_corr = -999.;
   dibjet_eta_corr = -999.;
   dibjet_mass_corr = -999.;
+
+  // vbf jet
+  leading_vbfjet_pt = -999.;
+  leading_vbfjet_eta = -999.;
+  leading_vbfjet_phi = -999.;
+  subleading_vbfjet_pt = -999.;
+  subleading_vbfjet_eta = -999.;
+  subleading_vbfjet_phi = -999.;
+  divbfjet_pt = -999.;
+  divbfjet_eta = -999.;
+  divbfjet_mass = -999.;
+  vbfjet_delR = -999.;
+  vbfjet_del_eta = -999.;
+  nbjet = -999.;
     
   genHH_pt = -999.;
   genHH_eta = -999.;
@@ -469,6 +499,7 @@ void HHbbggAnalyzer::clearTreeVectors(){
   bjet_recon = 0.;
   photon_recon = 0.;
   boostedCat = 0.;
+  VBFHH_recon = 0.;
     
   // added ML vars
   leadingDeepBscore = -999.;
@@ -549,6 +580,20 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("gen_dibjet_mass", &gen_dibjet_mass, "gen_dibjet_mass/f");
   tree->Branch("gen_dibjet_pt", &gen_dibjet_pt, "gen_dibjet_pt/f");
   tree->Branch("gen_dibjet_eta", &gen_dibjet_eta, "gen_dibjet_eta/f");
+
+  // vbf jet
+  tree->Branch("leading_vbfjet_pt", &leading_vbfjet_pt,"leading_vbfjet_pt/f");
+  tree->Branch("leading_vbfjet_eta", &leading_vbfjet_eta,"leading_vbfjet_eta/f");
+  tree->Branch("leading_vbfjet_phi", &leading_vbfjet_phi,"leading_vbfjet_phi/f");  
+  tree->Branch("subleading_vbfjet_pt", &subleading_vbfjet_pt,"subleading_vbfjet_pt/f");
+  tree->Branch("subleading_vbfjet_eta", &subleading_vbfjet_eta,"subleading_vbfjet_eta/f");
+  tree->Branch("subleading_vbfjet_phi", &subleading_vbfjet_phi,"subleading_vbfjet_phi/f"); 
+  tree->Branch("divbfjet_pt", &divbfjet_pt,"divbfjet_pt/f"); 
+  tree->Branch("divbfjet_mass", &dibjet_mass,"divbfjet_mass/f"); 
+  tree->Branch("divbfjet_eta", &dibjet_eta,"divbfjet_eta/f");
+  tree->Branch("vbfjet_delR", &vbfjet_delR,"vbfjet_delR/f");
+  tree->Branch("vbfjet_del_eta", &vbfjet_del_eta,"vbfjet_del_eta/f");
+  tree->Branch("nvbfjet", &nvbfjet,"nvbfjet/i");
     
   //Gen information
   tree->Branch("genHH_pt", &genHH_pt,"genHH_pt/f"); 
@@ -598,6 +643,7 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("bjet_recon", &bjet_recon, "bjet_recon/f");
   tree->Branch("photon_recon", &photon_recon, "photon_recon/f");
   tree->Branch("boostedCat", &boostedCat, "boostedCat/f");
+  tree->Branch("VBFHH_recon", &VBFHH_recon, "VBFHH_recon/f");
   tree->Branch("leadingDeepBscore", &leadingDeepBscore, "leadingDeepBscore/f");
   tree->Branch("subleadingDeepBscore", &subleadingDeepBscore, "subleadingDeepBscore/f");
   tree->Branch("sumDeepBscore", &sumDeepBscore, "sumDeepBscore/f");

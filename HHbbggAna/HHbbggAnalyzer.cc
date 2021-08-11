@@ -305,15 +305,20 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         int gen_index1_matched_reco_photon = -999, gen_index2_matched_reco_photon = -999;
        
         //declare jet selection variables as well
-        int index_bj1(-999), index_bj2(-999);        
+        int index_bj1(-999), index_bj2(-999); 
+        int index_vbfj1(-999), index_vbfj2(-999);
         //match reco bjet to genbjet
         int gen_index1_matched_reco_bjet = -999, gen_index2_matched_reco_bjet = -999;
+        
         
         //AK8 fat jet
         int index_fatJet(-999);
         
         vector<int> index_bjet;
         index_bjet.clear();
+        
+        vector<int> index_vbfjet;
+        index_vbfjet.clear();
         
         vector<int> index_photon;
         index_photon.clear();
@@ -392,6 +397,15 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                         if(eta_cut && jet_puid_cut) index_bjet.push_back(i);
                     }
                 }
+                if(Jet_pt[i] > 30){  
+                    float dRbg1 = DeltaR(Jet_eta[i], Jet_phi[i], Photon_eta[index_ph1], Photon_phi[index_ph1]);
+                    float dRbg2 = DeltaR(Jet_eta[i], Jet_phi[i], Photon_eta[index_ph2], Photon_phi[index_ph2]);
+                    if (dRbg1 > 0.4 && dRbg2 > 0.4){
+                        bool eta_cut = fabs(Jet_eta[i]) < 4.7; 
+                        bool jet_puid_cut = jet_puid_sel("tight", Jet_puId[i], Jet_pt[i]);
+                        if(eta_cut && jet_puid_cut) index_vbfjet.push_back(i);
+                    }
+                }
             }//end of nJet loop
             nbjet = index_bjet.size();
             
@@ -415,7 +429,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                 }//end of if(nbjet==2){}
                 
                 else if(nbjet>2){
-                    //want highest b tagging scores
+                    //b-jet selection -- want highest b tagging scores
                     float b_score_sum = -999.;
                     for(int j=0; j<nbjet; j++){
                         for(int k=j+1; k<nbjet; k++){
@@ -438,7 +452,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                                 b_score_sum = b_score_sum_jk;
                             }
                         }
-                    }
+                    }  
                 }//end of else if(nbjet>2){}            
 
                 // fill both
@@ -477,6 +491,74 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                     }
                 }
             }//end of at least two b-jet loop
+            
+            if(!index_vbfjet.empty()){
+                // remove b-jets from vbf-jet vector
+                if(find(index_vbfjet.begin(), index_vbfjet.end(), index_bj1) != index_vbfjet.end()) {
+                    index_vbfjet.erase(find(index_vbfjet.begin(), index_vbfjet.end(), index_bj1));
+                }
+                if(find(index_vbfjet.begin(), index_vbfjet.end(), index_bj2) != index_vbfjet.end()) {
+                    index_vbfjet.erase(find(index_vbfjet.begin(), index_vbfjet.end(), index_bj2));
+                }
+            }
+            nvbfjet = index_vbfjet.size();
+            if(nvbfjet > 1){
+                TLorentzVector vbfjet_1, vbfjet_2, divbfjet;
+                if(nvbfjet == 2){
+                    if(Jet_pt[index_vbfjet.at(0)] > Jet_pt[index_vbfjet.at(1)]){
+                        if(Jet_pt[index_vbfjet.at(0)] > 40 && Jet_pt[index_vbfjet.at(1)] > 30){
+                            index_vbfj1 = index_vbfjet.at(0);
+                            index_vbfj2 = index_vbfjet.at(1);
+                        }
+                    }
+                    else{
+                        if(Jet_pt[index_vbfjet.at(1)] > 40 && Jet_pt[index_vbfjet.at(0)] > 30){
+                            index_vbfj1 = index_vbfjet.at(1);
+                            index_vbfj2 = index_vbfjet.at(0);
+                        }
+                    }
+                } // end of nvbfjet == 2 loop
+                else{
+                    float divbjet_mass_tmp = -999.;
+                     for(int j=0; j<nvbfjet; j++){
+                        for(int k=j+1; k<nvbfjet; k++){
+                            vbfjet_1.SetPtEtaPhiM(Jet_pt[index_vbfjet[j]], Jet_eta[index_vbfjet[j]], Jet_phi[index_vbfjet[j]], Jet_mass[index_vbfjet[j]]);
+                            vbfjet_2.SetPtEtaPhiM(Jet_pt[index_vbfjet[k]], Jet_eta[index_vbfjet[k]], Jet_phi[index_vbfjet[k]], Jet_mass[index_vbfjet[k]]);
+                            divbfjet = vbfjet_1 + vbfjet_2;
+                            if(divbfjet.M() > divbjet_mass_tmp){
+                                if(vbfjet_1.Pt() > vbfjet_2.Pt() && vbfjet_1.Pt() > 40 && vbfjet_2.Pt() > 30){
+                                    divbjet_mass_tmp = divbfjet.M();
+                                    index_vbfj1 = index_vbfjet[j];
+                                    index_vbfj2 = index_vbfjet[k];
+                                }
+                                else if(vbfjet_1.Pt() > 30 && vbfjet_2.Pt() > 40){
+                                    divbjet_mass_tmp = divbfjet.M();
+                                    index_vbfj1 = index_vbfjet[k];
+                                    index_vbfj2 = index_vbfjet[j];
+                                }
+                            }
+                        }
+                    }
+                } // end of nvbfjet > 2 loop 
+                
+                // check delR separation with b-jets
+                float dRvb1 = DeltaR(Jet_eta[index_vbfj1], Jet_phi[index_vbfj1], Jet_eta[index_bj1], Jet_phi[index_bj1]);
+                float dRvb2 = DeltaR(Jet_eta[index_vbfj2], Jet_phi[index_vbfj2], Jet_eta[index_bj2], Jet_phi[index_bj2]);
+                if (dRvb1 > 0.4 && dRvb2 > 0.4){
+                    vbfjet_1.SetPtEtaPhiM(Jet_pt[index_vbfj1], Jet_eta[index_vbfj1], Jet_phi[index_vbfj1], Jet_mass[index_vbfj1]);
+                    vbfjet_2.SetPtEtaPhiM(Jet_pt[index_vbfj2], Jet_eta[index_vbfj2], Jet_phi[index_vbfj2], Jet_mass[index_vbfj2]);
+                    divbfjet = vbfjet_1 + vbfjet_2;
+                    divbfjet_mass = divbfjet.M();
+                    divbfjet_pt = divbfjet.Pt();
+                    divbfjet_eta = divbfjet.Eta();
+                    vbfjet_delR = DeltaR(Jet_eta[index_vbfj1], Jet_phi[index_vbfj1], Jet_eta[index_vbfj2], Jet_phi[index_vbfj2]);
+                    vbfjet_del_eta = fabs(vbfjet_1.Eta() - vbfjet_2.Eta());
+                } 
+                else{
+                    index_vbfj1 = -800;
+                    index_vbfj2 = -800;
+                }
+            } // end of at least 2 vbf jet loop
         }//this is the end of the condition: if(index_photon.size()>1 && trig_decision)  
         
         //trigger if statement
@@ -542,6 +624,19 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             gen_dibjet_pt = gen_dibjet.Pt();
             gen_dibjet_eta = gen_dibjet.Eta();
         }
+        
+        // vbf jet
+         if(index_vbfj1>=0){
+            leading_vbfjet_pt=Jet_pt[index_vbfj1];
+            leading_vbfjet_eta=Jet_eta[index_vbfj1];
+            leading_vbfjet_phi=Jet_phi[index_vbfj1];
+        }
+        if(index_vbfj2>=0){
+            subleading_vbfjet_pt=Jet_pt[index_vbfj2];
+            subleading_vbfjet_eta=Jet_eta[index_vbfj2];
+            subleading_vbfjet_phi=Jet_phi[index_vbfj2]; 
+        }
+        
         if (boostedCat > 0){
             fatJetPt = FatJet_pt[index_fatJet];
             fatJetEta = FatJet_eta[index_fatJet];
@@ -551,6 +646,9 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         }
         if (leading_photon_pt > 0 && leading_bjet_pt > 0){
             recon = 1;
+            if(leading_vbfjet_pt > 0){
+                VBFHH_recon = 1;
+            }
             //tree->Fill();
         } 
         if(leading_photon_pt > 0){
