@@ -317,13 +317,16 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         vector<int> index_bjet;
         index_bjet.clear();
         
-        vector<int> index_vbfjet;
-        index_vbfjet.clear();
+        vector<int> index_vbfjet_0;
+        index_vbfjet_0.clear();
+        
+        vector<int> index_vbfjet_1;
+        index_vbfjet_1.clear();
         
         vector<int> index_photon;
         index_photon.clear();
         for(int i=0;i<nPhoton;i++){
-            if(Photon_mvaID_WP80[i]==1 && Photon_pt[i] > 25){ 
+            if(Photon_mvaID_WP90[i]==1 && Photon_pt[i] > 25){ 
                 bool eta_cut = (fabs(Photon_eta[i]) < 2.5) && ((fabs(Photon_eta[i])<1.44 || fabs(Photon_eta[i])>1.57)); 
                 if(eta_cut) index_photon.push_back(i);
             } 
@@ -403,7 +406,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                     if (dRbg1 > 0.4 && dRbg2 > 0.4){
                         bool eta_cut = fabs(Jet_eta[i]) < 4.7; 
                         bool jet_puid_cut = jet_puid_sel("tight", Jet_puId[i], Jet_pt[i]);
-                        if(eta_cut && jet_puid_cut) index_vbfjet.push_back(i);
+                        if(eta_cut && jet_puid_cut) index_vbfjet_0.push_back(i);
                     }
                 }
             }//end of nJet loop
@@ -492,72 +495,49 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                 }
             }//end of at least two b-jet loop
             
-            if(!index_vbfjet.empty()){
+            if(!index_vbfjet_0.empty()){
                 // remove b-jets from vbf-jet vector
-                if(find(index_vbfjet.begin(), index_vbfjet.end(), index_bj1) != index_vbfjet.end()) {
-                    index_vbfjet.erase(find(index_vbfjet.begin(), index_vbfjet.end(), index_bj1));
+                if(find(index_vbfjet_0.begin(), index_vbfjet_0.end(), index_bj1) != index_vbfjet_0.end()) {
+                    index_vbfjet_0.erase(find(index_vbfjet_0.begin(), index_vbfjet_0.end(), index_bj1));
                 }
-                if(find(index_vbfjet.begin(), index_vbfjet.end(), index_bj2) != index_vbfjet.end()) {
-                    index_vbfjet.erase(find(index_vbfjet.begin(), index_vbfjet.end(), index_bj2));
+                if(find(index_vbfjet_0.begin(), index_vbfjet_0.end(), index_bj2) != index_vbfjet_0.end()) {
+                    index_vbfjet_0.erase(find(index_vbfjet_0.begin(), index_vbfjet_0.end(), index_bj2));
                 }
             }
-            nvbfjet = index_vbfjet.size();
+            nvbfjet = index_vbfjet_0.size();
             if(nvbfjet > 1){
+                // check delR separation with b-jets
+                for (int j=0; j<nvbfjet; j++){
+                    float dRvb1 = DeltaR(Jet_eta[index_vbfjet_0[j]], Jet_phi[index_vbfjet_0[j]], Jet_eta[index_bj1], Jet_phi[index_bj1]);
+                    if (dRvb1 > 0.4){
+                        index_vbfjet_1.push_back(index_vbfjet_0[j]);
+                    } 
+                }
+                nvbfjet = index_vbfjet_1.size();
                 TLorentzVector vbfjet_1, vbfjet_2, divbfjet;
                 if(nvbfjet == 2){
-                    if(Jet_pt[index_vbfjet.at(0)] > Jet_pt[index_vbfjet.at(1)]){
-                        if(Jet_pt[index_vbfjet.at(0)] > 40 && Jet_pt[index_vbfjet.at(1)] > 30){
-                            index_vbfj1 = index_vbfjet.at(0);
-                            index_vbfj2 = index_vbfjet.at(1);
-                        }
-                    }
-                    else{
-                        if(Jet_pt[index_vbfjet.at(1)] > 40 && Jet_pt[index_vbfjet.at(0)] > 30){
-                            index_vbfj1 = index_vbfjet.at(1);
-                            index_vbfj2 = index_vbfjet.at(0);
-                        }
+                    if(Jet_pt[index_vbfjet_1.at(0)] > 40 && Jet_pt[index_vbfjet_1.at(1)] > 30){
+                        index_vbfj1 = index_vbfjet_1.at(0);
+                        index_vbfj2 = index_vbfjet_1.at(1);
                     }
                 } // end of nvbfjet == 2 loop
                 else{
                     float divbjet_mass_tmp = -999.;
                      for(int j=0; j<nvbfjet; j++){
                         for(int k=j+1; k<nvbfjet; k++){
-                            vbfjet_1.SetPtEtaPhiM(Jet_pt[index_vbfjet[j]], Jet_eta[index_vbfjet[j]], Jet_phi[index_vbfjet[j]], Jet_mass[index_vbfjet[j]]);
-                            vbfjet_2.SetPtEtaPhiM(Jet_pt[index_vbfjet[k]], Jet_eta[index_vbfjet[k]], Jet_phi[index_vbfjet[k]], Jet_mass[index_vbfjet[k]]);
+                            vbfjet_1.SetPtEtaPhiM(Jet_pt[index_vbfjet_1[j]], Jet_eta[index_vbfjet_1[j]], Jet_phi[index_vbfjet_1[j]], Jet_mass[index_vbfjet_1[j]]);
+                            vbfjet_2.SetPtEtaPhiM(Jet_pt[index_vbfjet_1[k]], Jet_eta[index_vbfjet_1[k]], Jet_phi[index_vbfjet_1[k]], Jet_mass[index_vbfjet_1[k]]);
                             divbfjet = vbfjet_1 + vbfjet_2;
                             if(divbfjet.M() > divbjet_mass_tmp){
-                                if(vbfjet_1.Pt() > vbfjet_2.Pt() && vbfjet_1.Pt() > 40 && vbfjet_2.Pt() > 30){
+                                if(vbfjet_1.Pt() > 40 && vbfjet_2.Pt() > 30){
                                     divbjet_mass_tmp = divbfjet.M();
-                                    index_vbfj1 = index_vbfjet[j];
-                                    index_vbfj2 = index_vbfjet[k];
-                                }
-                                else if(vbfjet_1.Pt() > 30 && vbfjet_2.Pt() > 40){
-                                    divbjet_mass_tmp = divbfjet.M();
-                                    index_vbfj1 = index_vbfjet[k];
-                                    index_vbfj2 = index_vbfjet[j];
+                                    index_vbfj1 = index_vbfjet_1[j];
+                                    index_vbfj2 = index_vbfjet_1[k];
                                 }
                             }
                         }
                     }
                 } // end of nvbfjet > 2 loop 
-                
-                // check delR separation with b-jets
-                float dRvb1 = DeltaR(Jet_eta[index_vbfj1], Jet_phi[index_vbfj1], Jet_eta[index_bj1], Jet_phi[index_bj1]);
-                float dRvb2 = DeltaR(Jet_eta[index_vbfj2], Jet_phi[index_vbfj2], Jet_eta[index_bj2], Jet_phi[index_bj2]);
-                if (dRvb1 > 0.4 && dRvb2 > 0.4){
-                    vbfjet_1.SetPtEtaPhiM(Jet_pt[index_vbfj1], Jet_eta[index_vbfj1], Jet_phi[index_vbfj1], Jet_mass[index_vbfj1]);
-                    vbfjet_2.SetPtEtaPhiM(Jet_pt[index_vbfj2], Jet_eta[index_vbfj2], Jet_phi[index_vbfj2], Jet_mass[index_vbfj2]);
-                    divbfjet = vbfjet_1 + vbfjet_2;
-                    divbfjet_mass = divbfjet.M();
-                    divbfjet_pt = divbfjet.Pt();
-                    divbfjet_eta = divbfjet.Eta();
-                    vbfjet_delR = DeltaR(Jet_eta[index_vbfj1], Jet_phi[index_vbfj1], Jet_eta[index_vbfj2], Jet_phi[index_vbfj2]);
-                    vbfjet_del_eta = fabs(vbfjet_1.Eta() - vbfjet_2.Eta());
-                } 
-                else{
-                    index_vbfj1 = -800;
-                    index_vbfj2 = -800;
-                }
             } // end of at least 2 vbf jet loop
         }//this is the end of the condition: if(index_photon.size()>1 && trig_decision)  
         
