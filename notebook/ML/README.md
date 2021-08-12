@@ -10,7 +10,11 @@ Sequential_DNN_2018.ipynb: The DNN with 2018 samples that includes the leading o
 
 Sequential_DNN_combine.ipynb: The DNN with 2018 samples where I tried to combine some of the backgrounds together into one large background. 
 
-(Not added yet) Sequential_DNN_optimize_trial.ipynb: The DNN (with full recon==1 samples) where I am trying to optimize the hyperparameters. 
+Sequential_DNN_data.ipynb: The DNN using the data outside the 115-135 diphoton mass window as the background. The results are pretty good. 
+
+Sequential_DNN_optimize_talos.ipynb: The DNN (with full recon==1 samples) where I am trying to optimize the hyperparameters using an imported talos library (https://github.com/autonomio/talos). However, it takes quite a long time to run, and the accuracy seems worse than when I was using the DNN without optimization. I'm also trying to extract the parameters for the best model, though having some difficulty interpreting the output for that.
+
+Sequence_DNN_optimize_RandomCV.ipynb: The DNN (with full recon==1 samples) where I am trying to optimize the hyperparameters using RandomCV from sklearn. This also takes quite some time to run. I have been running into two bugs though. The test scores of nan seems to occure when the model is not a classifier/does not predict anything, though that is not the case here. There may also be something with how the predict_classes method is no longer available in sklearn for Sequential models, but I haven't figured out how to address that yet. The other bug is the inability to clone due to n_neurons. I have tried turning the arrays into tuples as suggested on Stack Exchange, but that did not change anything. I also cannot tell why it is n_neurons specifically that is throwing the area. A post also said it might have been a bug with version 0.22.2, but the version I updated to was 0.24.2. 
 
 Note: at the end, I will likely try to combine these into a single notebook.
 
