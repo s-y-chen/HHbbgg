@@ -6,7 +6,7 @@ Sequential_DNN.ipynb: The original DNN script in case I (Stephanie) mess somethi
 
 Sequential_DNN_2018.ipynb: The DNN with 2018 samples that include the additional training variables of the DeepCSV b-tagging score but not the leading object pt to diobject pt ratios.
 
-Sequential_DNN_2018.ipynb: The DNN with 2018 samples that includes the leading objet pt to diobject mass ratios in the training variables. This is also the notebook in which I have been trying to convert the DNN results and variables of the test set to a Root tree. 
+Sequential_DNN_2018_mass.ipynb: The DNN with 2018 samples that includes the leading objet pt to diobject mass ratios in the training variables. This is also the notebook in which I have been trying to convert the DNN results and variables of the test set to a Root tree, which is now working. 
 
 Sequential_DNN_combine.ipynb: The DNN with 2018 samples where I tried to combine some of the backgrounds together into one large background. 
 
