@@ -326,7 +326,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         vector<int> index_photon;
         index_photon.clear();
         for(int i=0;i<nPhoton;i++){
-            if(Photon_mvaID_WP90[i]==1 && Photon_pt[i] > 25){ 
+            if(Photon_mvaID_WP80[i]==1 && Photon_pt[i] > 25){ 
                 bool eta_cut = (fabs(Photon_eta[i]) < 2.5) && ((fabs(Photon_eta[i])<1.44 || fabs(Photon_eta[i])>1.57)); 
                 if(eta_cut) index_photon.push_back(i);
             } 

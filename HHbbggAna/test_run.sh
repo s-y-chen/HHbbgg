@@ -1,4 +1,4 @@
-for dataset in `cat testfile/bbgg_nanoAOD_file_lists_2018.txt`; do
+for dataset in `cat testfile/bbgg_nanoAOD_file_lists_2018_test.txt`; do
     echo "get a list of dataset:", $dataset
 
     #./analyzeHHbbgg_w testfile/lists_2018/$dataset.txt ${dataset}_sumOfgenW.root $dataset F T 2018
