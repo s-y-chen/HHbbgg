@@ -435,7 +435,7 @@ void HHbbggAnalyzer::clearTreeVectors(){
   divbfjet_mass = -999.;
   vbfjet_delR = -999.;
   vbfjet_del_eta = -999.;
-  nbjet = -999.;
+  nvbfjet = -999.;
     
   genHH_pt = -999.;
   genHH_eta = -999.;

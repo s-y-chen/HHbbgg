@@ -326,7 +326,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         vector<int> index_photon;
         index_photon.clear();
         for(int i=0;i<nPhoton;i++){
-            if(Photon_mvaID_WP80[i]==1 && Photon_pt[i] > 25){ 
+            if(Photon_mvaID_WP90[i]==1 && Photon_pt[i] > 25){ 
                 bool eta_cut = (fabs(Photon_eta[i]) < 2.5) && ((fabs(Photon_eta[i])<1.44 || fabs(Photon_eta[i])>1.57)); 
                 if(eta_cut) index_photon.push_back(i);
             } 
@@ -391,7 +391,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             for(int i=0;i<nJet;i++){
             //medium working point https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X and https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation medium is 1% misidentify rate for light-flavor (udsg) jet with b-jet efficiency 75%
                 //if(Jet_btagDeepB[i]>= 0.4184 && (Jet_pt[i] > 25)){  
-                if(Jet_pt[i] > 25){  
+                if(Jet_btagDeepB[i]>= 0 && Jet_pt[i] > 25){  
                     float dRbg1 = DeltaR(Jet_eta[i], Jet_phi[i], Photon_eta[index_ph1], Photon_phi[index_ph1]);
                     float dRbg2 = DeltaR(Jet_eta[i], Jet_phi[i], Photon_eta[index_ph2], Photon_phi[index_ph2]);
                     if (dRbg1 > 0.4 && dRbg2 > 0.4){
@@ -610,11 +610,18 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             leading_vbfjet_pt=Jet_pt[index_vbfj1];
             leading_vbfjet_eta=Jet_eta[index_vbfj1];
             leading_vbfjet_phi=Jet_phi[index_vbfj1];
-        }
-        if(index_vbfj2>=0){
             subleading_vbfjet_pt=Jet_pt[index_vbfj2];
             subleading_vbfjet_eta=Jet_eta[index_vbfj2];
             subleading_vbfjet_phi=Jet_phi[index_vbfj2]; 
+            TLorentzVector vbfjet_1, vbfjet_2, divbfjet;
+            vbfjet_1.SetPtEtaPhiM(leading_vbfjet_pt, leading_vbfjet_eta, leading_vbfjet_phi, Jet_mass[index_vbfj1]);
+            vbfjet_2.SetPtEtaPhiM(subleading_vbfjet_pt, subleading_vbfjet_eta, subleading_vbfjet_phi, Jet_mass[index_vbfj2]);
+            divbfjet = vbfjet_1 + vbfjet_2;
+            divbfjet_mass = divbfjet.M();
+            divbfjet_pt = divbfjet.Pt();
+            divbfjet_eta = divbfjet.Eta();
+            vbfjet_delR = DeltaR(leading_vbfjet_eta, leading_vbfjet_phi, subleading_vbfjet_eta, subleading_vbfjet_phi);
+            vbfjet_del_eta = fabs(vbfjet_1.Eta() - vbfjet_2.Eta());
         }
         
         if (boostedCat > 0){
