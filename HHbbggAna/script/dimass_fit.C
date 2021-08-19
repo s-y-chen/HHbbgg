@@ -21,11 +21,11 @@ using namespace std ;
 
 
 void gauss_fit(string rt_file_name, string rt_file_path, string obs_var){
-    TString path = "plots/sigfit/"; 
+    TString path = "plots/MC_dimass_fit/"; 
     TString filename =  rt_file_name; // change to match sample name
  
     //change this to the path of signal sample you want to work with
-    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/"+rt_file_path;
+    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/script/trees/MC_samples/" + rt_file_path + ".root";
  
     TString min = "115";
     TString max = "135";
@@ -102,11 +102,11 @@ void CB_fit(string rt_file_name, string rt_file_path, string obs_var)
 {
     gSystem->Load("RooCrystalBall_cxx.so");
     
-    TString path = "plots/sigfit/"; 
+    TString path = "plots/MC_dimass_fit/"; 
     TString filename =  rt_file_name; // change to match sample name
  
     //change this to the path of signal sample you want to work with
-    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/" +rt_file_path;
+    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/script/trees/MC_samples/" + rt_file_path +  ".root";
  
     TString min = "115";
     TString max = "135";
@@ -177,11 +177,11 @@ void CB_fit(string rt_file_name, string rt_file_path, string obs_var)
 
 void Bernstein_fit(string rt_file_name, string rt_file_path, string obs_var)
 {
-    TString path = "plots/sigfit/"; 
+    TString path = "plots/MC_dimass_fit/"; 
     TString filename =  rt_file_name; // change to match sample name
  
     //change this to the path of signal sample you want to work with
-    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/"  +rt_file_path;
+    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/script/trees/MC_samples/"  +rt_file_path + ".root";
  
     TString min = "100";
     TString max = "150";
@@ -246,11 +246,11 @@ void Bernstein_fit(string rt_file_name, string rt_file_path, string obs_var)
 
 void exponential_fit(string rt_file_name, string rt_file_path, string obs_var){
     
-    TString path = "plots/sigfit/"; 
+    TString path = "plots/MC_dimass_fit/"; 
     TString filename =  rt_file_name; // change to match sample name
  
     //change this to the path of signal sample you want to work with
-    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/condor/output/" + rt_file_path;
+    TString signalfile = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/HHbbggAna/script/trees/MC_samples/" + rt_file_path + ".root";
  
     TString min = "100";
     TString max = "150";
@@ -306,21 +306,50 @@ void exponential_fit(string rt_file_name, string rt_file_path, string obs_var){
 
 void dimass_fit(){
 
-     string names [10] = {"glu_glu_to_HH_signal", "VH_to_GG", "ttH_to_GG", "VBFH_to_GG", "glu_glu_H_to_GG", "gjet_small_pt", "gjet_big_pt", "diphoton_jets_box", "diphoton_jets_box_1B", "diphoton_jets_box_2B"};
+     string names_90_ggHH [15] = {"glu_glu_to_HH_signal_90(ggHH)", "VBF_to_HH_signal_90(ggHH)", 
+            "VH_to_GG_90(ggHH)", "ttH_to_GG_90(ggHH)", "VBFH_to_GG__90(ggHH)", "glu_glu_H_to_GG_90(ggHH)",
+        "tt_jets_90(ggHH)", "ttg_jets_90(ggHH)", "ttgg_jets_90(ggHH)",
+        "gjet_small_pt_90(ggHH)", "gjet_big_pt_90(ggHH)", "diphoton_jets_box_90(ggHH)", "diphoton_jets_box_1B_90(ggHH)", "diphoton_jets_box_2B_90(ggHH)", "qcd_90(ggHH)"};
     
-    string paths [10] = {"job_1_ntuple0625v1/GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8.root", "job_2_ntuple0625v1/VHToGG_M125_13TeV_amcatnloFXFX_madspin_pythia8.root", "job_3_ntuple0625v1/ttHToGG_M125_TuneCP5_PSweights_13TeV-powheg-pythia8.root", "job_4_ntuple0625v1/VBFHToGG_M125_13TeV_amcatnlo_pythia8.root", "job_5_ntuple0625v1/GluGluHToGG_M125_TuneCP5_13TeV-amcatnloFXFX-pythia8.root", "job_6_ntuple0625v1/GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root", "job_7_ntuple0625v1/GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root", "job_8_ntuple0625v1/DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-Sherpa.root", "job_9_ntuple0625v1/DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-Sherpa.root", "job_10_ntuple0625v1/DiPhotonJetsBox_MGG-80toInf_13TeV-Sherpa.root"};
+    string paths_90_ggHH [15] = {"90_combine_ggHH_GluGluToHH_sig_file", "90_combine_ggHH_VBFHH_sig_file", "90_combine_ggHH_VHToGG_file",
+                                "90_combine_ggHH_ttHToGG_file", "90_combine_ggHH_VBFHToGG_file", "90_combine_ggHH_GluGluHToGG_file",
+                               "90_combine_ggHH_TTJets_file", "90_combine_ggHH_TTGJets_file", "90_combine_ggHH_TTGG_0Jets_file",
+                              "90_combine_ggHH_GJet_SmallPt_file", "90_combine_ggHH_GJet_BigPt_file", "90_combine_ggHH_DiPhotonJetsBox_file",
+                               "90_combine_ggHH_DiPhotonJetsBox1B_file", "90_combine_ggHH_DiPhotonJetsBox2B_file", "90_combine_ggHH_QCD_Jets_file" };
+    
+     string names_90_vbfHH [15] = {"glu_glu_to_HH_signal_90(vbfHH)", "VBF_to_HH_signal_90(vbfHH)", 
+            "VH_to_GG_90(vbfHH)", "ttH_to_GG_90(vbfHH)", "VBFH_to_GG__90(vbfHH)", "glu_glu_H_to_GG_90(vbfHH)",
+        "tt_jets_90(vbfHH)", "ttg_jets_90(vbfHH)", "ttgg_jets_90(vbfHH)",
+        "gjet_small_pt_90(vbfHH)", "gjet_big_pt_90(vbfHH)", "diphoton_jets_box_90(vbfHH)", "diphoton_jets_box_1B_90(vbfHH)", "diphoton_jets_box_2B_90(vbfHH)", "qcd_90(vbfHH)"};
+    
+    string paths_90_vbfHH [15] = {"90_combine_vbfHH_GluGluToHH_sig_file", "90_combine_vbfHH_VBFHH_sig_file", "90_combine_vbfHH_VHToGG_file",
+                                "90_combine_vbfHH_ttHToGG_file", "90_combine_vbfHH_VBFHToGG_file", "90_combine_vbfHH_GluGluHToGG_file",
+                               "90_combine_vbfHH_TTJets_file", "90_combine_vbfHH_TTGJets_file", "90_combine_ggHH_TTGG_0Jets_file",
+                              "90_combine_vbfHH_GJet_SmallPt_file", "90_combine_vbfHH_GJet_BigPt_file", "90_combine_vbfHH_DiPhotonJetsBox_file",
+                               "90_combine_vbfHH_DiPhotonJetsBox1B_file", "90_combine_vbfHH_DiPhotonJetsBox2B_file", "90_combine_vbfHH_QCD_Jets_file" };
    
-    for (int i=3; i<5; i++){
-        //gauss_fit(names[i], paths[i], "diphoton_mass");
-        CB_fit(names[i], paths[i], "diphoton_mass");
+    for (int i=0; i< 15; i++){
+        gauss_fit(names_90_ggHH[i], paths_90_ggHH[i], "diphoton_mass");
+        CB_fit(names_90_ggHH[i], paths_90_ggHH[i], "diphoton_mass");
+         gauss_fit(names_90_vbfHH[i], paths_90_vbfHH[i], "diphoton_mass");
+        CB_fit(names_90_vbfHH[i], paths_90_vbfHH[i], "diphoton_mass");
     }
     
-    /* gauss_fit(names[0], paths[0], "dibjet_mass_corr"); //ggHH signal
-    CB_fit(names[0], paths[0], "dibjet_mass_corr"); //ggHH signal
-    Bernstein_fit(names[3], paths[3], "dibjet_mass_corr"); //VBFH
-    Bernstein_fit(names[4], paths[4], "dibjet_mass_corr"); // ggH
-    gauss_fit(names[2], paths[2], "dibjet_mass_corr"); // ttH
-    exponential_fit(names[1], paths[1], "dibjet_mass_corr"); // VH
-    CB_fit(names[1], paths[1], "dibjet_mass_corr"); //VH
-    */
+     gauss_fit(names_90_ggHH[0], paths_90_ggHH[0], "dibjet_mass_corr"); //ggHH signal
+    CB_fit(names_90_ggHH[0], paths_90_ggHH[0], "dibjet_mass_corr"); //ggHH signal
+    Bernstein_fit(names_90_ggHH[4], paths_90_ggHH[4], "dibjet_mass_corr"); //VBFH
+    Bernstein_fit(names_90_ggHH[5], paths_90_ggHH[5], "dibjet_mass_corr"); // ggH
+    gauss_fit(names_90_ggHH[3], paths_90_ggHH[3], "dibjet_mass_corr"); // ttH
+    exponential_fit(names_90_ggHH[2], paths_90_ggHH[2], "dibjet_mass_corr"); // VH
+    CB_fit(names_90_ggHH[2], paths_90_ggHH[2], "dibjet_mass_corr"); //VH
+    
+       gauss_fit(names_90_vbfHH[1], paths_90_vbfHH[1], "dibjet_mass_corr"); //vbfHH signal
+    CB_fit(names_90_vbfHH[1], paths_90_vbfHH[1], "dibjet_mass_corr"); //vbfHH signal
+     Bernstein_fit(names_90_vbfHH[4], paths_90_vbfHH[4], "dibjet_mass_corr"); //VBFH
+    Bernstein_fit(names_90_vbfHH[5], paths_90_vbfHH[5], "dibjet_mass_corr"); // ggH
+    gauss_fit(names_90_vbfHH[3], paths_90_vbfHH[3], "dibjet_mass_corr"); // ttH
+    exponential_fit(names_90_vbfHH[2], paths_90_vbfHH[2], "dibjet_mass_corr"); // VH
+    CB_fit(names_90_vbfHH[2], paths_90_vbfHH[2], "dibjet_mass_corr"); //VH
+    
+    
 }
