@@ -62,6 +62,7 @@ public :
   uint t_run;
   uint t_luminosityBlock;
   ulong t_event;
+  int t_njet;
     
   int trig_decision;
   int pv_pass;
@@ -75,6 +76,7 @@ public :
   float diphoton_eta;
   float diphoton_mass;
   float photon_delR;
+  int nphoton;
   // added for bjet reconstruction
   float leading_bjet_pt;
   float leading_bjet_eta;
@@ -187,6 +189,22 @@ public :
   float leading_pho_pt_over_dimass;
   float leading_bjet_pt_over_dimass;
   float leading_bjet_pt_over_dimass_corr;
+  float subleading_pho_pt_over_dimass;
+  float subleading_bjet_pt_over_dimass;
+  float subleading_bjet_pt_over_dimass_corr;
+  float diphoton_pt_over_diphoton_mass;
+  float dibjet_pt_over_dibjet_mass;
+  float dibjet_pt_over_dibjet_mass_corr;
+  float leading_vbfjet_pt_over_dimass;
+  float subleading_vbfjet_pt_over_dimass;
+  float divbfjet_pt_over_dimass;
+  float rec_pho_bjet_min_dR;
+  float all_pho_bjet_min_dR;
+  float t_MET_pt;
+  float t_MET_phi;
+  float t_MET_sumEt;
+  float dphi_met_leading_bjet;
+  float dphi_met_subleading_bjet;
 
   //add boosted object vars
   float fatJetPt;
@@ -394,6 +412,7 @@ void HHbbggAnalyzer::clearTreeVectors(){
   t_event = 0;
   trig_decision = 0;
   pv_pass = 0;
+  t_njet = 0;
   leading_photon_pt = -999.;
   leading_photon_eta = -999.;
   leading_photon_phi = -999.;
@@ -404,6 +423,7 @@ void HHbbggAnalyzer::clearTreeVectors(){
   diphoton_eta = -999.;
   diphoton_mass = -999.;
   photon_delR = -999.;  
+  nphoton = -999;
   // added for bjet reconstruction
   leading_bjet_pt = -999.;
   leading_bjet_eta = -999.;
@@ -415,7 +435,7 @@ void HHbbggAnalyzer::clearTreeVectors(){
   dibjet_eta = -999.;
   dibjet_mass = -999.;
   bjet_delR = -999.;
-  nbjet = -999.;
+  nbjet = -999;
   // bjet corrections  
   leading_bjet_pt_corr = -999.;
   subleading_bjet_pt_corr = -999.;
@@ -435,7 +455,7 @@ void HHbbggAnalyzer::clearTreeVectors(){
   divbfjet_mass = -999.;
   vbfjet_delR = -999.;
   vbfjet_del_eta = -999.;
-  nvbfjet = -999.;
+  nvbfjet = -999;
     
   genHH_pt = -999.;
   genHH_eta = -999.;
@@ -507,9 +527,27 @@ void HHbbggAnalyzer::clearTreeVectors(){
   leadingDeepBscore = -999.;
   subleadingDeepBscore = -999.;
   sumDeepBscore = -999.;
+  // pt to dimass ratios
   leading_pho_pt_over_dimass = -999.;
   leading_bjet_pt_over_dimass = -999.;
   leading_bjet_pt_over_dimass_corr = -999.;
+  subleading_pho_pt_over_dimass = -999.;
+  subleading_bjet_pt_over_dimass = -999.;
+  subleading_bjet_pt_over_dimass_corr = -999.;
+  diphoton_pt_over_diphoton_mass = -999.;
+  dibjet_pt_over_dibjet_mass = -999.;
+  dibjet_pt_over_dibjet_mass_corr = -999.;
+  leading_vbfjet_pt_over_dimass = -999.;
+  subleading_vbfjet_pt_over_dimass = -999.;
+  divbfjet_pt_over_dimass = -999.;
+  // misc
+  rec_pho_bjet_min_dR = 999.;
+  all_pho_bjet_min_dR = 999.;
+  t_MET_pt = -999.;
+  t_MET_phi = -999.;
+  t_MET_sumEt = -999.;
+  dphi_met_leading_bjet = -999.;
+  dphi_met_subleading_bjet = -999.;
 
   //boosted category vars
   fatJetPt = -999.;
@@ -528,7 +566,8 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("lumi", &t_luminosityBlock,"lumi/i");
   tree->Branch("event", &t_event,"event/l");
   tree->Branch("trig_decision", &trig_decision, "trig_decision/i");
-  tree->Branch("pv_pass", &pv_pass, "pv_pass/i");    
+  tree->Branch("pv_pass", &pv_pass, "pv_pass/i");  
+  tree->Branch("njet", &t_njet,"njet/i");
       
   //photon
   tree->Branch("leading_photon_pt", &leading_photon_pt,"leading_photon_pt/f");
@@ -541,6 +580,7 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("diphoton_mass", &diphoton_mass,"diphoton_mass/f"); 
   tree->Branch("diphoton_eta", &diphoton_eta,"diphoton_eta/f");
   tree->Branch("photon_delR", &photon_delR,"photon_delR/f");
+  tree->Branch("nphoton", &nphoton,"nphoton/i");
     
     
   //phone gen matched to reco information
@@ -647,12 +687,30 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("boostedCat", &boostedCat, "boostedCat/f");
   tree->Branch("ggHH_recon", &ggHH_recon, "ggHH_recon/f");
   tree->Branch("VBFHH_recon", &VBFHH_recon, "VBFHH_recon/f");
+ 
+  // ML vars
   tree->Branch("leadingDeepBscore", &leadingDeepBscore, "leadingDeepBscore/f");
   tree->Branch("subleadingDeepBscore", &subleadingDeepBscore, "subleadingDeepBscore/f");
   tree->Branch("sumDeepBscore", &sumDeepBscore, "sumDeepBscore/f");
   tree->Branch("leading_pho_pt_over_dimass", &leading_pho_pt_over_dimass, "leading_pho_pt_over_dimass/f");
   tree->Branch("leading_bjet_pt_over_dimass", &leading_bjet_pt_over_dimass, "leading_bjet_pt_over_dimass/f");
   tree->Branch("leading_bjet_pt_over_dimass_corr", &leading_bjet_pt_over_dimass_corr, "leading_bjet_pt_over_dimass_corr/f");
+  tree->Branch("subleading_pho_pt_over_dimass", &subleading_pho_pt_over_dimass, "subleading_pho_pt_over_dimass/f");
+  tree->Branch("subleading_bjet_pt_over_dimass", &subleading_bjet_pt_over_dimass, "subleading_bjet_pt_over_dimass/f");
+  tree->Branch("subleading_bjet_pt_over_dimass_corr", &subleading_bjet_pt_over_dimass_corr, "subleading_bjet_pt_over_dimass_corr/f");
+  tree->Branch("diphoton_pt_over_diphoton_mass", &diphoton_pt_over_diphoton_mass, "diphoton_pt_over_diphoton_mass/f");
+  tree->Branch("dibjet_pt_over_dibjet_mass", &dibjet_pt_over_dibjet_mass, "dibjet_pt_over_dibjet_mass/f");
+  tree->Branch("dibjet_pt_over_dibjet_mass_corr", &dibjet_pt_over_dibjet_mass_corr, "dibjet_pt_over_dibjet_mass_corr/f");
+  tree->Branch("leading_vbfjet_pt_over_dimass", &leading_vbfjet_pt_over_dimass, "leading_vbfjet_pt_over_dimass/f");
+  tree->Branch("subleading_vbfjet_pt_over_dimass", &subleading_vbfjet_pt_over_dimass, "subleading_vbfjet_pt_over_dimass/f");
+  tree->Branch("divbfjet_pt_over_dimass", &divbfjet_pt_over_dimass, "divbfjet_pt_over_dimass/f");
+  tree->Branch("rec_pho_bjet_min_dR", &rec_pho_bjet_min_dR, "rec_pho_bjet_min_dR/f");
+  tree->Branch("all_pho_bjet_min_dR", &all_pho_bjet_min_dR, "all_pho_bjet_min_dR/f");
+  tree->Branch("MET_pt", &t_MET_pt, "MET_pt/f");
+  tree->Branch("MET_phi", &t_MET_phi, "MET_phi/f");
+  tree->Branch("MET_sumEt", &t_MET_sumEt, "MET_sumEt/f");
+  tree->Branch("dphi_met_leading_bjet", &dphi_met_leading_bjet, "dphi_met_leading_bjet/f");
+  tree->Branch("dphi_met_subleading_bjet", &dphi_met_subleading_bjet, "dphi_met_subleading_bjet/f");
 
   //boosted category  
   tree->Branch("fatJetPt", &fatJetPt, "fatJetPt/f");
