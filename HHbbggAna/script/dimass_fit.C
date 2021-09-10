@@ -124,12 +124,12 @@ void CB_fit(string rt_file_name, string rt_file_path, string obs_var)
     RooRealVar m0("m0","m0", 125, mind, maxd);
 
     RooRealVar alphaL("alphaL","alphaL", 2, 0.1,10);
-    RooRealVar nL("nL","nL", 2,0.1,50);
-    RooRealVar sigmaL("sigmaL","sigmaL", 5,0.1,50);
+    RooRealVar nL("nL","nL", 3,0.1,50);
+    RooRealVar sigmaL("sigmaL","sigmaL", 1.5,0.1,50);
 
     RooRealVar alphaR("alphaR","alphaR", 2,0.1,10);
-    RooRealVar nR("nR","nR", 2,0.1,50);
-    RooRealVar sigmaR("sigmaR","sigmaR", 5,0.1,50);
+    RooRealVar nR("nR","nR", 3,0.1,50);
+    RooRealVar sigmaR("sigmaR","sigmaR", 1.5,0.1,50);
     
     RooAbsPdf* cb1 = new RooCrystalBall("cb1", "cb1", *mjj, m0, sigmaL, sigmaR, alphaL, nL, alphaR, nR);
        
@@ -328,14 +328,16 @@ void dimass_fit(){
                               "90_combine_vbfHH_GJet_SmallPt_file", "90_combine_vbfHH_GJet_BigPt_file", "90_combine_vbfHH_DiPhotonJetsBox_file",
                                "90_combine_vbfHH_DiPhotonJetsBox1B_file", "90_combine_vbfHH_DiPhotonJetsBox2B_file", "90_combine_vbfHH_QCD_Jets_file" };
    
-    for (int i=0; i< 15; i++){
+    /*for (int i=0; i< 15; i++){
         gauss_fit(names_90_ggHH[i], paths_90_ggHH[i], "diphoton_mass");
         CB_fit(names_90_ggHH[i], paths_90_ggHH[i], "diphoton_mass");
          gauss_fit(names_90_vbfHH[i], paths_90_vbfHH[i], "diphoton_mass");
         CB_fit(names_90_vbfHH[i], paths_90_vbfHH[i], "diphoton_mass");
-    }
+    }*/
+   CB_fit(names_90_ggHH[1], paths_90_ggHH[1], "diphoton_mass");
+    CB_fit(names_90_vbfHH[1], paths_90_vbfHH[1], "diphoton_mass"); //vbfHH signal
     
-     gauss_fit(names_90_ggHH[0], paths_90_ggHH[0], "dibjet_mass_corr"); //ggHH signal
+     /*gauss_fit(names_90_ggHH[0], paths_90_ggHH[0], "dibjet_mass_corr"); //ggHH signal
     CB_fit(names_90_ggHH[0], paths_90_ggHH[0], "dibjet_mass_corr"); //ggHH signal
     Bernstein_fit(names_90_ggHH[4], paths_90_ggHH[4], "dibjet_mass_corr"); //VBFH
     Bernstein_fit(names_90_ggHH[5], paths_90_ggHH[5], "dibjet_mass_corr"); // ggH
@@ -349,7 +351,7 @@ void dimass_fit(){
     Bernstein_fit(names_90_vbfHH[5], paths_90_vbfHH[5], "dibjet_mass_corr"); // ggH
     gauss_fit(names_90_vbfHH[3], paths_90_vbfHH[3], "dibjet_mass_corr"); // ttH
     exponential_fit(names_90_vbfHH[2], paths_90_vbfHH[2], "dibjet_mass_corr"); // VH
-    CB_fit(names_90_vbfHH[2], paths_90_vbfHH[2], "dibjet_mass_corr"); //VH
+    CB_fit(names_90_vbfHH[2], paths_90_vbfHH[2], "dibjet_mass_corr"); //VH*/
     
     
 }

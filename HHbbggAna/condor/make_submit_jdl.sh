@@ -1,8 +1,8 @@
 NJOB=0
-NCHUNK=5
-year=2018
+NCHUNK=2
+year=2016
 ref=2018
-date=ntuple${year}0818v2
+date=ntuple${year}0826v1
 for dataset in `cat ../testfile/bbgg_nanoAOD_file_lists_${year}_test.txt`; do
     echo "get a list of dataset:", $dataset
     NJOB=$((NJOB + 1))

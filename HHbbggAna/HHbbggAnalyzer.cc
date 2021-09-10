@@ -331,9 +331,9 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                 if(eta_cut) index_photon.push_back(i);
             } 
         }
-
-        if( (index_photon.size()>1) && (trig_decision==1) ){ 
-            if(index_photon.size()==2){
+        nphoton = index_photon.size();
+        if( (nphoton>1) && (trig_decision==1) ){ 
+            if(nphoton==2){
                 TLorentzVector photon_1, photon_2, diphoton;
                 photon_1.SetPtEtaPhiM(Photon_pt[0],Photon_eta[0],Photon_phi[0],0);
                 photon_2.SetPtEtaPhiM(Photon_pt[1],Photon_eta[1],Photon_phi[1],0);
@@ -344,14 +344,15 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                     diphoton_pt = diphoton.Pt();
                     diphoton_mass = diphoton.M();
                     diphoton_eta = diphoton.Eta();
+                    diphoton_pt_over_diphoton_mass = diphoton_pt / diphoton_mass;
                     photon_delR = DeltaR(photon_1.Eta(), photon_1.Phi(), photon_2.Eta(), photon_2.Phi());
                 }
             }
             
-            else if(index_photon.size()>2){
+            else if(nphoton>2){
                 float tmp_diphoton_pt = 0.;
-                for(int j=0; j<index_photon.size(); j++){
-                    for(int k=j+1; k<index_photon.size(); k++){
+                for(int j=0; j<nphoton; j++){
+                    for(int k=j+1; k<nphoton; k++){
                         TLorentzVector photon_1, photon_2, diphoton;
                         photon_1.SetPtEtaPhiM(Photon_pt[j],Photon_eta[j],Photon_phi[j],0);
                         photon_2.SetPtEtaPhiM(Photon_pt[k],Photon_eta[k],Photon_phi[k],0);
@@ -363,6 +364,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                             diphoton_pt = tmp_diphoton_pt;
                             diphoton_mass = diphoton.M();
                             diphoton_eta = diphoton.Eta();
+                            diphoton_pt_over_diphoton_mass = diphoton_pt / diphoton_mass;
                             photon_delR = DeltaR(photon_1.Eta(), photon_1.Phi(), photon_2.Eta(), photon_2.Phi());
                         }
                     }
@@ -464,10 +466,12 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                     dibjet_pt = dibjet.Pt();
                     dibjet_mass = dibjet.M();
                     dibjet_eta = dibjet.Eta();
+                    dibjet_pt_over_dibjet_mass = dibjet_pt / dibjet_mass;
                     
                     dibjet_pt_corr = dibjet_corr.Pt();
                     dibjet_mass_corr = dibjet_corr.M();
                     dibjet_eta_corr = dibjet_corr.Eta();
+                    dibjet_pt_over_dibjet_mass_corr = dibjet_pt_corr / dibjet_mass_corr;
                     bjet_delR = DeltaR(bjet_1.Eta(), bjet_1.Phi(), bjet_2.Eta(), bjet_2.Phi());
                     sumDeepBscore = Jet_btagDeepB[index_bj1] + Jet_btagDeepB[index_bj2];
                     
@@ -494,6 +498,15 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
                     }
                 }
             }//end of at least two b-jet loop
+            float tmp_delR_pho_bjet = 0.; // find minimum delR between photon and jet
+            for (int j=0; j < nbjet; j++){
+                for (int k=0; k < nphoton; k++){
+                    tmp_delR_pho_bjet = DeltaR(Jet_eta[index_bjet[j]],Jet_phi[index_bjet[j]], Photon_eta[index_photon[k]], Photon_phi[index_photon[k]]);
+                    if (tmp_delR_pho_bjet < all_pho_bjet_min_dR){
+                        all_pho_bjet_min_dR = tmp_delR_pho_bjet;
+                    }
+                }
+            }
             
             if(!index_vbfjet_0.empty()){
                 // remove b-jets from vbf-jet vector
@@ -545,6 +558,11 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
         t_run =run;
         t_luminosityBlock=luminosityBlock;
         t_event=event;
+        t_njet = nJet;
+        t_MET_pt = MET_pt;
+        t_MET_phi = MET_phi;
+        t_MET_sumEt = MET_sumEt;
+        
         if(index_ph1>=0){
           leading_photon_pt=Photon_pt[index_ph1];
           leading_photon_eta=Photon_eta[index_ph1];
@@ -555,6 +573,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
           subleading_photon_pt=Photon_pt[index_ph2];
           subleading_photon_eta=Photon_eta[index_ph2];
           subleading_photon_phi=Photon_phi[index_ph2]; 
+          subleading_pho_pt_over_dimass = subleading_photon_pt / diphoton_mass;
         }
         if(gen_index1_matched_reco_photon>=0){
             gen_matched_LeadingPho_pt = GenPart_pt[gen_index1_matched_reco_photon];
@@ -575,6 +594,7 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             leadingDeepBscore = Jet_btagDeepB[index_bj1];
             leading_bjet_pt_over_dimass = leading_bjet_pt / dibjet_mass;
             leading_bjet_pt_over_dimass_corr = leading_bjet_pt_corr / dibjet_mass_corr;
+            dphi_met_leading_bjet = DeltaPhi(leading_bjet_phi, MET_phi);
         }
         if(index_bj2>=0){
             subleading_bjet_pt=Jet_pt[index_bj2];
@@ -582,6 +602,9 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             subleading_bjet_eta=Jet_eta[index_bj2];
             subleading_bjet_phi=Jet_phi[index_bj2]; 
             subleadingDeepBscore = Jet_btagDeepB[index_bj2];
+            subleading_bjet_pt_over_dimass = subleading_bjet_pt / dibjet_mass;
+            subleading_bjet_pt_over_dimass_corr = subleading_bjet_pt_corr / dibjet_mass_corr;
+            dphi_met_subleading_bjet = DeltaPhi(subleading_bjet_phi, MET_phi);
         }
         if(gen_index1_matched_reco_bjet>=0){
             gen_matched_LeadingBjet_pt = GenJet_pt[gen_index1_matched_reco_bjet];
@@ -620,6 +643,9 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             divbfjet_mass = divbfjet.M();
             divbfjet_pt = divbfjet.Pt();
             divbfjet_eta = divbfjet.Eta();
+            leading_vbfjet_pt_over_dimass = leading_vbfjet_pt / divbfjet_mass;
+            subleading_vbfjet_pt_over_dimass = subleading_vbfjet_pt / divbfjet_mass;
+            divbfjet_pt_over_dimass = divbfjet_pt / divbfjet_mass;
             vbfjet_delR = DeltaR(leading_vbfjet_eta, leading_vbfjet_phi, subleading_vbfjet_eta, subleading_vbfjet_phi);
             vbfjet_del_eta = fabs(vbfjet_1.Eta() - vbfjet_2.Eta());
         }
@@ -632,6 +658,12 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             fatJetbtagDDBvL = FatJet_btagDDBvL[index_fatJet];
         }
         if (leading_photon_pt > 0 && leading_bjet_pt > 0){
+            float dRbg11 = DeltaR(leading_bjet_eta, leading_bjet_phi, leading_photon_eta, leading_photon_phi);
+            float dRbg12 = DeltaR(leading_bjet_eta, leading_bjet_phi, subleading_photon_eta, subleading_photon_phi);
+            float dRbg21 = DeltaR(subleading_bjet_eta, subleading_bjet_phi, leading_photon_eta, leading_photon_phi);
+            float dRbg22 = DeltaR(subleading_bjet_eta, subleading_bjet_phi, subleading_photon_eta, subleading_photon_phi);
+            rec_pho_bjet_min_dR = min({dRbg11, dRbg12, dRbg21, dRbg22});
+            
             recon = 1;
             if(leading_vbfjet_pt > 0){
                 VBFHH_recon = 1;
