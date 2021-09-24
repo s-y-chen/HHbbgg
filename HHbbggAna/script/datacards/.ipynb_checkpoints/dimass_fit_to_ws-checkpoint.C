@@ -65,13 +65,13 @@ RooAbsPdf* CB_func(RooRealVar* obs, double mind, double maxd){
 RooAbsPdf* Bernstein_func(RooRealVar* obs, double mind, double maxd){
     
     // Bernstein1 pdf
-    RooRealVar* a1 = new RooRealVar("a1","a1", 1,0.1,100);
-    RooRealVar* a2 = new RooRealVar("a2","a2", 2,0.1,100);
-    RooRealVar* a3 = new RooRealVar("a3","a3", 3,0.1,100);
-    RooRealVar* a4 = new RooRealVar("a4","a4", 4,0.1,100);
+    RooRealVar* a1 = new RooRealVar("a1","a1", 0.5,0,1);
+    RooRealVar* a2 = new RooRealVar("a2","a2", 0.5,0,1);
+    RooRealVar* a3 = new RooRealVar("a3","a3", 0.5,0,1);
+    //RooRealVar* a4 = new RooRealVar("a4","a4", 1,0,1);
     //RooRealVar a5("a5","a5", 5,0.1,1000);
     //RooRealVar a6("a6","a6", 6,0.1,1000);
-    RooAbsPdf* model = new RooBernstein("model", "Bern", *obs, RooArgList(*a1, *a2, *a3, *a4));
+    RooAbsPdf* model = new RooBernstein("model", "Bern", *obs, RooArgList(*a1, *a2, *a3));
       
     return model;   
 }
@@ -109,7 +109,7 @@ RooAbsPdf* get_func(TString func_name, RooRealVar* obs, double mind, double maxd
     return model;
 }
 
-void dofit(TString file, TString obs_var, TString min, TString max, TString dnn_var, TString dnn_cut, TString weightvar, TString procname, TString funcname){
+void dofit(TString file, TString obs_var, TString min, TString max, TString dnn_var, TString dnn_cut, TString weightvar, TString procname, TString funcname, TString catname){
     TString path = "pdfs/"; 
   
     double mind = min.Atof();
@@ -150,14 +150,13 @@ void dofit(TString file, TString obs_var, TString min, TString max, TString dnn_
     minim.setPrintLevel(1);
     minim.setEps(1);
     int status = minim.minimize("Minuit2", "Migrad");
-/*
+    
+    /*
     RooArgSet POIs(*mean1, *sigma1, *mean2, *sigma2, *frac1, *frac2);
     RooMinuit minim(*nll);
     minim.migrad() ;
-    minim.minos(POIs) ;
- */   
-    RooFitResult *result = minim.save("fitResult","Fit Results");
-    result->Write();
+    minim.minos(POIs) ;  
+    */
         
     RooPlot* dtframe = mgg->frame(Range(mind,maxd,kTRUE),Title("mass"));
     data->plotOn(dtframe);
@@ -168,10 +167,13 @@ void dofit(TString file, TString obs_var, TString min, TString max, TString dnn_
     model->paramOn(dtframe,Layout(0.55)) ;
     TCanvas* c1 = new TCanvas();
     dtframe->Draw();
-    c1->SaveAs(path+procname+obs_var+"_"+funcname+".png");
-    c1->SaveAs(path+procname+obs_var+"_"+funcname+".pdf");
+    c1->SaveAs(path+procname+obs_var+"_"+funcname+catname+".png");
+    c1->SaveAs(path+procname+obs_var+"_"+funcname+catname+".pdf");
     
-    TString output_file = path+"wsinput."+funcname+procname+".root";
+    TString output_file = path+"wsinput."+funcname+procname+catname+".root";
+    
+    RooFitResult *result = minim.save("fitResult","Fit Results");
+    result->Write();
 
     RooWorkspace *w = new RooWorkspace("pdf","workspace") ;    
     w->import(*model);
@@ -189,13 +191,20 @@ void dimass_fit_to_ws(){
     TString ttH_file = "ttHToGG_combine_seqDNN.root";
     TString VBFH_file = "VBFToHH_combine_seqDNN.root";
     TString ggH_file = "GluGluHtoGG_combine_seqDNN.root";
-    TString data_file = "bgd_data_2018_seqDNN.root";
+    TString data_file = "DiPhotonJetsBox_combine_seqDNN.root"; //data ntuple has a problem, using this for now
    
-    dofit(path+ggHH_file, "diphoton_mass", "115", "135", "DNN_score","DNN_score>0.5","genweight_scale","gghh","CB"); //ggHH signal
-    dofit(path+ttH_file, "diphoton_mass", "115", "135", "DNN_score","DNN_score>0.5","genweight_scale","tth","CB"); //ttH bkg
-    dofit(path+VH_file, "diphoton_mass", "115", "135", "DNN_score","DNN_score>0.5","genweight_scale","vh","CB"); //VH bkg
-    dofit(path+VBFH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","vbfh","Expo"); //VBFH bkg
-    dofit(path+ggH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","ggh","Expo"); //ggH bkg   
-    dofit(path+data_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","nonresonant","Gaussian"); //VH bkg
+    dofit(path+ggHH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","gghh","Gaussian","ggHHcat1"); //ggHH signal
+    dofit(path+ttH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","tth","Gaussian","ggHHcat1"); //ttH bkg
+    dofit(path+VH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","vh","Gaussian","ggHHcat1"); //VH bkg
+    dofit(path+VBFH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","vbfh","Bern","ggHHcat1"); //VBFH bkg
+    dofit(path+ggH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","ggh","Gaussian","ggHHcat1"); //ggH bkg   
+    dofit(path+data_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","nonresonant","Bern","ggHHcat1"); //data bkg
+    
+    dofit(path+ggHH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","gghh","Gaussian","ggHHcat2"); //ggHH signal
+    dofit(path+ttH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","tth","Gaussian","ggHHcat2"); //ttH bkg
+    dofit(path+VH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","vh","Gaussian","ggHHcat2"); //VH bkg
+    dofit(path+VBFH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","vbfh","Bern","ggHHcat2"); //VBFH bkg
+    dofit(path+ggH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","ggh","Gaussian","ggHHcat2"); //ggH bkg   
+    dofit(path+data_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","nonresonant","Bern","ggHHcat2"); //data bkg
 
 }

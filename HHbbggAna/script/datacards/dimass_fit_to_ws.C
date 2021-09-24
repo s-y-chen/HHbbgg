@@ -27,7 +27,7 @@ RooAbsPdf* gauss_func(RooRealVar* obs, double mind, double maxd){
 
     //gauss1 pdf
     RooRealVar* mean1 = new RooRealVar("mean1","mean of gaussian",125,mind,maxd) ;
-    RooRealVar* sigma1 = new RooRealVar("sigma1","width of gaussian",5,0.1,50) ;
+    RooRealVar* sigma1 = new RooRealVar("sigma1","width of gaussian",2.5,0.1,50) ;
     RooAbsPdf* gauss1 = new RooGaussian("gauss1","gauss1",*obs,*mean1,*sigma1) ; 
     
     //gauss2 pdf
@@ -193,18 +193,18 @@ void dimass_fit_to_ws(){
     TString ggH_file = "GluGluHtoGG_combine_seqDNN.root";
     TString data_file = "DiPhotonJetsBox_combine_seqDNN.root"; //data ntuple has a problem, using this for now
    
-    dofit(path+ggHH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","gghh","CB","ggHHcat1"); //ggHH signal
-    dofit(path+ttH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","tth","CB","ggHHcat1"); //ttH bkg
-    dofit(path+VH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","vh","CB","ggHHcat1"); //VH bkg
-    dofit(path+VBFH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","vbfh","Bern","ggHHcat1"); //VBFH bkg
-    dofit(path+ggH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","ggh","CB","ggHHcat1"); //ggH bkg   
+    dofit(path+ggHH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","gghh","Gaussian","ggHHcat1"); //ggHH signal
+    dofit(path+ttH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","tth","Gaussian","ggHHcat1"); //ttH bkg
+    dofit(path+VH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","vh","Gaussian","ggHHcat1"); //VH bkg
+    dofit(path+VBFH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","vbfh","Gaussian","ggHHcat1"); //VBFH bkg
+    dofit(path+ggH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","ggh","Gaussian","ggHHcat1"); //ggH bkg   
     dofit(path+data_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score>0.5","genweight_scale","nonresonant","Bern","ggHHcat1"); //data bkg
     
-    dofit(path+ggHH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","gghh","CB","ggHHcat2"); //ggHH signal
-    dofit(path+ttH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","tth","CB","ggHHcat2"); //ttH bkg
-    dofit(path+VH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","vh","CB","ggHHcat2"); //VH bkg
-    dofit(path+VBFH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","vbfh","Bern","ggHHcat2"); //VBFH bkg
-    dofit(path+ggH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","ggh","CB","ggHHcat2"); //ggH bkg   
+    dofit(path+ggHH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","gghh","Gaussian","ggHHcat2"); //ggHH signal
+    dofit(path+ttH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","tth","Gaussian","ggHHcat2"); //ttH bkg
+    dofit(path+VH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","vh","Gaussian","ggHHcat2"); //VH bkg
+    dofit(path+VBFH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","vbfh","Gaussian","ggHHcat2"); //VBFH bkg
+    dofit(path+ggH_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","ggh","Gaussian","ggHHcat2"); //ggH bkg   
     dofit(path+data_file, "diphoton_mass", "110", "140", "DNN_score","DNN_score<0.5","genweight_scale","nonresonant","Bern","ggHHcat2"); //data bkg
 
 }
