@@ -6,20 +6,20 @@ kmax *
 bin	hbbhgg_gghhbin2_13TeV	hbbhgg_gghhbin1_13TeV
 observation	-1	-1
 ---------------
-shapes		ggHH	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.CBgghhggHHcat1.root
-shapes		ggh	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.CBgghggHHcat1.root
-shapes		vbfh	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.CBvbfhggHHcat1.root
-shapes		tth	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.CBtthggHHcat1.root
-shapes		VH	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.CBvhggHHcat1.root
-shapes		nonresonant	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.BernnonresonantggHHcat1.root
-shapes		ggHH	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.CBgghhggHHcat2.root
-shapes		ggh	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.CBgghggHHcat2.root
-shapes		vbfh	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.CBvbfhggHHcat2.root
-shapes		tth	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.CBtthggHHcat2.root
-shapes		VH	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.CBvhggHHcat2.root
-shapes		nonresonant	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.BernnonresonantggHHcat2.root
+shapes		ggHH	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussiangghhggHHcat1.root	pdf:model
+shapes		ggh	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussiangghggHHcat1.root	pdf:model
+shapes		vbfh	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussianvbfhggHHcat1.root	pdf:model
+shapes		tth	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussiantthggHHcat1.root	pdf:model
+shapes		VH	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussianvhggHHcat1.root	pdf:model
+shapes		nonresonant	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.BernnonresonantggHHcat1.root	pdf:model
+shapes		ggHH	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussiangghhggHHcat2.root	pdf:model
+shapes		ggh	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussiangghggHHcat2.root	pdf:model
+shapes		vbfh	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussianvbfhggHHcat2.root	pdf:model
+shapes		tth	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussiantthggHHcat2.root	pdf:model
+shapes		VH	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussianvhggHHcat2.root	pdf:model
+shapes		nonresonant	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.BernnonresonantggHHcat2.root	pdf:model
 bin	hbbhgg_gghhbin1_13TeV	hbbhgg_gghhbin1_13TeV	hbbhgg_gghhbin1_13TeV	hbbhgg_gghhbin1_13TeV	hbbhgg_gghhbin1_13TeV	hbbhgg_gghhbin1_13TeV	hbbhgg_gghhbin2_13TeV	hbbhgg_gghhbin2_13TeV	hbbhgg_gghhbin2_13TeV	hbbhgg_gghhbin2_13TeV	hbbhgg_gghhbin2_13TeV	hbbhgg_gghhbin2_13TeV
 process	ggHH	ggh	vbfh	tth	VH	nonresonant	ggHH	ggh	vbfh	tth	VH	nonresonant
-process	0	0	1	2	3	4	0	0	1	2	3	4
-rate	1.0	1.0	1.0	1.0	1.0	1.0	1.0	1.0	1.0	1.0	1.0	1.0
+process	0	1	2	3	4	5	0	1	2	3	4	5
+rate	1.909	3.181	2.227	10.35	0.03114	5486	0.2509	30.18	5.86	66.83	0.01578	112100
 ---------------

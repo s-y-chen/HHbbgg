@@ -1,35 +1,30 @@
-def PrintDatacard(categories, signals, backgrounds, filenames, ofname):
+def PrintDatacard(categories, signals_proc, backgrounds_proc, signals_pdf, backgrounds_pdf, ofname):
     dcof = open(ofname, "w")
 
-    number_of_bins = len(categories)
+    number_of_categories = len(categories)
     number_of_backgrounds = 0
     
-    for cat in categories:
-        for proc in cat.processes:
-            if (proc in cat.signal_processes):
-                signals += [proc]
-            elif (proc in remove_proc):
-                continue
-            else:
-                backgrounds += [proc]
-
-    backgrounds = set(backgrounds)
-    signals = set(signals)
-    number_of_backgrounds = len(backgrounds)
-    number_of_signals = len(signals)
-    analysis_categories = list(set([c.full_name for c in categories]))
-    dcof.write("imax {0}\n".format(number_of_bins))
+    number_of_backgrounds = len(backgrounds_proc)
+    number_of_signals = len(signals_proc)
+    
+    dcof.write("imax {0}\n".format(number_of_categories))
     dcof.write("jmax {0}\n".format(number_of_backgrounds + number_of_signals - 1))
     dcof.write("kmax *\n")
     dcof.write("---------------\n")
+        
+    backgrounds = set(backgrounds_proc)
+    signals = set(signals_proc)
+    number_of_backgrounds = len(backgrounds_proc)
+    number_of_signals = len(signals_proc)
+    analysis_categories = list(set([c for c in categories]))
+        
+    print("analysis_categories: ",analysis_categories)
 
-    for cat in categories:
-#old format
-#        dcof.write("shapes * {0} {1} $PROCESS__$CHANNEL $PROCESS__$CHANNEL__$SYSTEMATIC\n".format(
-        dcof.write("shapes * {0} {1} $PROCESS $PROCESS__$SYSTEMATIC\n".format(
-            cat.full_name,
-            os.path.basename(filenames[cat.full_name])
-        ))
+    #for cat in categories:
+    #    dcof.write("shapes * {0} {1} $PROCESS $PROCESS__$SYSTEMATIC\n".format(
+    #        cat,
+    #        os.path.basename(filenames[cat])
+    #    )
 
     dcof.write("---------------\n")
 
@@ -42,18 +37,26 @@ def PrintDatacard(categories, signals, backgrounds, filenames, ofname):
     processes_1 = []
     rates       = []
 
+    tmp = 1.0
+    icat = 0;
     for cat in categories:
-        for i_sample, sample in enumerate(cat.processes):
-            if (sample in remove_proc):
-                continue
-            else:
-                bins.append(cat.full_name)
-                processes_0.append(sample)
-                if sample in cat.signal_processes:
-                    i_sample = -i_sample
-                processes_1.append(str(i_sample))
-                rates.append("{0}".format(event_counts[sample]))
-
+                   
+        for isig in range(len(signals)):
+            bins.append(cat)
+            processes_0.append(signals_proc[isig])
+            i_sample = -isig
+            processes_1.append(str(i_sample))         
+            rates.append("{0}".format(tmp))
+            dcof.write("shapes\t"+"\t"+signals_proc[isig]+"\t"+cat+"\t"+signals_pdf[icat*len(signals_proc)+isig]+ "pdf:model" + "\n")
+               
+        for ibkg in range(len(backgrounds)):
+            bins.append(cat)
+            processes_0.append(backgrounds_proc[ibkg])
+            processes_1.append(str(ibkg))         
+            rates.append("{0}".format(tmp))  
+            dcof.write("shapes\t"+"\t"+backgrounds_proc[ibkg]+"\t"+cat+"\t"+backgrounds_pdf[icat*len(backgrounds_proc)+ibkg]+"pdf:model"+"\n")
+        icat+=1
+        
     #Write process lines (names and IDs)
     dcof.write("bin\t"+"\t".join(bins)+"\n")
     dcof.write("process\t"+"\t".join(processes_0)+"\n")
@@ -64,14 +67,30 @@ def PrintDatacard(categories, signals, backgrounds, filenames, ofname):
 def main():
     print("making datacards")
     
-    backgrounds_proc = ["ggh","vbfh","tth","VH","nonresonant"]
-    signals_proc = ["ggHH","VBFHH"]
-    backgrounds_pdf = ["ggh","vbfh","tth","VH","nonresonant"]
-    signals_pdf = ["ggHH","VBFHH"]
-    categories = ["passDNN","failDNN"]
+    backgrounds = ["ggh","vbfh","tth","VH","nonresonant"]
+    signals = ["ggHH"] # Todo add "VBFHH"
+    
+    backgrounds_pdf = ["pdfs/wsinput.CBgghggHHcat1.root",
+                       "pdfs/wsinput.CBvbfhggHHcat1.root",
+                       "pdfs/wsinput.CBtthggHHcat1.root",
+                       "pdfs/wsinput.CBvhggHHcat1.root",
+                       "pdfs/wsinput.BernnonresonantggHHcat1.root",
+                       "pdfs/wsinput.CBgghggHHcat2.root",
+                       "pdfs/wsinput.CBvbfhggHHcat2.root",
+                       "pdfs/wsinput.CBtthggHHcat2.root",
+                       "pdfs/wsinput.CBvhggHHcat2.root",
+                       "pdfs/wsinput.BernnonresonantggHHcat2.root"
+                      ]
+    
+    signals_pdf = ["pdfs/wsinput.CBgghhggHHcat1.root",
+                   "pdfs/wsinput.CBgghhggHHcat2.root"                  
+                  ]
+    
+    categories = ["hbbhgg_gghhbin1_13TeV","hbbhgg_gghhbin2_13TeV"]
+                   
+    ofname = "HHbbgg_datacard.txt"
        
-    PrintDatacard()    
-
+    PrintDatacard(categories, signals, backgrounds, signals_pdf, backgrounds_pdf, ofname)    
 
 if __name__=="__main__":
     main()
