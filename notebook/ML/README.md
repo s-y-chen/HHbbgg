@@ -9,15 +9,7 @@ Multiclass_DNN_int.ipynb: The multiclass DNN that uses integer values for the cl
 
 Multiclass_DNN_one_hot.ipynb: The multiclass DNN that uses one-hot encording for the classes and does not include down-sizing.
 
-Sequential_DNN_combine.ipynb: The DNN with all the backgrounds combined together into one large background. 
-
-Sequential_DNN_combine_reweighting_trial.ipynb: The DNN with all the backgrounds combined together into one large background with attempts at applying the associated weights when plotting the ROC curve and other performance related metrics. 
-
-Sequential_DNN_data.ipynb: The DNN using the data outside the 115-135 diphoton mass window as the background.
-
-Sequential_DNN_optimize_bayesian.ipynb: The DNN (with full recon==1 samples) optimized using Bayesian methods. As this optimization process seems to work (though does not significantly improve performance), this is likely the optimization method that will be kept moving forward. 
-
-Note: at the end, I will likely try to combine these into a single notebook.
+Sequential_DNN_ggHH.ipynb: The DNN used for distinguishing the ggHH signal from the backgrounds (with VBFHH included as a background). The hyperparameters of the model has been optimized by Bayesian optimization. The model is trained and tested on the combined MC background and signal samples, and then applied to the data. 
 
 ## Overview of plots and other saved files
 BackgroundVsSignal_Plts: This folder contains the plots comparing the training variable distributions of the background to the signal. 
