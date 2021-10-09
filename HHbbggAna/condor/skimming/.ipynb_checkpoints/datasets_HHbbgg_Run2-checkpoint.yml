@@ -1,0 +1,9 @@
+datasets:
+- era: "2016"
+  files_merged: /nanoAODv1/2016/data_merged_*.root
+  files_nano_in: /storage/af/user/nlu/hh/nanoAOD/store/data/Run2016G/NANOAOD/*02Apr2020-v1*/*/*.root
+  is_mc: false
+  name: data_2016
+  skim_cut: "(nPhoton > 1) && (nJet>1)"
+  
+

@@ -1,0 +1,38 @@
+datasets:
+- era: "2016"
+  files_merged: /nanoAODv1/2016/data_243_16.root
+  files_nano_in: /storage/af/user/nlu/hh/nanoAOD/store/data/Run2016G/NANOAOD/02Apr2020-v1/230000/09548E5A-8647-DA41-84E5-71E8F7EBAA3D.root
+  is_mc: false
+  name: data_2016
+  skim_cut: "(nPhoton > 1) && (nJet>1) && (HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1)"
+- era: "2016"
+  files_merged: /nanoAODv1/2016/data_merged_248_16.root
+  files_nano_in: /storage/af/user/nlu/hh/nanoAOD/store/data/Run2016G/NANOAOD/02Apr2020-v1/230000/198DE3F1-5DC3-D047-987E-A9FA0DC277D8.root
+  is_mc: false
+  name: data_2016
+  skim_cut: "(nPhoton > 1) && (nJet>1) && (HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1)"
+- era: "2016"
+  files_merged: /nanoAODv1/2016/data_merged_275_16.root
+  files_nano_in: /storage/af/user/nlu/hh/nanoAOD/store/data/Run2016G/NANOAOD/02Apr2020-v1/230000/A7651EA4-602D-3E48-BE2F-54727B56B7F5.root
+  is_mc: false
+  name: data_2016
+  skim_cut: "(nPhoton > 1) && (nJet>1) && (HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1)"
+- era: "2016"
+  files_merged: /nanoAODv1/2016/data_merged_277_16.root
+  files_nano_in: /storage/af/user/nlu/hh/nanoAOD/store/data/Run2016G/NANOAOD/02Apr2020-v1/230000/AC46DBA4-989D-7140-9886-96927717649B.root
+  is_mc: false
+  name: data_2016
+  skim_cut: "(nPhoton > 1) && (nJet>1) && (HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1)"
+- era: "2016"
+  files_merged: /nanoAODv1/2016/data_merged_292_16.root
+  files_nano_in: /storage/af/user/nlu/hh/nanoAOD/store/data/Run2016G/NANOAOD/02Apr2020-v1/230000/F91132B6-EC17-6F46-B524-A25083B326D8.root
+  is_mc: false
+  name: data_2016
+  skim_cut: "(nPhoton > 1) && (nJet>1) && (HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1)"
+- era: "2016"
+  files_merged: /nanoAODv1/2016/data_merged_296_16.root
+  files_nano_in: /storage/af/user/nlu/hh/nanoAOD/store/data/Run2016G/NANOAOD/02Apr2020-v1/250000/2FD13471-3BB7-614F-8A62-8960E179E227.root
+  is_mc: false
+  name: data_2016
+  skim_cut: "(nPhoton > 1) && (nJet>1) && (HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1)"
+
