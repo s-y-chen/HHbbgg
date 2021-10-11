@@ -1,0 +1,6 @@
+python skim_and_recompress.py --infiles input1.txt --out out1.root --temppath ./ --skim "(nPhoton > 1) && (nJet>1) && (HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1)" --branches branches.txt 
+python skim_and_recompress.py --infiles input2.txt --out out2.root --temppath ./ --skim "(nPhoton > 1) && (nJet>1) && (HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1)" --branches branches.txt
+python skim_and_recompress.py --infiles input3.txt --out out3.root --temppath ./ --skim "(nPhoton > 1) && (nJet>1) && (HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1)" --branches branches.txt
+python skim_and_recompress.py --infiles input4.txt --out out4.root --temppath ./ --skim "(nPhoton > 1) && (nJet>1) && (HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1)" --branches branches.txt
+python skim_and_recompress.py --infiles input5.txt --out out5.root --temppath ./ --skim "(nPhoton > 1) && (nJet>1) && (HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1)" --branches branches.txt
+python skim_and_recompress.py --infiles input6.txt --out out6.root --temppath ./ --skim "(nPhoton > 1) && (nJet>1) && (HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90==1)" --branches branches.txt
