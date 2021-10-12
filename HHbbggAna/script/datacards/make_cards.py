@@ -84,62 +84,43 @@ def main():
     backgrounds = ["ggh","vbfh","tth","VH","nonresonant"]
     signals = ["ggHH"] # Todo add "VBFHH"
     
-#     backgrounds_pdf = ["pdfs/wsinput.CBgghggHHcat1.root",
-#                        "pdfs/wsinput.CBvbfhggHHcat1.root",
-#                        "pdfs/wsinput.CBtthggHHcat1.root",
-#                        "pdfs/wsinput.CBvhggHHcat1.root",
-#                        "pdfs/wsinput.BernnonresonantggHHcat1.root",
-#                        "pdfs/wsinput.CBgghggHHcat2.root",
-#                        "pdfs/wsinput.CBvbfhggHHcat2.root",
-#                        "pdfs/wsinput.CBtthggHHcat2.root",
-#                        "pdfs/wsinput.CBvhggHHcat2.root",
-#                        "pdfs/wsinput.BernnonresonantggHHcat2.root"
+#     backgrounds_pdf = ["pdfs_v1/wsinput.CBgghggHHcat1f.root",
+#                        "pdfs_v1/wsinput.CBvbfhggHHcat1f.root",
+#                        "pdfs_v1/wsinput.CBtthggHHcat1f.root",
+#                        "pdfs_v1/wsinput.CBvhggHHcat1f.root",
+#                        "pdfs_v1/wsinput.BernnonresonantggHHcat1f.root",
+#                        "pdfs_v1/wsinput.CBgghggHHcat2f.root",
+#                        "pdfs_v1/wsinput.CBvbfhggHHcat2f.root",
+#                        "pdfs_v1/wsinput.CBtthggHHcat2f.root",
+#                        "pdfs_v1/wsinput.CBvhggHHcat2f.root",
+#                        "pdfs_v1/wsinput.BernnonresonantggHHcat2f.root"
 #                       ]
     
-#     signals_pdf = ["pdfs/wsinput.CBgghhggHHcat1.root",
-#                    "pdfs/wsinput.CBgghhggHHcat2.root"                  
+#     signals_pdf = ["pdfs_v1/wsinput.CBgghhggHHcat1f.root",
+#                    "pdfs_v1/wsinput.CBgghhggHHcat2f.root"                  
 #                   ]
-    backgrounds_pdf = ["pdfs/wsinput.GaussiangghggHHcat1.root",
-                       "pdfs/wsinput.GaussianvbfhggHHcat1.root",
-                       "pdfs/wsinput.GaussiantthggHHcat1.root",
-                       "pdfs/wsinput.GaussianvhggHHcat1.root",
-                       "pdfs/wsinput.BernnonresonantggHHcat1.root",
-                       "pdfs/wsinput.GaussiangghggHHcat2.root",
-                       "pdfs/wsinput.GaussianvbfhggHHcat2.root",
-                       "pdfs/wsinput.GaussiantthggHHcat2.root",
-                       "pdfs/wsinput.GaussianvhggHHcat2.root",
-                       "pdfs/wsinput.BernnonresonantggHHcat2.root"
+    backgrounds_pdf = ["pdfs/wsinput.GaussiangghggHHcat1f.root",
+                       "pdfs/wsinput.GaussianvbfhggHHcat1f.root",
+                       "pdfs/wsinput.GaussiantthggHHcat1f.root",
+                       "pdfs/wsinput.GaussianvhggHHcat1f.root",
+                       "pdfs/wsinput.BernnonresonantggHHcat1f.root",
+                       "pdfs/wsinput.GaussiangghggHHcat2f.root",
+                       "pdfs/wsinput.GaussianvbfhggHHcat2f.root",
+                       "pdfs/wsinput.GaussiantthggHHcat2f.root",
+                       "pdfs/wsinput.GaussianvhggHHcat2f.root",
+                       "pdfs/wsinput.BernnonresonantggHHcat2f.root"
                       ]
     
-    signals_pdf = ["pdfs/wsinput.GaussiangghhggHHcat1.root",
-                   "pdfs/wsinput.GaussiangghhggHHcat2.root"                  
+    signals_pdf = ["pdfs/wsinput.GaussiangghhggHHcat1f.root",
+                   "pdfs/wsinput.GaussiangghhggHHcat2f.root"                  
                   ]
     
     categories = ["hbbhgg_gghhbin1_13TeV","hbbhgg_gghhbin2_13TeV"]
                    
     ofname = "HHbbgg_datacard.txt"
     
-    # get rates
-#     samples = ['sig', 'GluGluHtoGG', 'VBFHToGG', 'ttHToGG', 'VHToGG', 'DiPhotonJetsBox']
-#     dfs = []
-#     for samp in samples:
-#         dfs.append(samp_to_df(samp))
-#     cat1_dfs = []
-#     cat2_dfs = []
-#     for df in dfs:
-#         c1_df = df[df[b'DNN_score'] >= 0.5]
-#         c2_df = df[df[b'DNN_score'] < 0.5]
-#         cat1_dfs.append(c1_df)
-#         cat2_dfs.append(c2_df)
-#     cat1_rates = []
-#     cat2_rates = []
-#     for i in range(len(samples)):
-#         c1_yield = np.sum(cat1_dfs[i].loc[:,b'genweight_scale'].values)
-#         c2_yield = np.sum(cat2_dfs[i].loc[:, b'genweight_scale'].values)
-#         cat1_rates.append(c1_yield)
-#         cat2_rates.append(c2_yield)
-    cat1_rates = [1.909, 3.181, 2.227, 10.35, 0.03114, 5486]
-    cat2_rates = [0.2509, 30.18, 5.860, 66.83, 0.01578, 112100]
+    cat1_rates = [1.797, 23.91, 2.027, 1.371, 7.341, 18664]
+    cat2_rates = [0.363, 380.92, 28.19, 5.902, 62.35, 312950]
     rate_lst = [cat1_rates, cat2_rates]
     
     PrintDatacard(categories, signals, backgrounds, signals_pdf, backgrounds_pdf, rate_lst, ofname)    

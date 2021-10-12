@@ -1,4 +1,16 @@
-def PrintDatacard(categories, signals_proc, backgrounds_proc, signals_pdf, backgrounds_pdf, ofname):
+# import ROOT as rt
+# import uproot
+# import numpy as np
+# import pandas as pd
+
+# def samp_to_df(samp_name):
+#     file_name = '/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/notebook/ML/DNN_Trees/combine_sequential_DNN/{0}_combine_seqDNN.root'.format(sampe_name)
+#     samp_file = uproot.open(file_name)
+#     samp_array = samp_file['tree'].arrays()
+#     samp_df = pd.DataFrame(samp_array)
+#     return samp_df
+
+def PrintDatacard(categories, signals_proc, backgrounds_proc, signals_pdf, backgrounds_pdf, rate_lst, ofname):
     dcof = open(ofname, "w")
 
     number_of_categories = len(categories)
@@ -36,8 +48,6 @@ def PrintDatacard(categories, signals_proc, backgrounds_proc, signals_pdf, backg
     processes_0 = []
     processes_1 = []
     rates       = []
-
-    tmp = 1.0
     icat = 0;
     for cat in categories:
                    
@@ -46,15 +56,19 @@ def PrintDatacard(categories, signals_proc, backgrounds_proc, signals_pdf, backg
             processes_0.append(signals_proc[isig])
             i_sample = -isig
             processes_1.append(str(i_sample))         
-            rates.append("{0}".format(tmp))
-            dcof.write("shapes\t"+"\t"+signals_proc[isig]+"\t"+cat+"\t"+signals_pdf[icat*len(signals_proc)+isig]+ "pdf:model" + "\n")
+            rates.append("{0}".format(rate_lst[icat][isig]))
+            dcof.write("shapes\t"+signals_proc[isig]+"\t"+cat+"\t"+signals_pdf[icat*len(signals_proc)+isig]+ "\t"+ "pdf:model" + "\n")
                
         for ibkg in range(len(backgrounds)):
             bins.append(cat)
             processes_0.append(backgrounds_proc[ibkg])
-            processes_1.append(str(ibkg))         
-            rates.append("{0}".format(tmp))  
-            dcof.write("shapes\t"+"\t"+backgrounds_proc[ibkg]+"\t"+cat+"\t"+backgrounds_pdf[icat*len(backgrounds_proc)+ibkg]+"pdf:model"+"\n")
+            processes_1.append(str(ibkg+1))         
+            rates.append("{0}".format(rate_lst[icat][ibkg+len(signals)]))  
+            dcof.write("shapes\t"+backgrounds_proc[ibkg]+"\t"+cat+"\t"+backgrounds_pdf[icat*len(backgrounds_proc)+ibkg]+"\t" + "pdf:model"+"\n")
+ 
+        #data
+        dcof.write("shapes\tdata_obs \t"+cat+"\t"+backgrounds_pdf[icat*len(backgrounds_proc)+len(backgrounds)-1]+"\t" + "pdf:Data_13TeV"+"\n")
+
         icat+=1
         
     #Write process lines (names and IDs)
@@ -70,27 +84,46 @@ def main():
     backgrounds = ["ggh","vbfh","tth","VH","nonresonant"]
     signals = ["ggHH"] # Todo add "VBFHH"
     
-    backgrounds_pdf = ["pdfs/wsinput.CBgghggHHcat1.root",
-                       "pdfs/wsinput.CBvbfhggHHcat1.root",
-                       "pdfs/wsinput.CBtthggHHcat1.root",
-                       "pdfs/wsinput.CBvhggHHcat1.root",
-                       "pdfs/wsinput.BernnonresonantggHHcat1.root",
-                       "pdfs/wsinput.CBgghggHHcat2.root",
-                       "pdfs/wsinput.CBvbfhggHHcat2.root",
-                       "pdfs/wsinput.CBtthggHHcat2.root",
-                       "pdfs/wsinput.CBvhggHHcat2.root",
-                       "pdfs/wsinput.BernnonresonantggHHcat2.root"
+#     backgrounds_pdf = ["pdfs/wsinput.CBgghggHHcat1.root",
+#                        "pdfs/wsinput.CBvbfhggHHcat1.root",
+#                        "pdfs/wsinput.CBtthggHHcat1.root",
+#                        "pdfs/wsinput.CBvhggHHcat1.root",
+#                        "pdfs/wsinput.BernnonresonantggHHcat1.root",
+#                        "pdfs/wsinput.CBgghggHHcat2.root",
+#                        "pdfs/wsinput.CBvbfhggHHcat2.root",
+#                        "pdfs/wsinput.CBtthggHHcat2.root",
+#                        "pdfs/wsinput.CBvhggHHcat2.root",
+#                        "pdfs/wsinput.BernnonresonantggHHcat2.root"
+#                       ]
+    
+#     signals_pdf = ["pdfs/wsinput.CBgghhggHHcat1.root",
+#                    "pdfs/wsinput.CBgghhggHHcat2.root"                  
+#                   ]
+    backgrounds_pdf = ["pdfs/wsinput.GaussiangghggHHcat1f.root",
+                       "pdfs/wsinput.GaussianvbfhggHHcat1f.root",
+                       "pdfs/wsinput.GaussiantthggHHcat1f.root",
+                       "pdfs/wsinput.GaussianvhggHHcat1f.root",
+                       "pdfs/wsinput.BernnonresonantggHHcat1f.root",
+                       "pdfs/wsinput.GaussiangghggHHcat2f.root",
+                       "pdfs/wsinput.GaussianvbfhggHHcat2f.root",
+                       "pdfs/wsinput.GaussiantthggHHcat2f.root",
+                       "pdfs/wsinput.GaussianvhggHHcat2f.root",
+                       "pdfs/wsinput.BernnonresonantggHHcat2f.root"
                       ]
     
-    signals_pdf = ["pdfs/wsinput.CBgghhggHHcat1.root",
-                   "pdfs/wsinput.CBgghhggHHcat2.root"                  
+    signals_pdf = ["pdfs/wsinput.GaussiangghhggHHcat1f.root",
+                   "pdfs/wsinput.GaussiangghhggHHcat2f.root"                  
                   ]
     
     categories = ["hbbhgg_gghhbin1_13TeV","hbbhgg_gghhbin2_13TeV"]
                    
     ofname = "HHbbgg_datacard.txt"
-       
-    PrintDatacard(categories, signals, backgrounds, signals_pdf, backgrounds_pdf, ofname)    
+    
+    cat1_rates = [1.797, 23.91, 2.027, 1.371, 7.341, 18664]
+    cat2_rates = [0.363, 380.92, 28.19, 5.902, 62.35, 312950]
+    rate_lst = [cat1_rates, cat2_rates]
+    
+    PrintDatacard(categories, signals, backgrounds, signals_pdf, backgrounds_pdf, rate_lst, ofname)    
 
 if __name__=="__main__":
     main()
