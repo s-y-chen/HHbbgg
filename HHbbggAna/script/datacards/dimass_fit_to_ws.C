@@ -136,7 +136,7 @@ void dofit(TString file, TString obs_var, TString min, TString max, TString dnn_
     obsAndWeight.add(*dnn);
     obsAndWeight.add(*evWeight);
 
-    RooDataSet* data = new RooDataSet("mc","mc",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*procTree),Cut(cuttree)) ;
+    RooDataSet* data = new RooDataSet("Data_13TeV","Data_13TeV",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*procTree),Cut(cuttree)) ;
     //RooDataSet data("mc","mc",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*procTree),Cut(cuttree)) ;
     data->Print() ;
     //model->fitTo(data);
@@ -178,6 +178,7 @@ void dofit(TString file, TString obs_var, TString min, TString max, TString dnn_
 
     RooWorkspace *w = new RooWorkspace("pdf","workspace") ;    
     w->import(*model);
+    w->import(*data);
     w->Print();
     cout <<"write ws to "<<output_file<<endl;
     w->writeToFile(output_file);

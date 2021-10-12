@@ -57,14 +57,18 @@ def PrintDatacard(categories, signals_proc, backgrounds_proc, signals_pdf, backg
             i_sample = -isig
             processes_1.append(str(i_sample))         
             rates.append("{0}".format(rate_lst[icat][isig]))
-            dcof.write("shapes\t"+"\t"+signals_proc[isig]+"\t"+cat+"\t"+signals_pdf[icat*len(signals_proc)+isig]+ "\t"+ "pdf:model" + "\n")
+            dcof.write("shapes\t"+signals_proc[isig]+"\t"+cat+"\t"+signals_pdf[icat*len(signals_proc)+isig]+ "\t"+ "pdf:model" + "\n")
                
         for ibkg in range(len(backgrounds)):
             bins.append(cat)
             processes_0.append(backgrounds_proc[ibkg])
             processes_1.append(str(ibkg+1))         
             rates.append("{0}".format(rate_lst[icat][ibkg+len(signals)]))  
-            dcof.write("shapes\t"+"\t"+backgrounds_proc[ibkg]+"\t"+cat+"\t"+backgrounds_pdf[icat*len(backgrounds_proc)+ibkg]+"\t" + "pdf:model"+"\n")
+            dcof.write("shapes\t"+backgrounds_proc[ibkg]+"\t"+cat+"\t"+backgrounds_pdf[icat*len(backgrounds_proc)+ibkg]+"\t" + "pdf:model"+"\n")
+ 
+        #data
+        dcof.write("shapes\tdata_obs \t"+cat+"\t"+backgrounds_pdf[icat*len(backgrounds_proc)+len(backgrounds)-1]+"\t" + "pdf:Data_13TeV"+"\n")
+
         icat+=1
         
     #Write process lines (names and IDs)
