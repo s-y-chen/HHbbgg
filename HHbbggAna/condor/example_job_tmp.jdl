@@ -16,6 +16,7 @@ Error = logs/example_DATE_IJOB.err.$(Cluster).$(Process)
 +InteractiveUser = true
 +SingularityImage = "/cvmfs/singularity.opensciencegrid.org/cmssw/cms:rhel7"
 +SingularityBindCVMFS = True
++JobQueue="Short"
 run_as_owner = True
 
 #Provide information on proxy in order to access storage
