@@ -99,20 +99,20 @@ def main():
 #     signals_pdf = ["pdfs_v1/wsinput.CBgghhggHHcat1f.root",
 #                    "pdfs_v1/wsinput.CBgghhggHHcat2f.root"                  
 #                   ]
-    backgrounds_pdf = ["pdfs/wsinput.GaussiangghggHHcat1f.root",
-                       "pdfs/wsinput.GaussianvbfhggHHcat1f.root",
-                       "pdfs/wsinput.GaussiantthggHHcat1f.root",
-                       "pdfs/wsinput.GaussianvhggHHcat1f.root",
-                       "pdfs/wsinput.BernnonresonantggHHcat1f.root",
-                       "pdfs/wsinput.GaussiangghggHHcat2f.root",
-                       "pdfs/wsinput.GaussianvbfhggHHcat2f.root",
-                       "pdfs/wsinput.GaussiantthggHHcat2f.root",
-                       "pdfs/wsinput.GaussianvhggHHcat2f.root",
-                       "pdfs/wsinput.BernnonresonantggHHcat2f.root"
+    backgrounds_pdf = ["pdfs/wsinput.GaussiangghggHHcat1.root",
+                       "pdfs/wsinput.GaussianvbfhggHHcat1.root",
+                       "pdfs/wsinput.GaussiantthggHHcat1.root",
+                       "pdfs/wsinput.GaussianvhggHHcat1.root",
+                       "pdfs/wsinput.Bernnonresonant_fggHHcat1.root",
+                       "pdfs/wsinput.GaussiangghggHHcat2.root",
+                       "pdfs/wsinput.GaussianvbfhggHHcat2.root",
+                       "pdfs/wsinput.GaussiantthggHHcat2.root",
+                       "pdfs/wsinput.GaussianvhggHHcat2.root",
+                       "pdfs/wsinput.BernnonresonantggHHcat2.root"
                       ]
     
-    signals_pdf = ["pdfs/wsinput.GaussiangghhggHHcat1f.root",
-                   "pdfs/wsinput.GaussiangghhggHHcat2f.root"                  
+    signals_pdf = ["pdfs/wsinput.GaussiangghhggHHcat1.root",
+                   "pdfs/wsinput.GaussiangghhggHHcat2.root"                  
                   ]
     
     categories = ["hbbhgg_gghhbin1_13TeV","hbbhgg_gghhbin2_13TeV"]

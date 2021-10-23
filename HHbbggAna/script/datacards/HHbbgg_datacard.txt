@@ -6,20 +6,20 @@ kmax *
 bin	hbbhgg_gghhbin2_13TeV	hbbhgg_gghhbin1_13TeV
 observation	-1	-1
 ---------------
-shapes	ggHH	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussiangghhggHHcat1f.root	pdf:model
-shapes	ggh	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussiangghggHHcat1f.root	pdf:model
-shapes	vbfh	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussianvbfhggHHcat1f.root	pdf:model
-shapes	tth	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussiantthggHHcat1f.root	pdf:model
-shapes	VH	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussianvhggHHcat1f.root	pdf:model
-shapes	nonresonant	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.BernnonresonantggHHcat1f.root	pdf:model
-shapes	data_obs 	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.BernnonresonantggHHcat1f.root	pdf:Data_13TeV
-shapes	ggHH	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussiangghhggHHcat2f.root	pdf:model
-shapes	ggh	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussiangghggHHcat2f.root	pdf:model
-shapes	vbfh	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussianvbfhggHHcat2f.root	pdf:model
-shapes	tth	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussiantthggHHcat2f.root	pdf:model
-shapes	VH	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussianvhggHHcat2f.root	pdf:model
-shapes	nonresonant	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.BernnonresonantggHHcat2f.root	pdf:model
-shapes	data_obs 	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.BernnonresonantggHHcat2f.root	pdf:Data_13TeV
+shapes	ggHH	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussiangghhggHHcat1.root	pdf:model
+shapes	ggh	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussiangghggHHcat1.root	pdf:model
+shapes	vbfh	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussianvbfhggHHcat1.root	pdf:model
+shapes	tth	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussiantthggHHcat1.root	pdf:model
+shapes	VH	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.GaussianvhggHHcat1.root	pdf:model
+shapes	nonresonant	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.Bernnonresonant_fggHHcat1.root	pdf:model
+shapes	data_obs 	hbbhgg_gghhbin1_13TeV	pdfs/wsinput.Bernnonresonant_fggHHcat1.root	pdf:Data_13TeV
+shapes	ggHH	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussiangghhggHHcat2.root	pdf:model
+shapes	ggh	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussiangghggHHcat2.root	pdf:model
+shapes	vbfh	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussianvbfhggHHcat2.root	pdf:model
+shapes	tth	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussiantthggHHcat2.root	pdf:model
+shapes	VH	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.GaussianvhggHHcat2.root	pdf:model
+shapes	nonresonant	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.BernnonresonantggHHcat2.root	pdf:model
+shapes	data_obs 	hbbhgg_gghhbin2_13TeV	pdfs/wsinput.BernnonresonantggHHcat2.root	pdf:Data_13TeV
 bin	hbbhgg_gghhbin1_13TeV	hbbhgg_gghhbin1_13TeV	hbbhgg_gghhbin1_13TeV	hbbhgg_gghhbin1_13TeV	hbbhgg_gghhbin1_13TeV	hbbhgg_gghhbin1_13TeV	hbbhgg_gghhbin2_13TeV	hbbhgg_gghhbin2_13TeV	hbbhgg_gghhbin2_13TeV	hbbhgg_gghhbin2_13TeV	hbbhgg_gghhbin2_13TeV	hbbhgg_gghhbin2_13TeV
 process	ggHH	ggh	vbfh	tth	VH	nonresonant	ggHH	ggh	vbfh	tth	VH	nonresonant
 process	0	1	2	3	4	5	0	1	2	3	4	5
