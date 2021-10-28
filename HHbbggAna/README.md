@@ -8,11 +8,11 @@ make clean; make
 
 To run the code
 
-./analyzeHHbbgg runList.txt out.root mc F 2018
+./analyzeHHbbgg testfile/lists_2018/GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8.txt  out.root GluGluToHHTo2B2G_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8 F T 2018
 
 OR 
 
-./analyzeHmm runList.txt out.root data T 2016
+./analyzeHHbbgg testfile/lists_2016/data_ex.txt data T F 2016
 
 nanoAOD:
 
