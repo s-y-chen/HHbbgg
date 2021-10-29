@@ -1,1 +1,1 @@
-/storage/af/user/nlu/hh/nanoAOD/store/mc/RunIIAutumn18NanoAODv7/GluGluHToGG_M125_13TeV_amcatnloFXFX_pythia8/NANOAODSIM/PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8_ext2-v1/110000/62E3635C-6198-8547-8DF2-F337761F675E.root
+/storage/af/user/schen7/HHbbgg/nanoAOD/store/GluGluHToGG_M125_13TeV_amcatnloFXFX_pythia8/NANOAODSIM/PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8_ext2-v1/110000/62E3635C-6198-8547-8DF2-F337761F675E.root

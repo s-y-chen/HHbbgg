@@ -21,8 +21,8 @@
 int main(int argc, char* argv[])
 {
 
-    if(argc < 6) {
-        cerr << "Please give 6 arguments: runList, outputFileName, datasetname, isdata(T/F), runGenInfo or not (T/F), and year"<<endl;
+    if(argc < 4) {
+        cerr << "Please give 4 arguments " << "runList " << " " << "outputFileName" << " " << "dataset" << "data type and year"<<endl;
         return -1;
     }
     const char *inputFileList = argv[1];
