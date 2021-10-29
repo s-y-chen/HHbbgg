@@ -57,17 +57,17 @@ def PrintDatacard(categories, signals_proc, backgrounds_proc, signals_pdf, backg
             i_sample = -isig
             processes_1.append(str(i_sample))         
             rates.append("{0}".format(rate_lst[icat][isig]))
-            dcof.write("shapes\t"+signals_proc[isig]+"\t"+cat+"\t"+signals_pdf[icat*len(signals_proc)+isig]+ "\t"+ "pdf:model" + "\n")
+            dcof.write("shapes\t"+signals_proc[isig]+"\t"+cat+"\t"+signals_pdf[icat*len(signals_proc)+isig]+ "\t"+"pdf:model"+signals_proc[isig]+cat+"\n")
                
         for ibkg in range(len(backgrounds)):
             bins.append(cat)
             processes_0.append(backgrounds_proc[ibkg])
             processes_1.append(str(ibkg+1))         
             rates.append("{0}".format(rate_lst[icat][ibkg+len(signals)]))  
-            dcof.write("shapes\t"+backgrounds_proc[ibkg]+"\t"+cat+"\t"+backgrounds_pdf[icat*len(backgrounds_proc)+ibkg]+"\t" + "pdf:model"+"\n")
+            dcof.write("shapes\t"+backgrounds_proc[ibkg]+"\t"+cat+"\t"+backgrounds_pdf[icat*len(backgrounds_proc)+ibkg]+"\t"+"pdf:model"+backgrounds_proc[ibkg]+cat+"\n")
  
         #data
-        dcof.write("shapes\tdata_obs \t"+cat+"\t"+backgrounds_pdf[icat*len(backgrounds_proc)+len(backgrounds)-1]+"\t" + "pdf:Data_13TeV"+"\n")
+        dcof.write("shapes\tdata_obs \t"+cat+"\t"+backgrounds_pdf[icat*len(backgrounds_proc)+len(backgrounds)-1]+"\t" + "pdf:Data_13TeV_nonresonant_"+cat+"\n")
 
         icat+=1
         
@@ -77,33 +77,35 @@ def PrintDatacard(categories, signals_proc, backgrounds_proc, signals_pdf, backg
     dcof.write("process\t"+"\t".join(processes_1)+"\n")
     dcof.write("rate\t"+"\t".join(rates)+"\n")
     dcof.write("---------------\n")
+    for cat in categories:
+        dcof.write("modelnonresonant"+cat+"_norm flatParam \n")
 
 def main():
     print("making datacards")
     
-    backgrounds = ["ggh","vbfh","tth","VH","nonresonant"]
-    signals = ["ggHH"] # Todo add "VBFHH"
+    backgrounds = ["ggh","vbfh","tth","vh","nonresonant"]
+    signals = ["gghh"] # Todo add "VBFHH"
     
-#     backgrounds_pdf = ["pdfs_v1/wsinput.CBgghggHHcat1f.root",
-#                        "pdfs_v1/wsinput.CBvbfhggHHcat1f.root",
-#                        "pdfs_v1/wsinput.CBtthggHHcat1f.root",
-#                        "pdfs_v1/wsinput.CBvhggHHcat1f.root",
-#                        "pdfs_v1/wsinput.BernnonresonantggHHcat1f.root",
-#                        "pdfs_v1/wsinput.CBgghggHHcat2f.root",
-#                        "pdfs_v1/wsinput.CBvbfhggHHcat2f.root",
-#                        "pdfs_v1/wsinput.CBtthggHHcat2f.root",
-#                        "pdfs_v1/wsinput.CBvhggHHcat2f.root",
-#                        "pdfs_v1/wsinput.BernnonresonantggHHcat2f.root"
+#     backgrounds_pdf = ["pdfs_v1/wsinput.CBgghggHHcat1.root",
+#                        "pdfs_v1/wsinput.CBvbfhggHHcat1.root",
+#                        "pdfs_v1/wsinput.CBtthggHHcat1.root",
+#                        "pdfs_v1/wsinput.CBvhggHHcat1.root",
+#                        "pdfs_v1/wsinput.BernnonresonantggHHcat1.root",
+#                        "pdfs_v1/wsinput.CBgghggHHcat2.root",
+#                        "pdfs_v1/wsinput.CBvbfhggHHcat2.root",
+#                        "pdfs_v1/wsinput.CBtthggHHcat2.root",
+#                        "pdfs_v1/wsinput.CBvhggHHcat2.root",
+#                        "pdfs_v1/wsinput.BernnonresonantggHHcat2.root"
 #                       ]
     
-#     signals_pdf = ["pdfs_v1/wsinput.CBgghhggHHcat1f.root",
-#                    "pdfs_v1/wsinput.CBgghhggHHcat2f.root"                  
+#     signals_pdf = ["pdfs_v1/wsinput.CBgghhggHHcat1.root",
+#                    "pdfs_v1/wsinput.CBgghhggHHcat2.root"                  
 #                   ]
     backgrounds_pdf = ["pdfs/wsinput.GaussiangghggHHcat1.root",
                        "pdfs/wsinput.GaussianvbfhggHHcat1.root",
                        "pdfs/wsinput.GaussiantthggHHcat1.root",
                        "pdfs/wsinput.GaussianvhggHHcat1.root",
-                       "pdfs/wsinput.Bernnonresonant_fggHHcat1.root",
+                       "pdfs/wsinput.BernnonresonantggHHcat1.root",
                        "pdfs/wsinput.GaussiangghggHHcat2.root",
                        "pdfs/wsinput.GaussianvbfhggHHcat2.root",
                        "pdfs/wsinput.GaussiantthggHHcat2.root",
@@ -115,7 +117,7 @@ def main():
                    "pdfs/wsinput.GaussiangghhggHHcat2.root"                  
                   ]
     
-    categories = ["hbbhgg_gghhbin1_13TeV","hbbhgg_gghhbin2_13TeV"]
+    categories = ["ggHHcat1","ggHHcat2"]
                    
     ofname = "HHbbgg_datacard.txt"
     

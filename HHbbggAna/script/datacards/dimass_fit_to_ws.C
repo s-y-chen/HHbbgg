@@ -23,85 +23,85 @@
 using namespace RooFit ;
 using namespace std ;
 
-RooAbsPdf* gauss_func(RooRealVar* obs, double mind, double maxd){
+RooAbsPdf* gauss_func(RooRealVar* obs, double mind, double maxd, TString catname){
 
     //gauss1 pdf
-    RooRealVar* mean1 = new RooRealVar("mean1","mean of gaussian",125,mind,maxd) ;
-    RooRealVar* sigma1 = new RooRealVar("sigma1","width of gaussian",2.5,0.1,50) ;
-    RooAbsPdf* gauss1 = new RooGaussian("gauss1","gauss1",*obs,*mean1,*sigma1) ; 
+    RooRealVar* mean1 = new RooRealVar("mean1"+catname,"mean of gaussian",125,mind,maxd) ;
+    RooRealVar* sigma1 = new RooRealVar("sigma1"+catname,"width of gaussian",2.5,0.1,50) ;
+    RooAbsPdf* gauss1 = new RooGaussian("gauss1"+catname,"gauss1",*obs,*mean1,*sigma1) ; 
     
     //gauss2 pdf
-    RooRealVar* mean2 = new RooRealVar("mean2","mean of gaussian",120,mind,maxd) ;
-    RooRealVar* sigma2 = new RooRealVar("sigma2","width of gaussian",2.5,0.1,50) ;
-    RooAbsPdf* gauss2 = new RooGaussian("gauss2","gauss2",*obs,*mean2,*sigma2) ; 
+    RooRealVar* mean2 = new RooRealVar("mean2"+catname,"mean of gaussian",120,mind,maxd) ;
+    RooRealVar* sigma2 = new RooRealVar("sigma2"+catname,"width of gaussian",2.5,0.1,50) ;
+    RooAbsPdf* gauss2 = new RooGaussian("gauss2"+catname,"gauss2",*obs,*mean2,*sigma2) ; 
     
     //gauss3 pdf
-    RooRealVar* mean3 = new RooRealVar("mean3","mean of gaussian",130,mind,maxd) ;
-    RooRealVar* sigma3 = new RooRealVar("sigma3","width of gaussian",2.5,0.1,50) ;
-    RooAbsPdf* gauss3 = new RooGaussian("gauss3","gauss3",*obs,*mean3,*sigma3) ; 
+    RooRealVar* mean3 = new RooRealVar("mean3"+catname,"mean of gaussian",130,mind,maxd) ;
+    RooRealVar* sigma3 = new RooRealVar("sigma3"+catname,"width of gaussian",2.5,0.1,50) ;
+    RooAbsPdf* gauss3 = new RooGaussian("gauss3"+catname,"gauss3",*obs,*mean3,*sigma3) ; 
  
-    RooRealVar* frac1 = new RooRealVar("frac1","fraction of gauss1",0.1,0.0,1) ;
-    RooRealVar* frac2 = new RooRealVar("frac2","fraction of gauss2",0.1,0.0,1) ;
+    RooRealVar* frac1 = new RooRealVar("frac1"+catname,"fraction of gauss1",0.1,0.0,1) ;
+    RooRealVar* frac2 = new RooRealVar("frac2"+catname,"fraction of gauss2",0.1,0.0,1) ;
     //RooRealVar* frac3 = new RooRealVar("frac3","fraction of gauss3",0.1,0.0,1) ;
-    RooAbsPdf* model = new RooAddPdf("model","g1+g2",RooArgList(*gauss1,*gauss2, *gauss3),RooArgList(*frac1, *frac2)) ;
+    RooAbsPdf* model = new RooAddPdf("model"+catname,"g1+g2",RooArgList(*gauss1,*gauss2, *gauss3),RooArgList(*frac1, *frac2)) ;
     
     return model;
 }
 
-RooAbsPdf* CB_func(RooRealVar* obs, double mind, double maxd){
+RooAbsPdf* CB_func(RooRealVar* obs, double mind, double maxd, TString catname){
     gSystem->Load("RooCrystalBall_cxx.so");
     
-    RooRealVar* m0 = new RooRealVar("m0","m0", 125, mind, maxd);
-    RooRealVar* alphaL = new RooRealVar("alphaL","alphaL", 2, 0.1,10);
-    RooRealVar* nL = new RooRealVar("nL","nL", 2,0.1,50);
-    RooRealVar* sigmaL = new RooRealVar("sigmaL","sigmaL", 5,0.1,50);
-    RooRealVar* alphaR = new RooRealVar("alphaR","alphaR", 2,0.1,10);
-    RooRealVar* nR = new RooRealVar("nR","nR", 2,0.1,50);
-    RooRealVar* sigmaR = new RooRealVar("sigmaR","sigmaR", 5,0.1,50);   
-    RooAbsPdf* model = new RooCrystalBall("model", "CB", *obs, *m0, *sigmaL, *sigmaR, *alphaL, *nL, *alphaR, *nR);       
+    RooRealVar* m0 = new RooRealVar("m0"+catname,"m0", 125, mind, maxd);
+    RooRealVar* alphaL = new RooRealVar("alphaL"+catname,"alphaL", 2, 0.1,10);
+    RooRealVar* nL = new RooRealVar("nL"+catname,"nL", 2,0.1,50);
+    RooRealVar* sigmaL = new RooRealVar("sigmaL"+catname,"sigmaL", 5,0.1,50);
+    RooRealVar* alphaR = new RooRealVar("alphaR"+catname,"alphaR", 2,0.1,10);
+    RooRealVar* nR = new RooRealVar("nR"+catname,"nR", 2,0.1,50);
+    RooRealVar* sigmaR = new RooRealVar("sigmaR"+catname,"sigmaR", 5,0.1,50);   
+    RooAbsPdf* model = new RooCrystalBall("model"+catname, "CB", *obs, *m0, *sigmaL, *sigmaR, *alphaL, *nL, *alphaR, *nR);       
     
     return model;   
 }
     
-RooAbsPdf* Bernstein_func(RooRealVar* obs, double mind, double maxd){
+RooAbsPdf* Bernstein_func(RooRealVar* obs, double mind, double maxd, TString catname){
     
     // Bernstein1 pdf
-    RooRealVar* a1 = new RooRealVar("a1","a1", 0.5,0,1);
-    RooRealVar* a2 = new RooRealVar("a2","a2", 0.5,0,1);
-    RooRealVar* a3 = new RooRealVar("a3","a3", 0.5,0,1);
+    RooRealVar* a1 = new RooRealVar("a1"+catname,"a1", 0.5,0,1);
+    RooRealVar* a2 = new RooRealVar("a2"+catname,"a2", 0.5,0,1);
+    RooRealVar* a3 = new RooRealVar("a3"+catname,"a3", 0.5,0,1);
     //RooRealVar* a4 = new RooRealVar("a4","a4", 1,0,1);
     //RooRealVar a5("a5","a5", 5,0.1,1000);
     //RooRealVar a6("a6","a6", 6,0.1,1000);
-    RooAbsPdf* model = new RooBernstein("model", "Bern", *obs, RooArgList(*a1, *a2, *a3));
+    RooAbsPdf* model = new RooBernstein("model"+catname, "Bern"+catname, *obs, RooArgList(*a1, *a2, *a3));
       
     return model;   
 }
 
-RooAbsPdf* exponential_func(RooRealVar* obs, double mind, double maxd){
+RooAbsPdf* exponential_func(RooRealVar* obs, double mind, double maxd, TString catname){
 
-    RooRealVar* k = new RooRealVar("k", "k", -3, -100, 0.1);
-    RooAbsPdf* model = new RooExponential("model", "Expo", *obs, *k);
+    RooRealVar* k = new RooRealVar("k"+catname, "k", -3, -100, 0.1);
+    RooAbsPdf* model = new RooExponential("model"+catname, "Expo"+catname, *obs, *k);
      
     return model;
 }
 
-RooAbsPdf* get_func(TString func_name, RooRealVar* obs, double mind, double maxd){
+RooAbsPdf* get_func(TString func_name, RooRealVar* obs, double mind, double maxd, TString catname){
     RooAbsPdf* model = NULL;
     if(func_name=="Gaussian"){
         cout <<"Guassian function is chosen"<<endl;
-        model = gauss_func(obs,  mind, maxd);
+        model = gauss_func(obs,  mind, maxd, catname);
     } 
     else if(func_name=="CB"){
         cout <<"CB function is chosen"<<endl; 
-        model = CB_func(obs, mind, maxd);
+        model = CB_func(obs, mind, maxd, catname);
     } 
     else if(func_name=="Bern"){
         cout <<"Bern function is chosen"<<endl; 
-        model = Bernstein_func(obs, mind, maxd);
+        model = Bernstein_func(obs, mind, maxd, catname);
     } 
     else if(func_name=="Expo"){
         cout <<"Expo function is chosen"<<endl; 
-        model = exponential_func(obs, mind, maxd);
+        model = exponential_func(obs, mind, maxd, catname);
     } 
     else{
         cout <<"func error"<<endl;
@@ -121,26 +121,26 @@ void dofit(TString file, TString obs_var, TString min, TString max, TString dnn_
     // Declare observable x
     RooRealVar* mgg = new RooRealVar(obs_var,obs_var,125,mind,maxd) ;
     RooRealVar* dnn = new RooRealVar(dnn_var,dnn_var,0,0,1) ;
+    RooRealVar* evWeight = new RooRealVar(weightvar,weightvar,1,-1e10,1e10) ;
 
     cout <<"before model"<<endl;
-    RooAbsPdf* model = get_func(funcname,mgg, mind, maxd);
+    RooAbsPdf* model = get_func(funcname,mgg, mind, maxd, procname+catname);
     model->Print("V");
     cout <<"after model"<<endl;
 
     TFile File(file);
     TTree* procTree = (TTree*)File.Get("tree");
-    RooRealVar* evWeight = new RooRealVar(weightvar,weightvar,1,-1e10,1e10) ;
+    TTree* cutChain = procTree->CopyTree(dnn_cut);
 
     RooArgSet obsAndWeight;
     obsAndWeight.add(*mgg);
-    obsAndWeight.add(*dnn);
     obsAndWeight.add(*evWeight);
-
-    RooDataSet* data = new RooDataSet("Data_13TeV","Data_13TeV",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*procTree),Cut(cuttree)) ;
-    //RooDataSet data("mc","mc",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*procTree),Cut(cuttree)) ;
-    data->Print() ;
-    //model->fitTo(data);
     
+    //RooDataSet* data = new RooDataSet("Data_13TeV","Data_13TeV",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*procTree),Cut(cuttree)) ;
+    //RooDataSet data("mc","mc",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*procTree),Cut(cuttree)) ;
+    //model->fitTo(data);
+    RooDataSet* data = new RooDataSet("Data_13TeV_"+procname+"_"+catname, "Data_13TeV_"+procname+"_"+catname, RooArgSet(obsAndWeight), RooFit::WeightVar(*evWeight), RooFit::Import(*cutChain));
+    data->Print();
    
     cout <<"before nll"<<endl;
     RooNLLVar* nll = (RooNLLVar*)model->createNLL(*data);
@@ -179,6 +179,10 @@ void dofit(TString file, TString obs_var, TString min, TString max, TString dnn_
     RooWorkspace *w = new RooWorkspace("pdf","workspace") ;    
     w->import(*model);
     w->import(*data);
+    if(procname.Contains("nonresonant")){
+        RooRealVar* norm = new RooRealVar("model"+procname+catname+"_norm",procname+catname+"_norm",1,0,100000);
+        w->import(*norm);
+    }
     w->Print();
     cout <<"write ws to "<<output_file<<endl;
     w->writeToFile(output_file);
@@ -193,81 +197,34 @@ void dimass_fit_to_ws(){
     TString ttH_file = "ttHToGG_5.root";
     TString VBFH_file = "VBFToHH_5.root";
     TString ggH_file = "GluGluHtoGG_5.root";
-    TString nonres_file = "data_result.root";
+    TString nonres_file = "nonres_5.root";
     TString data_file = "data_result.root"; 
-    
-//    // category mass_sculpt_cut_sm = 1
-//     dofit(path+ggHH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","gghh","Gaussian","ggHHcat1"); //ggHH signal
-//     dofit(path+ttH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","tth","Gaussian","ggHHcat1"); //ttH bkg
-//     dofit(path+VH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vh","Gaussian","ggHHcat1"); //VH bkg
-//     dofit(path+VBFH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vbfh","Gaussian","ggHHcat1"); //VBFH bkg
-//     dofit(path+ggH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","ggh","Gaussian","ggHHcat1");
-//     //ggH bkg   
-//     dofit(path+nonres_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight","nonresonant_f","Bern","ggHHcat1"); // nonres bkg 
-//     dofit(path+data_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight","data","Bern","ggHHcat1"); //data bkg
-    
-//     dofit(path+ggHH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","gghh","CB","ggHHcat1"); //ggHH signal
-//     dofit(path+ttH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","tth","CB","ggHHcat1"); //ttH bkg
-//     dofit(path+VH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vh","CB","ggHHcat1"); //VH bkg
-//     dofit(path+VBFH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vbfh","CB","ggHHcat1"); //VBFH bkg
-//     dofit(path+ggH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","ggh","CB","ggHHcat1");
-//     //ggH bkg   
-    
-    
-    // category mass_sculpt_cut_sm = 0
-    dofit(path+ggHH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","gghh","Gaussian","ggHHcat2"); //ggHH signal
-    dofit(path+ttH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","tth","Gaussian","ggHHcat2"); //ttH bkg
-    dofit(path+VH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vh","Gaussian","ggHHcat2"); //VH bkg
-    dofit(path+VBFH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vbfh","Gaussian","ggHHcat2"); //VBFH bkg
-    dofit(path+ggH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","ggh","Gaussian","ggHHcat2"); //ggH bkg
-    dofit(path+data_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight","nonresonant","Bern","ggHHcat2");// nonres bkg
-    dofit(path+data_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight","data","Bern","ggHHcat2"); //data bkg
-    
-     dofit(path+ggHH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","gghh","CB","ggHHcat2"); //ggHH signal
-    dofit(path+ttH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","tth","CB","ggHHcat2"); //ttH bkg
-    dofit(path+VH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vh","CB","ggHHcat2"); //VH bkg
-    dofit(path+VBFH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vbfh","CB","ggHHcat2"); //VBFH bkg
-    dofit(path+ggH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","ggh","CB","ggHHcat2"); //ggH bkg
-    
    
-    
-    
-//     // full range
-//      // category mass_sculpt_cut_sm = 1
-//     dofit(path+ggHH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","gghh","Gaussian","ggHHcat1f"); //ggHH signal
-//     dofit(path+ttH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","tth","Gaussian","ggHHcat1f"); //ttH bkg
-//     dofit(path+VH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vh","Gaussian","ggHHcat1f"); //VH bkg
-//     dofit(path+VBFH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vbfh","Gaussian","ggHHcat1f"); //VBFH bkg
-//     dofit(path+ggH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","ggh","Gaussian","ggHHcat1f");
-//     //ggH bkg   
-//     dofit(path+nonres_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","nonresonant","Bern","ggHHcat1f"); // nonres bkg 
-//     dofit(path+data_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight","data","Bern","ggHHcat1f"); //data bkg
-//     dofit(path+nonres_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","nonresonant","Expo","ggHHcat1f"); // nonres bkg 
-//     dofit(path+data_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight","data","Expo","ggHHcat1f"); //data bkg
-    
-//     dofit(path+ggHH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","gghh","CB","ggHHcat1f"); //ggHH signal
-//     dofit(path+ttH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","tth","CB","ggHHcat1f"); //ttH bkg
-//     dofit(path+VH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vh","CB","ggHHcat1f"); //VH bkg
-//     dofit(path+VBFH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vbfh","CB","ggHHcat1f"); //VBFH bkg
-//     dofit(path+ggH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","ggh","CB","ggHHcat1f");
-//     //ggH bkg   
-    
-    
-//     // category mass_sculpt_cut_sm = 0
-//     dofit(path+ggHH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","gghh","Gaussian","ggHHcat2f"); //ggHH signal
-//     dofit(path+ttH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","tth","Gaussian","ggHHcat2f"); //ttH bkg
-//     dofit(path+VH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vh","Gaussian","ggHHcat2f"); //VH bkg
-//     dofit(path+VBFH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vbfh","Gaussian","ggHHcat2f"); //VBFH bkg
-//     dofit(path+ggH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","ggh","Gaussian","ggHHcat2f"); //ggH bkg
-//     dofit(path+data_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","nonresonant","Bern","ggHHcat2f");// nonres bkg
-//     dofit(path+data_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight","data","Bern","ggHHcat2f"); //data bkg
-//      dofit(path+data_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","nonresonant","Expo","ggHHcat2f");// nonres bkg
-//     dofit(path+data_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight","data","Expo","ggHHcat2f"); //data bkg
-    
-//      dofit(path+ggHH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","gghh","CB","ggHHcat2f"); //ggHH signal
-//     dofit(path+ttH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","tth","CB","ggHHcat2f"); //ttH bkg
-//     dofit(path+VH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vh","CB","ggHHcat2f"); //VH bkg
-//     dofit(path+VBFH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vbfh","CB","ggHHcat2f"); //VBFH bkg
-//     dofit(path+ggH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","ggh","CB","ggHHcat2f"); //ggH bkg
+    /*
+    // category mass_sculpt_cut_sm = 1 
+    dofit(path+ggHH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","gghh","Gaussian","ggHHcat1"); //ggHH signal
+    dofit(path+ttH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","tth","Gaussian","ggHHcat1"); //ttH bkg
+    dofit(path+VH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vh","Gaussian","ggHHcat1"); //VH bkg
+    dofit(path+VBFH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vbfh","Gaussian","ggHHcat1"); //VBFH bkg
+    dofit(path+ggH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","ggh","Gaussian","ggHHcat1"); //ggH bkg
+*/
+    //dofit(path+data_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight","nonresonant","Bern","ggHHcat1"); //data bkg
 
+  /*  
+    // category mass_sculpt_cut_sm = 0
+    dofit(path+ggHH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","gghh","Gaussian","ggHHcat2"); //ggHH signal
+    dofit(path+ttH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","tth","Gaussian","ggHHcat2"); //ttH bkg
+    dofit(path+VH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vh","Gaussian","ggHHcat2"); //VH bkg
+    dofit(path+VBFH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vbfh","Gaussian","ggHHcat2"); //VBFH bkg
+    dofit(path+ggH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","ggh","Gaussian","ggHHcat2"); //ggH bkg
+*/
+    dofit(path+data_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight","nonresonant","Bern","ggHHcat2"); //data bkg
+    
+    /*
+    dofit(path+ggHH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","gghh","CB","ggHHcat2f"); //ggHH signal
+    dofit(path+ttH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","tth","CB","ggHHcat2f"); //ttH bkg
+    dofit(path+VH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vh","CB","ggHHcat2f"); //VH bkg
+    dofit(path+VBFH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vbfh","CB","ggHHcat2f"); //VBFH bkg
+    dofit(path+ggH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","ggh","CB","ggHHcat2f"); //ggH bkg
+    */
 }
