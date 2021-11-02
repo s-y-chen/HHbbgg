@@ -119,24 +119,32 @@ void dofit(TString file, TString obs_var, TString min, TString max,  TString wei
     TString cuttree = obs_var + " < " + max + " && " + obs_var + " > " + min;
            
     // Declare observable x
-    RooRealVar* mgg = new RooRealVar(obs_var,obs_var,125,mind,maxd) ;
+   RooRealVar* mgg = new RooRealVar(obs_var,obs_var,125,mind,maxd) ;
+<<<<<<< HEAD
+    RooRealVar* dnn = new RooRealVar(dnn_var,dnn_var,0,0,1) ;
+    RooRealVar* evWeight = new RooRealVar(weightvar,weightvar,1,-1e10,1e10) ;
+=======
+    RooRealVar* dnn = new RooRealVar(dnn_var,dnn_var,1,0,1) ;
+>>>>>>> 9625bef728630db71d2e0d3e9bda8ea1542af822
 
     cout <<"before model"<<endl;
-    RooAbsPdf* model = get_func(funcname,mgg, mind, maxd);
+    RooAbsPdf* model = get_func(funcname,mgg, mind, maxd, procname+catname);
     model->Print("V");
     cout <<"after model"<<endl;
 
     TFile File(file);
     TTree* procTree = (TTree*)File.Get("tree");
-    RooRealVar* evWeight = new RooRealVar(weightvar,weightvar,1,-1e10,1e10) ;
+    TTree* cutChain = procTree->CopyTree(dnn_cut);
 
     RooArgSet obsAndWeight;
     obsAndWeight.add(*mgg);
     obsAndWeight.add(*evWeight);
-
-    RooDataSet* data = new RooDataSet("Data_13TeV","Data_13TeV",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*procTree),Cut(cuttree)) ;
+    
+    //RooDataSet* data = new RooDataSet("Data_13TeV","Data_13TeV",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*procTree),Cut(cuttree)) ;
     //RooDataSet data("mc","mc",RooArgSet(obsAndWeight),RooFit::WeightVar(*evWeight),Import(*procTree),Cut(cuttree)) ;
-    data->Print() ;
+    //model->fitTo(data);
+    RooDataSet* data = new RooDataSet("Data_13TeV_"+procname+"_"+catname, "Data_13TeV_"+procname+"_"+catname, RooArgSet(obsAndWeight), RooFit::WeightVar(*evWeight), RooFit::Import(*cutChain));
+    data->Print();
     //model->fitTo(data);
     
    
@@ -177,6 +185,10 @@ void dofit(TString file, TString obs_var, TString min, TString max,  TString wei
     RooWorkspace *w = new RooWorkspace("pdf","workspace") ;    
     w->import(*model);
     w->import(*data);
+    if(procname.Contains("nonresonant")){
+        RooRealVar* norm = new RooRealVar("model"+procname+catname+"_norm",procname+catname+"_norm",1,0,100000);
+        w->import(*norm);
+    }
     w->Print();
     cout <<"write ws to "<<output_file<<endl;
     w->writeToFile(output_file);
