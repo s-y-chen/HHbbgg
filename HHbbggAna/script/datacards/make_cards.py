@@ -121,8 +121,8 @@ def main():
                    
     ofname = "HHbbgg_datacard.txt"
     
-    cat1_rates = [1.797, 23.91, 2.027, 1.371, 7.341, 1.0]
-    cat2_rates = [0.363, 380.92, 28.19, 5.902, 62.35, 1.0]
+    cat1_rates = [1.707, 1.096, 1.128, 5.22, 12.94, 1.0]
+    cat2_rates = [0.453, 31.91, 6.878, 72.40, 433.4, 1.0]
     rate_lst = [cat1_rates, cat2_rates]
     
     PrintDatacard(categories, signals, backgrounds, signals_pdf, backgrounds_pdf, rate_lst, ofname)    

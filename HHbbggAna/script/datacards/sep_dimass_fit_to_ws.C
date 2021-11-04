@@ -111,7 +111,7 @@ RooAbsPdf* get_func(TString func_name, RooRealVar* obs, double mind, double maxd
 }
 
 void dofit(TString file, TString obs_var, TString min, TString max,  TString weightvar, TString procname, TString funcname, TString catname){
-    TString path = "pdfs_sep/"; 
+    TString path = "pdfs_sep_new/"; 
   
     double mind = min.Atof();
     double maxd = max.Atof();
