@@ -198,7 +198,6 @@ void dimass_fit_to_ws_Nan(){
     TString ggH_file = "GluGluHtoGG_3.root";
     TString data_file = "data_result_alt.root"; 
 
-    /*    
     //category mass_sculpt_cut_sm = 1
     //ggHH signal
     dofit(path+ggHH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","gghh","Gaussian","ggHHcat1"); //ggHH signal
@@ -208,10 +207,8 @@ void dimass_fit_to_ws_Nan(){
     dofit(path+VBFH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vbfh","Gaussian","ggHHcat1"); //VBFH bkg
     dofit(path+ggH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","ggh","Gaussian","ggHHcat1");
     //nonresonant bkg   
-    */
     dofit(path+data_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight","nonresonant","Bern","ggHHcat1"); //data and nonresonant bkg
     
-    /*
     //category mass_sculpt_cut_sm = 0
     //ggHH signal
     dofit(path+ggHH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","gghh","Gaussian","ggHHcat2"); //ggHH signal
@@ -221,6 +218,5 @@ void dimass_fit_to_ws_Nan(){
     dofit(path+VBFH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vbfh","Gaussian","ggHHcat2"); //VBFH bkg
     dofit(path+ggH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","ggh","Gaussian","ggHHcat2");
     //nonresonant bkg   
-    */
     dofit(path+data_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight","nonresonant","Bern","ggHHcat2"); //data and nonresonant bkg
 }
