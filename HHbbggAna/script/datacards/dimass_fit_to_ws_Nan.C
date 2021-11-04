@@ -120,12 +120,8 @@ void dofit(TString file, TString obs_var, TString min, TString max, TString dnn_
            
     // Declare observable x
     RooRealVar* mgg = new RooRealVar(obs_var,obs_var,125,mind,maxd) ;
-<<<<<<< HEAD
     RooRealVar* dnn = new RooRealVar(dnn_var,dnn_var,0,0,1) ;
     RooRealVar* evWeight = new RooRealVar(weightvar,weightvar,1,-1e10,1e10) ;
-=======
-    RooRealVar* dnn = new RooRealVar(dnn_var,dnn_var,1,0,1) ;
->>>>>>> 9625bef728630db71d2e0d3e9bda8ea1542af822
 
     cout <<"before model"<<endl;
     RooAbsPdf* model = get_func(funcname,mgg, mind, maxd, procname+catname);
@@ -195,79 +191,36 @@ void dofit(TString file, TString obs_var, TString min, TString max, TString dnn_
 void dimass_fit_to_ws_Nan(){
     
     TString path = "/storage/af/user/schen7/CMSSW_9_4_2/src/Higgs/HHbbgg/notebook/ML/DNN_Trees/combine_sequential_DNN/post_ms/";
-    TString ggHH_file = "sig_5.root";
-    
-    TString VH_file = "VHToGG_5.root";
-    TString ttH_file = "ttHToGG_5.root";
-    TString VBFH_file = "VBFToHH_5.root";
-    TString ggH_file = "GluGluHtoGG_5.root";
-<<<<<<< HEAD
-    TString nonres_file = "nonres_5.root";
-    TString data_file = "data_result.root"; 
-=======
-    TString nonres_file = "data_sideband.root";
+    TString ggHH_file = "sig_3.root";   
+    TString VH_file = "VHToGG_3.root";
+    TString ttH_file = "ttHToGG_3.root";
+    TString VBFH_file = "VBFToHH_3.root";
+    TString ggH_file = "GluGluHtoGG_3.root";
     TString data_file = "data_result_alt.root"; 
-    
-   // category mass_sculpt_cut_sm = 1
-    dofit(path+ggHH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","gghh","Gaussian","ggHHcat1"); //ggHH signal
-    dofit(path+ttH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","tth","Gaussian","ggHHcat1"); //ttH bkg
-    dofit(path+VH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vh","Gaussian","ggHHcat1"); //VH bkg
-    dofit(path+VBFH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vbfh","Gaussian","ggHHcat1"); //VBFH bkg
-    dofit(path+ggH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","ggh","Gaussian","ggHHcat1");
-    //ggH bkg   
-    dofit(path+nonres_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight","nonresonant_f","Bern","ggHHcat1"); // nonres bkg 
-    dofit(path+data_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight","data","Bern","ggHHcat1"); //data bkg
-    
-    dofit(path+ggHH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","gghh","CB","ggHHcat1"); //ggHH signal
-    dofit(path+ttH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","tth","CB","ggHHcat1"); //ttH bkg
-    dofit(path+VH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vh","CB","ggHHcat1"); //VH bkg
-    dofit(path+VBFH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vbfh","CB","ggHHcat1"); //VBFH bkg
-    dofit(path+ggH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","ggh","CB","ggHHcat1");
-    //ggH bkg   
-    
-    
-//     // category mass_sculpt_cut_sm = 0
-//     dofit(path+ggHH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","gghh","Gaussian","ggHHcat2"); //ggHH signal
-//     dofit(path+ttH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","tth","Gaussian","ggHHcat2"); //ttH bkg
-//     dofit(path+VH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vh","Gaussian","ggHHcat2"); //VH bkg
-//     dofit(path+VBFH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vbfh","Gaussian","ggHHcat2"); //VBFH bkg
-//     dofit(path+ggH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","ggh","Gaussian","ggHHcat2"); //ggH bkg
-//     dofit(path+data_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight","nonresonant","Bern","ggHHcat2");// nonres bkg
-//     dofit(path+data_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight","data","Bern","ggHHcat2"); //data bkg
-    
-//      dofit(path+ggHH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","gghh","CB","ggHHcat2"); //ggHH signal
-//     dofit(path+ttH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","tth","CB","ggHHcat2"); //ttH bkg
-//     dofit(path+VH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vh","CB","ggHHcat2"); //VH bkg
-//     dofit(path+VBFH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vbfh","CB","ggHHcat2"); //VBFH bkg
-//     dofit(path+ggH_file, "diphoton_mass", "110", "140", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","ggh","CB","ggHHcat2"); //ggH bkg
-    
->>>>>>> 9625bef728630db71d2e0d3e9bda8ea1542af822
-   
-    /*
-    // category mass_sculpt_cut_sm = 1 
+
+    /*    
+    //category mass_sculpt_cut_sm = 1
+    //ggHH signal
     dofit(path+ggHH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","gghh","Gaussian","ggHHcat1"); //ggHH signal
+    //single Higgs
     dofit(path+ttH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","tth","Gaussian","ggHHcat1"); //ttH bkg
     dofit(path+VH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vh","Gaussian","ggHHcat1"); //VH bkg
     dofit(path+VBFH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","vbfh","Gaussian","ggHHcat1"); //VBFH bkg
-    dofit(path+ggH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","ggh","Gaussian","ggHHcat1"); //ggH bkg
-*/
-    //dofit(path+data_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight","nonresonant","Bern","ggHHcat1"); //data bkg
-
-  /*  
-    // category mass_sculpt_cut_sm = 0
+    dofit(path+ggH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight_scale","ggh","Gaussian","ggHHcat1");
+    //nonresonant bkg   
+    */
+    dofit(path+data_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==1","genweight","nonresonant","Bern","ggHHcat1"); //data and nonresonant bkg
+    
+    /*
+    //category mass_sculpt_cut_sm = 0
+    //ggHH signal
     dofit(path+ggHH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","gghh","Gaussian","ggHHcat2"); //ggHH signal
+    //single Higgs
     dofit(path+ttH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","tth","Gaussian","ggHHcat2"); //ttH bkg
     dofit(path+VH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vh","Gaussian","ggHHcat2"); //VH bkg
     dofit(path+VBFH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vbfh","Gaussian","ggHHcat2"); //VBFH bkg
-    dofit(path+ggH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","ggh","Gaussian","ggHHcat2"); //ggH bkg
-*/
-    dofit(path+data_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight","nonresonant","Bern","ggHHcat2"); //data bkg
-    
-    /*
-    dofit(path+ggHH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","gghh","CB","ggHHcat2f"); //ggHH signal
-    dofit(path+ttH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","tth","CB","ggHHcat2f"); //ttH bkg
-    dofit(path+VH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vh","CB","ggHHcat2f"); //VH bkg
-    dofit(path+VBFH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","vbfh","CB","ggHHcat2f"); //VBFH bkg
-    dofit(path+ggH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","ggh","CB","ggHHcat2f"); //ggH bkg
+    dofit(path+ggH_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight_scale","ggh","Gaussian","ggHHcat2");
+    //nonresonant bkg   
     */
+    dofit(path+data_file, "diphoton_mass", "100", "180", "mass_sculpt_cut_sm","mass_sculpt_cut_sm==0","genweight","nonresonant","Bern","ggHHcat2"); //data and nonresonant bkg
 }
