@@ -663,6 +663,14 @@ void HHbbggAnalyzer::EventLoop(string samplename, const char *isData, const char
             float dRbg21 = DeltaR(subleading_bjet_eta, subleading_bjet_phi, leading_photon_eta, leading_photon_phi);
             float dRbg22 = DeltaR(subleading_bjet_eta, subleading_bjet_phi, subleading_photon_eta, subleading_photon_phi);
             rec_pho_bjet_min_dR = min({dRbg11, dRbg12, dRbg21, dRbg22});
+            TLorentzVector bjet_1, bjet_2, photon_1, photon_2, four_body;
+            bjet_1.SetPtEtaPhiM(leading_bjet_pt,leading_bjet_eta,leading_bjet_phi,Jet_mass[index_bj1]);
+            bjet_2.SetPtEtaPhiM(subleading_bjet_pt,subleading_bjet_eta,subleading_bjet_phi,Jet_mass[index_bj2]);
+            photon_1.SetPtEtaPhiM(leading_photon_pt,leading_photon_eta,leading_photon_phi, 0);
+            photon_2.SetPtEtaPhiM(subleading_photon_pt,subleading_photon_eta,subleading_photon_phi, 0);
+            four_body = bjet_1 + bjet_2 + photon_1 + photon_2;
+            jjyy_mass = four_body.M();
+            mass_x = jjyy_mass - dibjet_mass_corr - diphoton_mass + 250;
             
             recon = 1;
             if(leading_vbfjet_pt > 0){

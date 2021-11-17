@@ -1,10 +1,10 @@
-imax 2
+imax 3
 jmax 5
 kmax *
 ---------------
 ---------------
-bin	ggHHcat2	ggHHcat1
-observation	-1	-1
+bin	ggHHcat2	ggHHcat3	ggHHcat1
+observation	-1	-1	-1
 ---------------
 shapes	gghh	ggHHcat1	pdfs/wsinput.GaussiangghhggHHcat1.root	pdf:modelgghhggHHcat1
 shapes	ggh	ggHHcat1	pdfs/wsinput.GaussiangghggHHcat1.root	pdf:modelgghggHHcat1
@@ -20,10 +20,18 @@ shapes	tth	ggHHcat2	pdfs/wsinput.GaussiantthggHHcat2.root	pdf:modeltthggHHcat2
 shapes	vh	ggHHcat2	pdfs/wsinput.GaussianvhggHHcat2.root	pdf:modelvhggHHcat2
 shapes	nonresonant	ggHHcat2	pdfs/wsinput.BernnonresonantggHHcat2.root	pdf:modelnonresonantggHHcat2
 shapes	data_obs 	ggHHcat2	pdfs/wsinput.BernnonresonantggHHcat2.root	pdf:Data_13TeV_nonresonant_ggHHcat2
-bin	ggHHcat1	ggHHcat1	ggHHcat1	ggHHcat1	ggHHcat1	ggHHcat1	ggHHcat2	ggHHcat2	ggHHcat2	ggHHcat2	ggHHcat2	ggHHcat2
-process	gghh	ggh	vbfh	tth	vh	nonresonant	gghh	ggh	vbfh	tth	vh	nonresonant
-process	0	1	2	3	4	5	0	1	2	3	4	5
-rate	1.707	1.096	1.128	5.22	12.94	1.0	0.453	31.91	6.878	72.4	433.4	1.0
+shapes	gghh	ggHHcat3	pdfs/wsinput.GaussiangghhggHHcat3.root	pdf:modelgghhggHHcat3
+shapes	ggh	ggHHcat3	pdfs/wsinput.GaussiangghggHHcat3.root	pdf:modelgghggHHcat3
+shapes	vbfh	ggHHcat3	pdfs/wsinput.GaussianvbfhggHHcat3.root	pdf:modelvbfhggHHcat3
+shapes	tth	ggHHcat3	pdfs/wsinput.GaussiantthggHHcat3.root	pdf:modeltthggHHcat3
+shapes	vh	ggHHcat3	pdfs/wsinput.GaussianvhggHHcat3.root	pdf:modelvhggHHcat3
+shapes	nonresonant	ggHHcat3	pdfs/wsinput.BernnonresonantggHHcat3.root	pdf:modelnonresonantggHHcat3
+shapes	data_obs 	ggHHcat3	pdfs/wsinput.BernnonresonantggHHcat3.root	pdf:Data_13TeV_nonresonant_ggHHcat3
+bin	ggHHcat1	ggHHcat1	ggHHcat1	ggHHcat1	ggHHcat1	ggHHcat1	ggHHcat2	ggHHcat2	ggHHcat2	ggHHcat2	ggHHcat2	ggHHcat2	ggHHcat3	ggHHcat3	ggHHcat3	ggHHcat3	ggHHcat3	ggHHcat3
+process	gghh	ggh	vbfh	tth	vh	nonresonant	gghh	ggh	vbfh	tth	vh	nonresonant	gghh	ggh	vbfh	tth	vh	nonresonant
+process	0	1	2	3	4	5	0	1	2	3	4	5	0	1	2	3	4	5
+rate	1.13	443.9	32.86	7.77	76.25	1.0	0.3113	1.245	0.1036	0.1405	0.6628	1.0	0.7193	0.0379	1.22	0.09626	0.7054	1.0
 ---------------
 modelnonresonantggHHcat1_norm flatParam 
 modelnonresonantggHHcat2_norm flatParam 
+modelnonresonantggHHcat3_norm flatParam 

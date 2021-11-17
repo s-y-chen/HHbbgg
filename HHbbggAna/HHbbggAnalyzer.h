@@ -205,6 +205,8 @@ public :
   float t_MET_sumEt;
   float dphi_met_leading_bjet;
   float dphi_met_subleading_bjet;
+  float jjyy_mass;
+  float mass_x;
 
   //add boosted object vars
   float fatJetPt;
@@ -541,13 +543,15 @@ void HHbbggAnalyzer::clearTreeVectors(){
   subleading_vbfjet_pt_over_dimass = -999.;
   divbfjet_pt_over_dimass = -999.;
   // misc
-  rec_pho_bjet_min_dR = 999.;
-  all_pho_bjet_min_dR = 999.;
+  rec_pho_bjet_min_dR = -999.;
+  all_pho_bjet_min_dR = -999.;
   t_MET_pt = -999.;
   t_MET_phi = -999.;
   t_MET_sumEt = -999.;
   dphi_met_leading_bjet = -999.;
   dphi_met_subleading_bjet = -999.;
+  jjyy_mass = -999.;
+  mass_x = -999.;
 
   //boosted category vars
   fatJetPt = -999.;
@@ -711,6 +715,8 @@ void HHbbggAnalyzer::BookTreeBranches(){
   tree->Branch("MET_sumEt", &t_MET_sumEt, "MET_sumEt/f");
   tree->Branch("dphi_met_leading_bjet", &dphi_met_leading_bjet, "dphi_met_leading_bjet/f");
   tree->Branch("dphi_met_subleading_bjet", &dphi_met_subleading_bjet, "dphi_met_subleading_bjet/f");
+  tree->Branch("jjyy_mass", &jjyy_mass, "jjyy_mass/f");
+  tree->Branch("mass_x", &mass_x, "mass_x/f");
 
   //boosted category  
   tree->Branch("fatJetPt", &fatJetPt, "fatJetPt/f");

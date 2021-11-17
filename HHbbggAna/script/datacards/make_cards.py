@@ -86,21 +86,6 @@ def main():
     backgrounds = ["ggh","vbfh","tth","vh","nonresonant"]
     signals = ["gghh"] # Todo add "VBFHH"
     
-#     backgrounds_pdf = ["pdfs_v1/wsinput.CBgghggHHcat1.root",
-#                        "pdfs_v1/wsinput.CBvbfhggHHcat1.root",
-#                        "pdfs_v1/wsinput.CBtthggHHcat1.root",
-#                        "pdfs_v1/wsinput.CBvhggHHcat1.root",
-#                        "pdfs_v1/wsinput.BernnonresonantggHHcat1.root",
-#                        "pdfs_v1/wsinput.CBgghggHHcat2.root",
-#                        "pdfs_v1/wsinput.CBvbfhggHHcat2.root",
-#                        "pdfs_v1/wsinput.CBtthggHHcat2.root",
-#                        "pdfs_v1/wsinput.CBvhggHHcat2.root",
-#                        "pdfs_v1/wsinput.BernnonresonantggHHcat2.root"
-#                       ]
-    
-#     signals_pdf = ["pdfs_v1/wsinput.CBgghhggHHcat1.root",
-#                    "pdfs_v1/wsinput.CBgghhggHHcat2.root"                  
-#                   ]
     backgrounds_pdf = ["pdfs/wsinput.GaussiangghggHHcat1.root",
                        "pdfs/wsinput.GaussianvbfhggHHcat1.root",
                        "pdfs/wsinput.GaussiantthggHHcat1.root",
@@ -110,20 +95,27 @@ def main():
                        "pdfs/wsinput.GaussianvbfhggHHcat2.root",
                        "pdfs/wsinput.GaussiantthggHHcat2.root",
                        "pdfs/wsinput.GaussianvhggHHcat2.root",
-                       "pdfs/wsinput.BernnonresonantggHHcat2.root"
+                       "pdfs/wsinput.BernnonresonantggHHcat2.root",
+                        "pdfs/wsinput.GaussiangghggHHcat3.root",
+                       "pdfs/wsinput.GaussianvbfhggHHcat3.root",
+                       "pdfs/wsinput.GaussiantthggHHcat3.root",
+                       "pdfs/wsinput.GaussianvhggHHcat3.root",
+                       "pdfs/wsinput.BernnonresonantggHHcat3.root"
                       ]
     
     signals_pdf = ["pdfs/wsinput.GaussiangghhggHHcat1.root",
-                   "pdfs/wsinput.GaussiangghhggHHcat2.root"                  
+                   "pdfs/wsinput.GaussiangghhggHHcat2.root",
+                   "pdfs/wsinput.GaussiangghhggHHcat3.root"
                   ]
     
-    categories = ["ggHHcat1","ggHHcat2"]
+    categories = ["ggHHcat1","ggHHcat2", "ggHHcat3"]
                    
     ofname = "HHbbgg_datacard.txt"
     
-    cat1_rates = [1.707, 1.096, 1.128, 5.22, 12.94, 1.0]
-    cat2_rates = [0.453, 31.91, 6.878, 72.40, 433.4, 1.0]
-    rate_lst = [cat1_rates, cat2_rates]
+    cat1_rates = [1.130, 443.9, 32.86, 7.770, 76.25, 1.0]
+    cat2_rates = [0.3113, 1.245, 0.1036, 0.1405, 0.6628, 1.0]
+    cat3_rates = [0.7193, 0.03790, 1.220, 0.09626, 0.7054, 1.0]
+    rate_lst = [cat1_rates, cat2_rates, cat3_rates]
     
     PrintDatacard(categories, signals, backgrounds, signals_pdf, backgrounds_pdf, rate_lst, ofname)    
 
