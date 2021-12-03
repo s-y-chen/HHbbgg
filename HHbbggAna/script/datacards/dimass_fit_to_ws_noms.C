@@ -42,11 +42,40 @@ RooAbsPdf* gauss_func(RooRealVar* obs, double mind, double maxd, TString catname
  
     RooRealVar* frac1 = new RooRealVar("frac1"+catname,"fraction of gauss1",0.1,0.0,1) ;
     RooRealVar* frac2 = new RooRealVar("frac2"+catname,"fraction of gauss2",0.1,0.0,1) ;
-    RooRealVar* frac3 = new RooRealVar("frac3"+catname,"fraction of gauss3",0.1,0.0,1) ;
-    RooAbsPdf* model = new RooAddPdf("model"+catname,"g1+g2",RooArgList(*gauss1,*gauss2, *gauss3),RooArgList(*frac1, *frac2, *frac3)) ;
+    RooAbsPdf* model = new RooAddPdf("model"+catname,"g1+g2",RooArgList(*gauss1,*gauss2, *gauss3),RooArgList(*frac1, *frac2)) ;
     
     return model;
 }
+
+RooAbsPdf* gauss_func_1(RooRealVar* obs, double mind, double maxd, TString catname){
+
+    //gauss1 pdf
+    RooRealVar* mean1 = new RooRealVar("mean1"+catname,"mean of gaussian",125,mind,maxd) ;
+    RooRealVar* sigma1 = new RooRealVar("sigma1"+catname,"width of gaussian",2.5,0.1,50) ;
+    RooAbsPdf* model = new RooGaussian("gauss1"+catname,"gauss1",*obs,*mean1,*sigma1) ; 
+    
+    return model;
+}
+
+RooAbsPdf* gauss_func_2(RooRealVar* obs, double mind, double maxd, TString catname){
+
+    //gauss1 pdf
+    RooRealVar* mean1 = new RooRealVar("mean1"+catname,"mean of gaussian",125,mind,maxd) ;
+    RooRealVar* sigma1 = new RooRealVar("sigma1"+catname,"width of gaussian",2.5,0.1,50) ;
+    RooAbsPdf* gauss1 = new RooGaussian("gauss1"+catname,"gauss1",*obs,*mean1,*sigma1) ; 
+    
+    //gauss2 pdf
+    RooRealVar* mean2 = new RooRealVar("mean2"+catname,"mean of gaussian",120,mind,maxd) ;
+    RooRealVar* sigma2 = new RooRealVar("sigma2"+catname,"width of gaussian",2.5,0.1,50) ;
+    RooAbsPdf* gauss2 = new RooGaussian("gauss2"+catname,"gauss2",*obs,*mean2,*sigma2) ; 
+    
+ 
+    RooRealVar* frac1 = new RooRealVar("frac1"+catname,"fraction of gauss1",0.1,0.0,1) ;
+    RooAbsPdf* model = new RooAddPdf("model"+catname,"g1+g2",RooArgList(*gauss1,*gauss2),RooArgList(*frac1)) ;
+    
+    return model;
+}
+
 
 // RooAbsPdf* CB_func(RooRealVar* obs, double mind, double maxd, TString catname){
 //     gSystem->Load("RooCrystalBall_cxx.so");
@@ -95,6 +124,14 @@ RooAbsPdf* get_func(TString func_name, RooRealVar* obs, double mind, double maxd
 //         cout <<"CB function is chosen"<<endl; 
 //         model = CB_func(obs, mind, maxd, catname);
 //     } 
+    else if(func_name=="Gaussian_1"){
+        cout <<"Gauss_1 function is chosen"<<endl; 
+        model = gauss_func_1(obs, mind, maxd, catname);
+    } 
+    else if(func_name=="Gaussian_2"){
+        cout <<"Gauss_2 function is chosen"<<endl; 
+        model = gauss_func_2(obs, mind, maxd, catname);
+    } 
     else if(func_name=="Bern"){
         cout <<"Bern function is chosen"<<endl; 
         model = Bernstein_func(obs, mind, maxd, catname);
@@ -111,7 +148,7 @@ RooAbsPdf* get_func(TString func_name, RooRealVar* obs, double mind, double maxd
 }
 
 void dofit(TString file, TString obs_var, TString min, TString max, TString dnn_var, TString dnn_cut, TString weightvar, TString procname, TString funcname, TString catname){
-    TString path = "pdfs/"; 
+    TString path = "pdfs_dnn/"; 
   
     double mind = min.Atof();
     double maxd = max.Atof();
@@ -198,8 +235,8 @@ void dimass_fit_to_ws_noms(){
     TString ggH_file = "GluGluHtoGG_combine_seqDNN.root";
     TString data_file = "post_ms/data_result_3.root"; 
 
-    //category DNN_score <= 0.5
-    //ggHH signal
+  //category DNN_score <= 0.5
+  //ggHH signal
     dofit(path+ggHH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5","genweight_scale","gghh","Gaussian","ggHHcat1"); //ggHH signal
     //single Higgs
     dofit(path+ttH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5","genweight_scale","tth","Gaussian","ggHHcat1"); //ttH bkg
@@ -209,26 +246,42 @@ void dimass_fit_to_ws_noms(){
     //nonresonant bkg   
     dofit(path+data_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5","genweight","nonresonant","Bern","ggHHcat1"); //data and nonresonant bkg
     
-    //category 0.5 <= DNN_score <= 0.7
-    //ggHH signal
+
+//   //category DNN_score <= 0.5
+//   //ggHH signal
+//     dofit(path+ggHH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","genweight_scale","gghh","Gaussian","ggHHcat2"); //ggHH signal
+//     //single Higgs
+//     dofit(path+ttH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","genweight_scale","tth","Gaussian","ggHHcat2"); //ttH bkg
+//     dofit(path+VH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","genweight_scale","vh","Gaussian","ggHHcat2"); //VH bkg
+   dofit(path+VBFH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","genweight_scale","vbfh","Gaussian","ggHHcat2"); //VBFH bkg
+//     dofit(path+ggH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","genweight_scale","ggh","Gaussian","ggHHcat2");
+//     //nonresonant bkg   
+//     dofit(path+data_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","genweight","nonresonant","Bern","ggHHcat2"); //data and nonresonant bkg
+    
+    // dofit(path+VBFH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","genweight_scale","vbfh","Gaussian_2","ggHHcat2"); //VBFH bkg
+    
+    
+//     //category 0.5 <= DNN_score <= 0.7
+//     //ggHH signal
     dofit(path+ggHH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5 && DNN_score <= 0.7","genweight_scale","gghh","Gaussian","ggHHcat2"); //ggHH signal
     //single Higgs
     dofit(path+ttH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5 && DNN_score <= 0.7","genweight_scale","tth","Gaussian","ggHHcat2"); //ttH bkg
-    dofit(path+VH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5 && DNN_score <= 0.7","genweight_scale","vh","Gaussian","ggHHcat2"); //VH bkg
-    dofit(path+VBFH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5 && DNN_score <= 0.7","genweight_scale","vbfh","Gaussian","ggHHcat2"); //VBFH bkg
+     dofit(path+VH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5 && DNN_score <= 0.7","genweight_scale","vh","Gaussian_2","ggHHcat2"); //VH bkg
+    dofit(path+VH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5 && DNN_score <= 0.7","genweight_scale","vh","Gaussian_1","ggHHcat2"); //VH bkg
+   dofit(path+VBFH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5 && DNN_score <= 0.7","genweight_scale","vbfh","Gaussian_2","ggHHcat2"); //VBFH bkg
     dofit(path+ggH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5 && DNN_score <= 0.7","genweight_scale","ggh","Gaussian","ggHHcat2");
     //nonresonant bkg   
     dofit(path+data_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5 && DNN_score <= 0.7","genweight","nonresonant","Bern","ggHHcat2"); //data and nonresonant bkg
     
     
-    //category DNN_scre >= 0.7
-    //ggHH signal
+//     //category DNN_score >= 0.7
+//     //ggHH signal
     dofit(path+ggHH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.7","genweight_scale","gghh","Gaussian","ggHHcat3"); //ggHH signal
     //single Higgs
     dofit(path+ttH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.7","genweight_scale","tth","Gaussian","ggHHcat3"); //ttH bkg
     dofit(path+VH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.7","genweight_scale","vh","Gaussian","ggHHcat3"); //VH bkg
-    dofit(path+VBFH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.7","genweight_scale","vbfh","Gaussian","ggHHcat3"); //VBFH bkg
-    dofit(path+ggH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.7","genweight_scale","ggh","Gaussian","ggHHcat3");
+   dofit(path+VBFH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.7","genweight_scale","vbfh","Gaussian_2","ggHHcat3"); //VBFH bkg
+    dofit(path+ggH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.7","genweight_scale","ggh","Gaussian_2","ggHHcat3");
     //nonresonant bkg   
     dofit(path+data_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.7","genweight","nonresonant","Bern","ggHHcat3"); //data and nonresonant bkg
 }

@@ -48,6 +48,17 @@ RooAbsPdf* gauss_func(RooRealVar* obs, double mind, double maxd, TString catname
     return model;
 }
 
+
+RooAbsPdf* gauss_func_1(RooRealVar* obs, double mind, double maxd, TString catname){
+
+    //gauss1 pdf
+    RooRealVar* mean1 = new RooRealVar("mean1"+catname,"mean of gaussian",125,mind,maxd) ;
+    RooRealVar* sigma1 = new RooRealVar("sigma1"+catname,"width of gaussian",2.5,0.1,50) ;
+    RooAbsPdf* model = new RooGaussian("gauss1"+catname,"gauss1",*obs,*mean1,*sigma1) ; 
+    
+    return model;
+}
+
 RooAbsPdf* CB_func(RooRealVar* obs, double mind, double maxd, TString catname){
     gSystem->Load("RooCrystalBall_cxx.so");
     
@@ -88,8 +99,12 @@ RooAbsPdf* exponential_func(RooRealVar* obs, double mind, double maxd, TString c
 RooAbsPdf* get_func(TString func_name, RooRealVar* obs, double mind, double maxd, TString catname){
     RooAbsPdf* model = NULL;
     if(func_name=="Gaussian"){
-        cout <<"Guassian function is chosen"<<endl;
+        cout <<"Gaussian function is chosen"<<endl;
         model = gauss_func(obs,  mind, maxd, catname);
+    } 
+    else if(func_name=="Gaussian_1"){
+        cout <<"Gauss_1 function is chosen"<<endl; 
+        model = gauss_func_1(obs, mind, maxd, catname);
     } 
     else if(func_name=="CB"){
         cout <<"CB function is chosen"<<endl; 
