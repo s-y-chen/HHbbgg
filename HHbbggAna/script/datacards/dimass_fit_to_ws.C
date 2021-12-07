@@ -236,16 +236,16 @@ void dimass_fit_to_ws(){
     TString ggH_file = "GluGluHtoGG_combine_seqDNN.root";
     TString data_file = "post_ms/data_result_3.root"; 
 
-//   //category DNN_score <= 0.5
-//   //ggHH signal
-//     dofit(path+ggHH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5", "nbjet", "nbjet == 2", "genweight_scale","gghh","Gaussian","ggHHcat1"); //ggHH signal
-//     //single Higgs
-//     dofit(path+ttH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5", "nbjet", "nbjet == 2", "genweight_scale","tth","Gaussian","ggHHcat1"); //ttH bkg
-//     dofit(path+VH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5","nbjet", "nbjet == 2", "genweight_scale","vh","Gaussian","ggHHcat1"); //VH bkg
-//     dofit(path+VBFH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5","nbjet", "nbjet == 2","genweight_scale","vbfh","Gaussian","ggHHcat1"); //VBFH bkg
-//     dofit(path+ggH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5","nbjet", "nbjet == 2","genweight_scale","ggh","Gaussian","ggHHcat1");
-//     //nonresonant bkg   
-//     dofit(path+data_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5","nbjet", "nbjet == 2","genweight","nonresonant","Bern","ggHHcat1"); //data and nonresonant bkg
+  //category DNN_score <= 0.5
+  //ggHH signal
+    dofit(path+ggHH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5", "nbjet", "nbjet == 2", "genweight_scale","gghh","Gaussian","ggHHcat1"); //ggHH signal
+    //single Higgs
+    dofit(path+ttH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5", "nbjet", "nbjet == 2", "genweight_scale","tth","Gaussian","ggHHcat1"); //ttH bkg
+    dofit(path+VH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5","nbjet", "nbjet == 2", "genweight_scale","vh","Gaussian","ggHHcat1"); //VH bkg
+    dofit(path+VBFH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5","nbjet", "nbjet == 2","genweight_scale","vbfh","Gaussian","ggHHcat1"); //VBFH bkg
+    dofit(path+ggH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5","nbjet", "nbjet == 2","genweight_scale","ggh","Gaussian","ggHHcat1");
+    //nonresonant bkg   
+    dofit(path+data_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5","nbjet", "nbjet == 2","genweight","nonresonant","Bern","ggHHcat1"); //data and nonresonant bkg
     
     //ggHH signal
     dofit(path+ggHH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5", "nbjet", "nbjet > 2", "genweight_scale","gghh","Gaussian","ggHHcat2"); //ggHH signal
@@ -258,16 +258,16 @@ void dimass_fit_to_ws(){
     dofit(path+data_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score <= 0.5","nbjet", "nbjet > 2","genweight","nonresonant","Bern","ggHHcat2"); //data and nonresonant bkg
     
 
-//   //category DNN_score >= 0.5
-//   //ggHH signal
-//     dofit(path+ggHH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","nbjet", "nbjet == 2","genweight_scale","gghh","Gaussian","ggHHcat3"); //ggHH signal
-//     //single Higgs
-//     dofit(path+ttH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","nbjet", "nbjet == 2","genweight_scale","tth","Gaussian","ggHHcat3"); //ttH bkg
-//     dofit(path+VH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","nbjet", "nbjet == 2","genweight_scale","vh","Gaussian","ggHHcat3"); //VH bkg
-//    dofit(path+VBFH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","nbjet", "nbjet == 2","genweight_scale","vbfh","Gaussian","ggHHcat3"); //VBFH bkg
-//     dofit(path+ggH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","nbjet", "nbjet == 2","genweight_scale","ggh","Gaussian","ggHHcat3");
-//     //nonresonant bkg   
-//     dofit(path+data_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","nbjet", "nbjet == 2","genweight","nonresonant","Bern","ggHHcat3"); //data and nonresonant bkg
+  //category DNN_score >= 0.5
+  //ggHH signal
+    dofit(path+ggHH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","nbjet", "nbjet == 2","genweight_scale","gghh","Gaussian","ggHHcat3"); //ggHH signal
+    //single Higgs
+    dofit(path+ttH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","nbjet", "nbjet == 2","genweight_scale","tth","Gaussian","ggHHcat3"); //ttH bkg
+    dofit(path+VH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","nbjet", "nbjet == 2","genweight_scale","vh","Gaussian","ggHHcat3"); //VH bkg
+   dofit(path+VBFH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","nbjet", "nbjet == 2","genweight_scale","vbfh","Gaussian","ggHHcat3"); //VBFH bkg
+    dofit(path+ggH_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","nbjet", "nbjet == 2","genweight_scale","ggh","Gaussian","ggHHcat3");
+    //nonresonant bkg   
+    dofit(path+data_file, "diphoton_mass", "100", "180", "DNN_score","DNN_score >= 0.5","nbjet", "nbjet == 2","genweight","nonresonant","Bern","ggHHcat3"); //data and nonresonant bkg
     
 
       //ggHH signal

@@ -1,34 +1,41 @@
-imax 3
+imax 4
 jmax 4
 kmax *
 ---------------
 ---------------
-bin	ggHHcat2	ggHHcat3	ggHHcat1
-observation	-1	-1	-1
+bin	ggHHcat2	ggHHcat3	ggHHcat1	ggHHcat4
+observation	-1	-1	-1	-1
 ---------------
-shapes	gghh	ggHHcat1	pdfs_dnn/wsinput.GaussiangghhggHHcat1.root	pdf:modelgghhggHHcat1
-shapes	ggh	ggHHcat1	pdfs_dnn/wsinput.GaussiangghggHHcat1.root	pdf:modelgghggHHcat1
-shapes	tth	ggHHcat1	pdfs_dnn/wsinput.GaussiantthggHHcat1.root	pdf:modeltthggHHcat1
-shapes	vh	ggHHcat1	pdfs_dnn/wsinput.GaussianvhggHHcat1.root	pdf:modelvhggHHcat1
-shapes	nonresonant	ggHHcat1	pdfs_dnn/wsinput.BernnonresonantggHHcat1.root	pdf:modelnonresonantggHHcat1
-shapes	data_obs 	ggHHcat1	pdfs_dnn/wsinput.BernnonresonantggHHcat1.root	pdf:Data_13TeV_nonresonant_ggHHcat1
-shapes	gghh	ggHHcat2	pdfs_dnn/wsinput.GaussiangghhggHHcat2.root	pdf:modelgghhggHHcat2
-shapes	ggh	ggHHcat2	pdfs_dnn/wsinput.GaussiangghggHHcat2.root	pdf:modelgghggHHcat2
-shapes	tth	ggHHcat2	pdfs_dnn/wsinput.GaussiantthggHHcat2.root	pdf:modeltthggHHcat2
-shapes	vh	ggHHcat2	pdfs_dnn/wsinput.Gaussian_1vhggHHcat2.root	pdf:modelvhggHHcat2
-shapes	nonresonant	ggHHcat2	pdfs_dnn/wsinput.BernnonresonantggHHcat2.root	pdf:modelnonresonantggHHcat2
-shapes	data_obs 	ggHHcat2	pdfs_dnn/wsinput.BernnonresonantggHHcat2.root	pdf:Data_13TeV_nonresonant_ggHHcat2
-shapes	gghh	ggHHcat3	pdfs_dnn/wsinput.GaussiangghhggHHcat3.root	pdf:modelgghhggHHcat3
-shapes	ggh	ggHHcat3	pdfs_dnn/wsinput.Gaussian_2gghggHHcat3.root	pdf:modelgghggHHcat3
-shapes	tth	ggHHcat3	pdfs_dnn/wsinput.GaussiantthggHHcat3.root	pdf:modeltthggHHcat3
-shapes	vh	ggHHcat3	pdfs_dnn/wsinput.GaussianvhggHHcat3.root	pdf:modelvhggHHcat3
-shapes	nonresonant	ggHHcat3	pdfs_dnn/wsinput.BernnonresonantggHHcat3.root	pdf:modelnonresonantggHHcat3
-shapes	data_obs 	ggHHcat3	pdfs_dnn/wsinput.BernnonresonantggHHcat3.root	pdf:Data_13TeV_nonresonant_ggHHcat3
-bin	ggHHcat1	ggHHcat1	ggHHcat1	ggHHcat1	ggHHcat1	ggHHcat2	ggHHcat2	ggHHcat2	ggHHcat2	ggHHcat2	ggHHcat3	ggHHcat3	ggHHcat3	ggHHcat3	ggHHcat3
-process	gghh	ggh	tth	vh	nonresonant	gghh	ggh	tth	vh	nonresonant	gghh	ggh	tth	vh	nonresonant
-process	0	1	2	3	4	0	1	2	3	4	0	1	2	3	4
-rate	1.13	443.9	7.77	76.25	1.0	0.3113	1.245	0.1405	0.6628	1.0	0.7194	1.22	0.09626	0.7055	1.0
+shapes	gghh	ggHHcat1	pdfs_dnn_bjet/wsinput.GaussiangghhggHHcat1.root	pdf:modelgghhggHHcat1
+shapes	ggh	ggHHcat1	pdfs_dnn_bjet/wsinput.GaussiangghggHHcat1.root	pdf:modelgghggHHcat1
+shapes	tth	ggHHcat1	pdfs_dnn_bjet/wsinput.GaussiantthggHHcat1.root	pdf:modeltthggHHcat1
+shapes	vh	ggHHcat1	pdfs_dnn_bjet/wsinput.GaussianvhggHHcat1.root	pdf:modelvhggHHcat1
+shapes	nonresonant	ggHHcat1	pdfs_dnn_bjet/wsinput.BernnonresonantggHHcat1.root	pdf:modelnonresonantggHHcat1
+shapes	data_obs 	ggHHcat1	pdfs_dnn_bjet/wsinput.BernnonresonantggHHcat1.root	pdf:Data_13TeV_nonresonant_ggHHcat1
+shapes	gghh	ggHHcat2	pdfs_dnn_bjet/wsinput.GaussiangghhggHHcat2.root	pdf:modelgghhggHHcat2
+shapes	ggh	ggHHcat2	pdfs_dnn_bjet/wsinput.GaussiangghggHHcat2.root	pdf:modelgghggHHcat2
+shapes	tth	ggHHcat2	pdfs_dnn_bjet/wsinput.GaussiantthggHHcat2.root	pdf:modeltthggHHcat2
+shapes	vh	ggHHcat2	pdfs_dnn_bjet/wsinput.GaussianvhggHHcat2.root	pdf:modelvhggHHcat2
+shapes	nonresonant	ggHHcat2	pdfs_dnn_bjet/wsinput.BernnonresonantggHHcat2.root	pdf:modelnonresonantggHHcat2
+shapes	data_obs 	ggHHcat2	pdfs_dnn_bjet/wsinput.BernnonresonantggHHcat2.root	pdf:Data_13TeV_nonresonant_ggHHcat2
+shapes	gghh	ggHHcat3	pdfs_dnn_bjet/wsinput.GaussiangghhggHHcat3.root	pdf:modelgghhggHHcat3
+shapes	ggh	ggHHcat3	pdfs_dnn_bjet/wsinput.GaussiangghggHHcat3.root	pdf:modelgghggHHcat3
+shapes	tth	ggHHcat3	pdfs_dnn_bjet/wsinput.GaussiantthggHHcat3.root	pdf:modeltthggHHcat3
+shapes	vh	ggHHcat3	pdfs_dnn_bjet/wsinput.GaussianvhggHHcat3.root	pdf:modelvhggHHcat3
+shapes	nonresonant	ggHHcat3	pdfs_dnn_bjet/wsinput.BernnonresonantggHHcat3.root	pdf:modelnonresonantggHHcat3
+shapes	data_obs 	ggHHcat3	pdfs_dnn_bjet/wsinput.BernnonresonantggHHcat3.root	pdf:Data_13TeV_nonresonant_ggHHcat3
+shapes	gghh	ggHHcat4	pdfs_dnn_bjet/wsinput.GaussiangghhggHHcat4.root	pdf:modelgghhggHHcat4
+shapes	ggh	ggHHcat4	pdfs_dnn_bjet/wsinput.GaussiangghggHHcat4.root	pdf:modelgghggHHcat4
+shapes	tth	ggHHcat4	pdfs_dnn_bjet/wsinput.GaussiantthggHHcat4.root	pdf:modeltthggHHcat4
+shapes	vh	ggHHcat4	pdfs_dnn_bjet/wsinput.GaussianvhggHHcat4.root	pdf:modelvhggHHcat4
+shapes	nonresonant	ggHHcat4	pdfs_dnn_bjet/wsinput.BernnonresonantggHHcat4.root	pdf:modelnonresonantggHHcat4
+shapes	data_obs 	ggHHcat4	pdfs_dnn_bjet/wsinput.BernnonresonantggHHcat4.root	pdf:Data_13TeV_nonresonant_ggHHcat4
+bin	ggHHcat1	ggHHcat1	ggHHcat1	ggHHcat1	ggHHcat1	ggHHcat2	ggHHcat2	ggHHcat2	ggHHcat2	ggHHcat2	ggHHcat3	ggHHcat3	ggHHcat3	ggHHcat3	ggHHcat3	ggHHcat4	ggHHcat4	ggHHcat4	ggHHcat4	ggHHcat4
+process	gghh	ggh	tth	vh	nonresonant	gghh	ggh	tth	vh	nonresonant	gghh	ggh	tth	vh	nonresonant	gghh	ggh	tth	vh	nonresonant
+process	0	1	2	3	4	0	1	2	3	4	0	1	2	3	4	0	1	2	3	4
+rate	0.6206	363.8	1.972	58.67	1.0	0.5091	80.09	5.798	17.57	1.0	0.7004	1.694	0.06017	1.036	1.0	0.3302	0.7709	0.1766	0.3322	1.0
 ---------------
 modelnonresonantggHHcat1_norm flatParam 
 modelnonresonantggHHcat2_norm flatParam 
 modelnonresonantggHHcat3_norm flatParam 
+modelnonresonantggHHcat4_norm flatParam 
