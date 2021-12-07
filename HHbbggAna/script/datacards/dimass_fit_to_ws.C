@@ -153,12 +153,12 @@ void dofit(TString file, TString obs_var, TString min, TString max, TString dnn_
     double mind = min.Atof();
     double maxd = max.Atof();
 
-    TString cuttree = obs_var + " < " + max + " && " + obs_var + " > " + min + " && "+TString(dnn_cut);
+    TString cuttree = obs_var + " < " + max + " && " + obs_var + " > " + min + " && "+TString(dnn_cut) + " && " + bjet_cut;
            
     // Declare observable x
     RooRealVar* mgg = new RooRealVar(obs_var,obs_var,125,mind,maxd) ;
     RooRealVar* dnn = new RooRealVar(dnn_var,dnn_var,0,0,1) ;
-    RooRealVar* bjet = new RooRealVar(bjet_var, bjet_var, 3, 5, 3);
+    RooRealVar* bjet = new RooRealVar(bjet_var, bjet_var, 2, 0, 10);
     RooRealVar* evWeight = new RooRealVar(weightvar,weightvar,1,-1e10,1e10) ;
 
     cout <<"before model"<<endl;
@@ -168,7 +168,7 @@ void dofit(TString file, TString obs_var, TString min, TString max, TString dnn_
 
     TFile File(file);
     TTree* procTree = (TTree*)File.Get("tree");
-    TTree* cutChain = procTree->CopyTree(dnn_cut, bjet_cut);
+    TTree* cutChain = procTree->CopyTree(dnn_cut+ " && "+bjet_cut);
 
     RooArgSet obsAndWeight;
     obsAndWeight.add(*mgg);
