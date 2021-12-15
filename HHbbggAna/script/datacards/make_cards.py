@@ -83,43 +83,49 @@ def PrintDatacard(categories, signals_proc, backgrounds_proc, signals_pdf, backg
 def main():
     print("making datacards")
     
-    backgrounds = ["ggh","tth","vh","nonresonant"]
+    backgrounds = ["resonant", "nonresonant"]
     signals = ["gghh"] # Todo add "VBFHH"
     
-    backgrounds_pdf = ["pdfs_dnn_bjet/wsinput.GaussiangghggHHcat1.root",
-                       "pdfs_dnn_bjet/wsinput.GaussiantthggHHcat1.root",
-                       "pdfs_dnn_bjet/wsinput.GaussianvhggHHcat1.root",
-                       "pdfs_dnn_bjet/wsinput.BernnonresonantggHHcat1.root",
-                       "pdfs_dnn_bjet/wsinput.GaussiangghggHHcat2.root",
-                       "pdfs_dnn_bjet/wsinput.GaussiantthggHHcat2.root",
-                       "pdfs_dnn_bjet/wsinput.GaussianvhggHHcat2.root",
-                       "pdfs_dnn_bjet/wsinput.BernnonresonantggHHcat2.root",
-                        "pdfs_dnn_bjet/wsinput.GaussiangghggHHcat3.root",
-                       "pdfs_dnn_bjet/wsinput.GaussiantthggHHcat3.root",
-                       "pdfs_dnn_bjet/wsinput.GaussianvhggHHcat3.root",
-                       "pdfs_dnn_bjet/wsinput.BernnonresonantggHHcat3.root",
-                         "pdfs_dnn_bjet/wsinput.GaussiangghggHHcat4.root",
-                       "pdfs_dnn_bjet/wsinput.GaussiantthggHHcat4.root",
-                       "pdfs_dnn_bjet/wsinput.GaussianvhggHHcat4.root",
-                       "pdfs_dnn_bjet/wsinput.BernnonresonantggHHcat4.root"
+    backgrounds_pdf = [
+                       "pdfs_dnn0507_bjet/wsinput.GaussianresonantggHHcat1.root",
+                       "pdfs_dnn0507_bjet/wsinput.BernnonresonantggHHcat1.root",
+                       #
+                       "pdfs_dnn0507_bjet/wsinput.GaussianresonantggHHcat2.root",
+                       "pdfs_dnn0507_bjet/wsinput.BernnonresonantggHHcat2.root",
+                       #
+                       "pdfs_dnn0507_bjet/wsinput.GaussianresonantggHHcat3.root",
+                       "pdfs_dnn0507_bjet/wsinput.BernnonresonantggHHcat3.root",
+                       #
+                       "pdfs_dnn0507_bjet/wsinput.GaussianresonantggHHcat4.root",
+                       "pdfs_dnn0507_bjet/wsinput.BernnonresonantggHHcat4.root",
+                       #
+                       "pdfs_dnn0507_bjet/wsinput.Gaussian_2resonantggHHcat5.root",
+                       "pdfs_dnn0507_bjet/wsinput.BernnonresonantggHHcat5.root",
+                       #
+                       "pdfs_dnn0507_bjet/wsinput.GaussianresonantggHHcat6.root",
+                       "pdfs_dnn0507_bjet/wsinput.BernnonresonantggHHcat6.root",
                       ]
     
-    signals_pdf = ["pdfs_dnn_bjet/wsinput.GaussiangghhggHHcat1.root",
-                   "pdfs_dnn_bjet/wsinput.GaussiangghhggHHcat2.root",
-                   "pdfs_dnn_bjet/wsinput.GaussiangghhggHHcat3.root",
-                   "pdfs_dnn_bjet/wsinput.GaussiangghhggHHcat4.root"
+    signals_pdf = ["pdfs_dnn0507_bjet/wsinput.GaussiangghhggHHcat1.root",
+                   "pdfs_dnn0507_bjet/wsinput.GaussiangghhggHHcat2.root",
+                   "pdfs_dnn0507_bjet/wsinput.GaussiangghhggHHcat3.root",
+                   "pdfs_dnn0507_bjet/wsinput.GaussiangghhggHHcat4.root",
+                    "pdfs_dnn0507_bjet/wsinput.GaussiangghhggHHcat5.root",
+                   "pdfs_dnn0507_bjet/wsinput.GaussiangghhggHHcat6.root"
                   ]
     
-    categories = ["ggHHcat1","ggHHcat2", "ggHHcat3",  "ggHHcat4" ]
+    categories = ["ggHHcat1","ggHHcat2", "ggHHcat3", "ggHHcat4", "ggHHcat5", "ggHHcat6"]
                    
     ofname = "HHbbgg_datacard.txt"
     
-    cat1_rates = [0.6206, 363.8, 1.972, 58.67, 1.0]
-    cat2_rates = [0.5091, 80.09, 5.798, 17.57, 1.0]
-    cat3_rates = [0.7004, 1.694, 0.06017, 1.036, 1.0]
-    cat4_rates = [0.3302, 0.7709, 0.1766, 0.3322, 1.0]
+    cat1_rates = [0.6206, 451.0, 1.0]
+    cat2_rates = [0.5091, 109.8, 1.0]
+    cat3_rates = [0.1829, 1.5405, 1.0]
+    cat4_rates = [0.1284, 0.6112, 1.0]
+    cat5_rates = [0.5175, 1.374, 1.0]
+    cat6_rates = [0.2019, 0.6855, 1.0]
     
-    rate_lst = [cat1_rates, cat2_rates, cat3_rates, cat4_rates]
+    rate_lst = [cat1_rates, cat2_rates, cat3_rates, cat4_rates, cat5_rates, cat6_rates]
     
     PrintDatacard(categories, signals, backgrounds, signals_pdf, backgrounds_pdf, rate_lst, ofname)    
 
